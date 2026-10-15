@@ -1,0 +1,328 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Portable hiking activity Stage 1",
+  "type": "object",
+  "required": [
+    "id",
+    "schema_version",
+    "revision",
+    "stage",
+    "status",
+    "title",
+    "destination",
+    "goals",
+    "constraints",
+    "weather",
+    "candidates",
+    "evidence",
+    "changes"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "stage": {
+      "const": "goal_definition"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "confirmed",
+        "needs_review"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "destination": {
+      "type": "object",
+      "required": [
+        "state",
+        "name"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "fixed",
+            "preferred",
+            "undecided"
+          ]
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "goals": {
+      "type": "object",
+      "required": [
+        "primary",
+        "secondary"
+      ],
+      "properties": {
+        "primary": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "secondary": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "constraints": {
+      "type": "object",
+      "required": [
+        "date",
+        "date_range",
+        "departure_area",
+        "difficulty",
+        "estimated_participants",
+        "latest_return",
+        "hard_rules"
+      ],
+      "properties": {
+        "date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "date_range": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "departure_area": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "difficulty": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "estimated_participants": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "latest_return": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "hard_rules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "weather": {
+      "type": "object",
+      "required": [
+        "status",
+        "snapshots",
+        "assessment"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "pending",
+            "unavailable",
+            "current",
+            "stale"
+          ]
+        },
+        "snapshots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "checked_at",
+              "sources",
+              "values",
+              "assessment"
+            ],
+            "properties": {
+              "checked_at": {
+                "type": "string"
+              },
+              "valid_for": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              },
+              "values": {
+                "type": "object"
+              },
+              "assessment": {
+                "type": "object"
+              }
+            },
+            "additionalProperties": true
+          }
+        },
+        "assessment": {
+          "type": "object",
+          "required": [
+            "level",
+            "recommendation"
+          ],
+          "properties": {
+            "level": {
+              "enum": [
+                "unknown",
+                "suitable",
+                "caution",
+                "unsuitable"
+              ]
+            },
+            "recommendation": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reason": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "claim",
+          "url",
+          "publisher",
+          "checked_at",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "claim": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "publisher": {
+            "type": "string"
+          },
+          "checked_at": {
+            "type": "string"
+          },
+          "valid_for": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status": {
+            "enum": [
+              "verified",
+              "pending",
+              "stale"
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "revision",
+          "at",
+          "field",
+          "before",
+          "after",
+          "reason"
+        ],
+        "properties": {
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "at": {
+            "type": "string"
+          },
+          "field": {
+            "type": "string"
+          },
+          "before": {},
+          "after": {},
+          "reason": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

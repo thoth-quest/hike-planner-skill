@@ -1,0 +1,43 @@
+{
+  "id": "sample-oyama-stage1",
+  "schema_version": 1,
+  "revision": 1,
+  "stage": "goal_definition",
+  "status": "draft",
+  "title": "大山登山（示例）",
+  "destination": {
+    "state": "preferred",
+    "name": "丹沢・大山",
+    "source": null
+  },
+  "goals": {
+    "primary": "登顶并锻炼体力",
+    "secondary": [
+      "尽可能徒步",
+      "欣赏风景"
+    ]
+  },
+  "constraints": {
+    "date": null,
+    "date_range": null,
+    "departure_area": "横滨方向",
+    "difficulty": "中等（待核实）",
+    "estimated_participants": null,
+    "latest_return": null,
+    "hard_rules": [
+      "不要在黑暗中继续山路徒步"
+    ]
+  },
+  "weather": {
+    "status": "pending",
+    "snapshots": [],
+    "assessment": {
+      "level": "unknown",
+      "reason": "尚未确定活动日期，尚未查询天气",
+      "recommendation": "确定日期后检查官方天气与警报"
+    }
+  },
+  "candidates": [],
+  "evidence": [],
+  "changes": []
+}
