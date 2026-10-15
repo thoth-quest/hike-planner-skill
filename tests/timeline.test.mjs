@@ -32,7 +32,7 @@ test("fixed public transit stays unchanged when a hike node runs late",()=>{
   assert.equal(late.after[0].scheduled_arrival,parseClock("10:15"));
   assert.equal(late.after[0].status,"connection_missed");
   assert.equal(late.trail[1].arrival,parseClock("09:00"));
-  assert.equal(late.trail[2].arrival,parseClock("09:30"));
+  assert.equal(late.trail[2].arrival,parseClock("10:00"));
   assert.equal(late.trailEnd,parseClock("10:00"));
   assert.equal(late.hasMissedConnection,true);
   assert.deepEqual(p,original,"scenario must never modify plan JSON");

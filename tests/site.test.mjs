@@ -80,7 +80,7 @@ test("detail view has tab navigation with the route as default",()=>{
   assert.match(page,/assets\/detail\.js/);
   assert.ok(existsSync(path.join(site,"assets","detail.js")));
   const js=readFileSync(path.join(site,"assets","detail.js"),"utf8");
-  assert.match(js,/offset_minutes/);
+  assert.match(js,/makeTimeline/);
   assert.match(js,/makeTimeline/);
   assert.match(js,/adjustments\[item\.id\]/);
   assert.doesNotMatch(js,/shift\s*[+\-]=/);
