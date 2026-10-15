@@ -80,8 +80,8 @@ test("detail view has tab navigation with the route as default",()=>{
   assert.ok(existsSync(path.join(site,"assets","detail.js")));
   const js=readFileSync(path.join(site,"assets","detail.js"),"utf8");
   assert.match(js,/offset_minutes/);
-  assert.match(js,/shift \+= 30/);
-  assert.match(js,/shift -= 30/);
+  assert.match(js,/shift\s*\+=\s*30/);
+  assert.match(js,/shift\s*-=\s*30/);
   assert.match(js,/aria-controls/);
   assert.match(js,/linkedTitle/);
   assert.doesNotMatch(page,/核实来源/);

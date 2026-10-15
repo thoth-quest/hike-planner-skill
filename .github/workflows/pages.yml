@@ -33,6 +33,7 @@ jobs:
       - name: Validate multi-plan data and browser JS
         run: |
           node --check site/assets/app.js
+          node --check site/assets/detail.js
           node --check scripts/plans.mjs
           node --test tests/site.test.mjs
       - name: Configure Pages
