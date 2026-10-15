@@ -1,0 +1,311 @@
+{
+  "id": "oyama-day-hike",
+  "schema_version": 1,
+  "revision": 1,
+  "stage": "goal_definition",
+  "status": "draft",
+  "title": "丹泽·大山｜女坂登顶·见晴台环线",
+  "example_only": false,
+  "updated_at": "2026-10-15T18:02:23+09:00",
+  "visibility_note": "公开规划草稿，不包含参与者身份或私人集合地点",
+  "destination": {
+    "state": "fixed",
+    "name": "神奈川县伊势原市·丹泽大山（海拔约1252米）",
+    "source": "summit-city"
+  },
+  "goals": {
+    "primary": "一日徒步登顶大山，体验女坂与大山寺，返程经过见晴台和二重瀑布",
+    "secondary": [
+      "登山锻炼",
+      "参拜阿夫利神社下社",
+      "天气晴朗时从富士见台观景",
+      "尽可能步行，保留缆车作为体力不足时的退路"
+    ]
+  },
+  "constraints": {
+    "date": null,
+    "date_range": "待定（一日行程）",
+    "departure_area": "横滨周边（具体出发车站待定）",
+    "difficulty": "中等偏高：石阶及山地登山道，需结合实际体力和天气复核",
+    "estimated_participants": null,
+    "latest_return": "天黑前离开山路（确切截止时间待按日期计算）",
+    "hard_rules": [
+      "确定登山日期后复核当日山地天气与警报",
+      "天黑前离开山路；预留充分缓冲时间",
+      "确认山路开放状态及官方熊目击提醒",
+      "路线实际用时须基于同行者能力重新规划",
+      "不得把缆车正常营业时间当作未来具体日期的保证"
+    ]
+  },
+  "weather": {
+    "status": "pending",
+    "snapshots": [],
+    "assessment": {
+      "level": "unknown",
+      "reason": "日期尚未确定，尚无法给出适用于行程当天的可靠天气评估",
+      "recommendation": "确认日期后由 Skill 查询气象厅、天气、阵风、降雨、雷电、日落时间，并保存带来源的天气快照"
+    }
+  },
+  "route": {
+    "status": "proposed",
+    "type": "往返环线（女坂上行、山顶经见晴台下行）",
+    "duration_reference": "下社→富士见台→山顶→见晴台→下社的参考路线约5小时（含休息）；本计划从巴士站经女坂步行上/下，加上往返交通和用餐，需另行核算全日时间。",
+    "duration_source": "tourism-route",
+    "sections": [
+      {
+        "name": "上山：女坂与寺社",
+        "stops": [
+          {
+            "name": "大山ケーブル（巴士站）",
+            "note": "从巴士终点出发，经こま参道，按现场路标继续徒步"
+          },
+          {
+            "name": "こま参道 → 大山缆车站附近岔路",
+            "note": "从巴士站到缆车站区域通常约15分钟；再步行接入女坂"
+          },
+          {
+            "name": "女坂",
+            "note": "经过阶梯和山道，不等同平坦轻松路线；前往大山寺"
+          },
+          {
+            "name": "大山寺",
+            "note": "寺院参观，脚下石阶可能湿滑"
+          },
+          {
+            "name": "大山阿夫利神社下社",
+            "note": "中途整理装备、饮水、决定是否继续登顶"
+          }
+        ]
+      },
+      {
+        "name": "登顶：表参道与富士见台",
+        "stops": [
+          {
+            "name": "下社登山口（本坂）",
+            "note": "山地登山路正式登顶段，从此需评估体力与剩余日照"
+          },
+          {
+            "name": "富士见台",
+            "note": "天气和能见度允许时可看富士山；不保证能见度"
+          },
+          {
+            "name": "大山山顶",
+            "note": "标高约1252米；根据体力、时间和天气决定停留"
+          }
+        ]
+      },
+      {
+        "name": "下山：见晴台与二重瀑布",
+        "stops": [
+          {
+            "name": "大山山顶 → 见晴台",
+            "note": "较长下坡，注意脚下、野生动物、路线指示"
+          },
+          {
+            "name": "见晴台",
+            "note": "观景和体力检查点，确认下社方向"
+          },
+          {
+            "name": "二重瀑布",
+            "note": "沿见晴台步道返回下社途中经过"
+          },
+          {
+            "name": "阿夫利神社下社",
+            "note": "决定全程步行下山还是乘缆车"
+          }
+        ]
+      },
+      {
+        "name": "返程：下社到巴士站",
+        "stops": [
+          {
+            "name": "下社 → 女坂 → こま参道",
+            "note": "体力和时间允许时全程步行下山，需注意膝盖和石阶"
+          },
+          {
+            "name": "大山ケーブル（巴士站）",
+            "note": "乘车返回伊势原站；末班时刻须按出发日期核实"
+          }
+        ]
+      }
+    ],
+    "alternatives": [
+      {
+        "name": "在下社下撤",
+        "when": "上山途中感到疲劳、天气变差或时间不足",
+        "action": "不继续登顶；从下社按开放状况选择女坂或缆车下山"
+      },
+      {
+        "name": "下行缆车",
+        "when": "登顶后体力下降或下山时间不足，且缆车仍在营业",
+        "action": "从下社乘缆车至大山缆车站，再步行到巴士站；出发前核对运行状态与末班"
+      },
+      {
+        "name": "天气不适宜登顶",
+        "when": "强风、大雨、雷电、相关警报或路线风险升高",
+        "action": "推迟行程或仅安排低海拔安全活动，禁止把危险天气硬改成短线登顶"
+      }
+    ],
+    "source_ids": [
+      "route-city",
+      "summit-city",
+      "tourism-route"
+    ]
+  },
+  "transport": {
+    "status": "reference_only",
+    "inbound": [
+      {
+        "name": "铁路到伊势原",
+        "note": "从横滨方向可考虑经海老名换乘小田急线到伊势原；具体始发站、车次、费用待按个人实际出发地点核实",
+        "source_id": null
+      },
+      {
+        "name": "伊势原站北口 → 大山ケーブル巴士站",
+        "note": "北口4号站台，伊10或伊11；常规车程约30分钟，具体班次与票价按当日官方信息查询",
+        "source_id": "access-cable"
+      },
+      {
+        "name": "巴士站 → こま参道 → 缆车站区域",
+        "note": "步行约15分钟，山道入口还需继续步行",
+        "source_id": "access-cable"
+      }
+    ],
+    "outbound": [
+      {
+        "name": "大山ケーブル巴士站 → 伊势原站北口",
+        "note": "返程时刻尤其末班车和实际拥堵情况需要在出发日复核",
+        "source_id": "access-cable"
+      }
+    ],
+    "cable": {
+      "status": "backup_only",
+      "normal_hours": "工作日9:00–16:30；周末及节假日9:00–17:00（常规时段，特殊日及天气可能变化）",
+      "note": "缆车连接大山缆车站、大山寺站、阿夫利神社站；山顶无法直接乘缆车下山",
+      "source_id": "cable-timetable"
+    },
+    "pass_note": "丹泽·大山 Freepass、单买车票及相铁线路覆盖范围需依实际出发站、购票渠道、是否乘缆车逐项核对，暂不做价格最优结论。",
+    "date_specific_timetable": "pending"
+  },
+  "safety": {
+    "status": "needs_predeparture_review",
+    "alerts": [
+      {
+        "level": "caution",
+        "title": "大山区域有熊目击通报",
+        "note": "伊势原市2026-10-02报告大山寺站附近有熊目击；山顶至见晴台路段也有历史目击。出发前务必重新核对官方信息，并采取适当野生动物防范措施。",
+        "source_id": "bear-alert"
+      },
+      {
+        "level": "info",
+        "title": "女坂11月上旬有消防训练日",
+        "note": "如计划选在2026-11-04（预备日2026-11-06）9:00–12:00，女坂虽可通行但可能有训练人员与软管；需按实际活动日期复核。",
+        "source_id": "trail-training"
+      },
+      {
+        "level": "caution",
+        "title": "时间与天气仍不具备出发判断条件",
+        "note": "路线时长是参考而非按当日人员与气象实测；确定出行日期后检查日落、山地预报、路线通行情况与交通末班。",
+        "source_id": "tourism-route"
+      }
+    ],
+    "checklist": [
+      "确认日期、集合人数及同行者体力；保留足够下山余量",
+      "下载离线地图和路线轨迹，准备充电宝与备用联络方式",
+      "穿防滑登山鞋，准备饮水、食物、头灯、保暖和雨具",
+      "复核熊目击与封路公告，避免独自偏离标记登山道",
+      "按当天时刻表确认巴士末班、缆车停运与返回交通",
+      "根据预报和日照重新决定是否登顶及下山方案"
+    ]
+  },
+  "candidates": [],
+  "evidence": [
+    {
+      "id": "route-city",
+      "claim": "伊势原市：女坂、大山寺、下社及见晴台·二重瀑布的官方路线说明",
+      "url": "https://www.pref.kanagawa.jp/docs/ph7/cnt/f7631/p1189872.html",
+      "publisher": "神奈川县",
+      "checked_at": "2026-10-15T18:02:23+09:00",
+      "valid_for": null,
+      "status": "verified",
+      "note": "该页面主路线与景点顺序，网页说明样例路线基于2017年资料并于2026年部分修订"
+    },
+    {
+      "id": "summit-city",
+      "claim": "伊势原市：女坂→下社→富士见台→山顶，返程经见晴台与二重瀑布",
+      "url": "https://www.city.isehara.kanagawa.jp/best-shot/2026060100045/",
+      "publisher": "伊势原市",
+      "checked_at": "2026-10-15T18:02:23+09:00",
+      "valid_for": null,
+      "status": "verified",
+      "note": "确认本计划主要路线组合具有官方示例"
+    },
+    {
+      "id": "tourism-route",
+      "claim": "丹泽大山旅游资讯：下社—富士见台—山顶—见晴台，登山段约5小时（含休息）",
+      "url": "https://tanzawa-oyama.jp/climb/route/afuri-oyama/",
+      "publisher": "丹沢・大山エリアナビ",
+      "checked_at": "2026-10-15T18:02:23+09:00",
+      "valid_for": null,
+      "status": "verified",
+      "note": "约5小时只对应下社出发并返回下社的参考路线，不能充当本次含女坂往返及交通的总时长"
+    },
+    {
+      "id": "access-cable",
+      "claim": "大山缆车官方：伊势原站北口4号站台，伊10/伊11；巴士至大山缆车站，步行约15分钟到缆车站",
+      "url": "https://www.ooyama-cable.co.jp/access/",
+      "publisher": "大山观光电铁",
+      "checked_at": "2026-10-15T18:02:23+09:00",
+      "valid_for": null,
+      "status": "verified",
+      "note": "路线与近似换乘步行时间，非指定出行日时刻表"
+    },
+    {
+      "id": "cable-timetable",
+      "claim": "大山缆车官方：普通营业时间工作日9:00–16:30、休息日9:00–17:00，恶劣天气可能停运",
+      "url": "https://www.ooyama-cable.co.jp/timetable/",
+      "publisher": "大山观光电铁",
+      "checked_at": "2026-10-15T18:02:23+09:00",
+      "valid_for": null,
+      "status": "verified",
+      "note": "班次及末班以目标日期最新公布为准，红叶季、节日可能延长"
+    },
+    {
+      "id": "bear-alert",
+      "claim": "伊势原市：2026-10-02大山寺站附近及2026-08山顶至见晴台附近等熊目击通报",
+      "url": "https://www.city.isehara.kanagawa.jp/kankou_guide/docs/2026051300041/",
+      "publisher": "伊势原市",
+      "checked_at": "2026-10-15T18:02:23+09:00",
+      "valid_for": null,
+      "status": "verified",
+      "note": "2026-10-15核查到的历史目击记录，出发前须复查"
+    },
+    {
+      "id": "trail-training",
+      "claim": "伊势原市：2026-11-04（备选11-06）9:00–12:00女坂消防训练，仍可通行但需注意软管与工作人员",
+      "url": "https://www.city.isehara.kanagawa.jp/kankou_guide/docs/2026070700198/",
+      "publisher": "伊势原市",
+      "checked_at": "2026-10-15T18:02:23+09:00",
+      "valid_for": null,
+      "status": "verified",
+      "note": "仅在对应日期产生行程影响，未确认用户出行日期"
+    },
+    {
+      "id": "tourism-hike",
+      "claim": "伊势原市观光协会：こま参道、大山寺、下社、富士见台、山顶的徒步路线和参考行走时间",
+      "url": "https://isehara-kanko.com/hiking-course/koma-summit/",
+      "publisher": "伊势原市观光协会",
+      "checked_at": "2026-10-15T18:02:23+09:00",
+      "valid_for": null,
+      "status": "verified",
+      "note": "该页面下行走男坂，不完全等同本计划返程"
+    }
+  ],
+  "changes": [],
+  "pending_decisions": [
+    "确定活动日期（现在暂不生成当日天气或末班车）",
+    "确认各人集合站点、规模与路线强度",
+    "针对确定日期获取天气、日落、巴士末班与缆车运行信息",
+    "确认是否全程步行、是否保留缆车备用资金与时间"
+  ]
+}

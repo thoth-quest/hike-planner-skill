@@ -21,6 +21,13 @@
 - 大山演示：`https://thoth-quest.github.io/hike-planner-skill/plan.html?id=oyama-demo`
 - 金时山演示：`https://thoth-quest.github.io/hike-planner-skill/plan.html?id=kintoki-demo`
 
+### 大山一日登山正式草稿
+
+[打开大山计划预览](https://thoth-quest.github.io/hike-planner-skill/plan.html?id=oyama-day-hike) · [查看独立 JSON 数据](./site/plans/oyama-day-hike/activity.json)
+
+这是**可反复修改的规划草稿，不代表已经确认出行日期**。包含女坂、大山寺、阿夫利神社下社、富士见台、大山山顶、见晴台、二重瀑布的建议路线，以及交通、缆车备用方案、官方安全信息和来源。活动日期暂时为空，**没有填入虚构的天气或出发日巴士时刻**；选定日期后由 Skill 重新核实并更新数据。
+
+
 **注意：** 这些是预期地址，须在 [GitHub Actions](https://github.com/thoth-quest/hike-planner-skill/actions/workflows/pages.yml) 首次部署成功后才可使用。如果尚未启用，请进入 [Pages Settings](https://github.com/thoth-quest/hike-planner-skill/settings/pages)，在 **Build and deployment → Source** 选择 **GitHub Actions**。完整步骤见 [Pages 部署说明](./docs/PAGES.md)。
 
 ## 创建和管理多份计划

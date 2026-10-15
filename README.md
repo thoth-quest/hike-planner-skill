@@ -21,6 +21,13 @@ Expected URLs **after a successful deployment**:
 - Oyama demo: `https://thoth-quest.github.io/hike-planner-skill/plan.html?id=oyama-demo`
 - Kintoki demo: `https://thoth-quest.github.io/hike-planner-skill/plan.html?id=kintoki-demo`
 
+### Oyama planned outing (independent, editable JSON)
+
+[Open the Oyama day-hike preview](https://thoth-quest.github.io/hike-planner-skill/plan.html?id=oyama-day-hike) · [Edit its JSON](./site/plans/oyama-day-hike/activity.json)
+
+This is a **planning draft**, not a booked or date-confirmed trip. It includes the preferred on-foot ascent via Onnazaka/Oyamadera/Afuri Shrine, Mt. Oyama summit, return via Miharashidai/Nijudaki, public-transport access, cable-car fallback and dated source-backed bear-awareness notices. The date is intentionally unset, and **no actual weather forecast or trip-specific bus schedule is claimed**. The Skill should update those after the trip date is chosen.
+
+
 To enable for the first time: [Repository Settings → Pages](https://github.com/thoth-quest/hike-planner-skill/settings/pages) → **Build and deployment → Source → GitHub Actions**. Check [deploy workflow](https://github.com/thoth-quest/hike-planner-skill/actions/workflows/pages.yml). Full instructions: [Pages deployment](./docs/PAGES.md). Do not assume the URLs work before deployment is confirmed.
 
 ## Plan layout

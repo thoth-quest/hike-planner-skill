@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "plans": [
+    "oyama-day-hike",
     "oyama-demo",
     "kintoki-demo"
   ]

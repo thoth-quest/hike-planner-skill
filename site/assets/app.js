@@ -133,11 +133,74 @@
       const candidates = p.candidates || [];
       if (!candidates.length) add(options,el("p","目前没有待比较的候选地点。","empty"));
       else list(options,candidates,(x)=>label(x.name) + (x.reason ? " · " + x.reason : ""));
-      const refs=panel(root,"04 / 核实来源");
+
+      // Additional planning content remains read-only; the Skill edits source JSON.
+      if (p.route) {
+        const routeBox = panel(root,"04 / 建议登山路线");
+        add(routeBox,badge(p.route.status === "proposed" ? "路线草案 · 未实地复核" : label(p.route.status),"caution"));
+        if (p.route.type) add(routeBox,el("p",p.route.type));
+        if (p.route.duration_reference) add(routeBox,el("p",p.route.duration_reference,"warning"));
+        (p.route.sections || []).forEach((section) => {
+          add(routeBox,el("h3",section.name||"路线段"));
+          const ul=add(routeBox,el("ul",null,"item-list"));
+          (section.stops||[]).forEach((stop,index) => {
+            const li=add(ul,el("li"));
+            add(li,el("strong",(index+1)+". "+label(stop.name)));
+            if(stop.note)add(li,el("div",stop.note,"small"));
+          });
+        });
+        if (p.route.alternatives?.length) {
+          add(routeBox,el("h3","备用与退出方案"));
+          const ul=add(routeBox,el("ul",null,"item-list"));
+          p.route.alternatives.forEach(x=>{
+            const li=add(ul,el("li"));
+            add(li,el("strong",label(x.name)));
+            add(li,el("div",label(x.when),"small"));
+            add(li,el("div",label(x.action)));
+          });
+        }
+      }
+      if(p.transport){
+        const t=panel(root,"05 / 交通与缆车备选");
+        if(p.transport.status === "reference_only")add(t,badge("参考线路 · 出发日时刻未确认","caution"));
+        for(const [title,steps] of [["去程",p.transport.inbound||[]],["返程",p.transport.outbound||[]]]){
+          if(!steps.length)continue;
+          add(t,el("h3",title));
+          const ul=add(t,el("ul",null,"item-list"));
+          steps.forEach(s=>{
+            const li=add(ul,el("li"));
+            add(li,el("strong",label(s.name)));
+            add(li,el("div",label(s.note),"small"));
+          });
+        }
+        if(p.transport.cable){
+          add(t,el("h3","缆车备用"));
+          add(t,el("p",label(p.transport.cable.normal_hours)));
+          add(t,el("p",label(p.transport.cable.note),"small"));
+        }
+        if(p.transport.pass_note)add(t,el("p","车票核查："+p.transport.pass_note,"warning"));
+      }
+      if(p.safety){
+        const safe=panel(root,"06 / 风险提示与出发前核查");
+        (p.safety.alerts||[]).forEach(a=>{
+          const alert=add(safe,el("div",null,a.level==="caution"?"warning":"item-list"));
+          add(alert,el("strong",label(a.title)));
+          add(alert,el("div",label(a.note),"small"));
+        });
+        if(p.safety.checklist?.length){
+          add(safe,el("h3","出发前待办"));
+          list(safe,p.safety.checklist,x=>"□ "+label(x));
+        }
+      }
+      if(p.pending_decisions?.length){
+        const pending=panel(root,"07 / 仍需确认");
+        list(pending,p.pending_decisions,x=>"○ "+label(x));
+      }
+      const refs=panel(root,"08 / 核实来源");
       const evidence=p.evidence||[];
       if(!evidence.length)add(refs,el("p","没有附带核实记录，示例信息不能当作实时依据。","empty"));
       else evidence.forEach(x=>source(refs,x));
-      const change=panel(root,"05 / 版本与修改记录");
+      const change=panel(root,"09 / 版本与修改记录");
       const edits=p.changes||[];
       if(!edits.length)add(change,el("p","尚无已确认的修改。","empty"));
       else list(change,edits,x=>"v"+x.revision+" · "+x.field+" · "+label(x.reason)+" · "+label(x.at));

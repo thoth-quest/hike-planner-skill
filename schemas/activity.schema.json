@@ -322,6 +322,139 @@
         },
         "additionalProperties": true
       }
+    },
+    "route": {
+      "type": "object",
+      "required": [
+        "status",
+        "sections"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "proposed",
+            "reviewed",
+            "confirmed"
+          ]
+        },
+        "type": {
+          "type": "string"
+        },
+        "duration_reference": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "duration_source": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "stops"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "stops": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name"
+                  ],
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "note": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "alternatives": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "transport": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "inbound": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "outbound": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "cable": {
+          "type": "object"
+        },
+        "pass_note": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "safety": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "alerts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "level",
+              "title",
+              "note",
+              "source_id"
+            ]
+          }
+        },
+        "checklist": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "pending_decisions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "updated_at": {
+      "type": "string"
     }
   },
   "additionalProperties": true

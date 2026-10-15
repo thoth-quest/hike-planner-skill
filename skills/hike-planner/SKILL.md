@@ -43,6 +43,10 @@ Record what is already known. Ask only the most consequential missing question.
 - If the agent has no repository write access, produce a JSON patch or plan file for the user; don't claim the GitHub preview updated.
 - A GitHub Pages URL reflects the last deployed repository commit. Changes may take time to appear. Public previews require user-controlled publication.
 
+## Optional detailed plan sections
+
+A plan may contain `route`, `transport`, `safety`, and `pending_decisions` in addition to Stage 1 fields. These are **proposed, evidence-linked planning aids** and are not automatically approved or checked for a specific trip date. Cite official sources in `evidence` and reference their IDs from relevant route/transport/safety items. The browser should display these stored sections, never generate live route/weather facts. When a planned trip date is confirmed, revise **only the target plan**, refresh date-sensitive route/transport/weather information with timestamped evidence, then update the JSON and commit.
+
 ## Source quality and boundaries
 
 Evidence items: `id`, `claim`, `url`, `publisher`, `checked_at`, `valid_for` (when applicable), `status`. Prefer the actual official source. Never invent transit times, fares, alerts, trail conditions or weather. Forecast checks should be revisited near departure **only when the user returns or a scheduled agent explicitly runs**. A risk warning should result in appropriate advice, not a silent change to a confirmed date.
