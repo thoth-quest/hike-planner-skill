@@ -1,5 +1,7 @@
 # Hike Planner Skill
 
+[简体中文](./README.zh-CN.md) | [English](./README.md)
+
 A portable, evidence-first hiking and outdoor activity planning skill for AI assistants.
 
 **Status:** v0.1 · Stage 1 — Goal Definition. No sign-in, server, centralized database, or access to private user records required.
@@ -62,3 +64,7 @@ There is **no shared central account**. Users' data lives in their selected AI w
 ## License
 
 MIT (see `LICENSE`).
+
+## Translations
+
+This project maintains a [Simplified Chinese README](./README.zh-CN.md) alongside this English version. When changing scope, installation, usage or limitations, update both documents. Documentation must reflect what is actually implemented.
