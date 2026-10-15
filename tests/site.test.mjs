@@ -23,6 +23,7 @@ test("each listed plan owns its JSON, all files are registered",()=>{
     const p=load(path.join(dir,id,"activity.json"));
     assert.equal(p.id,id);
     assert.equal(p.schema_version,1);
+    assert.equal(p.trip_type,"day_trip","only day hikes are supported in this release");
     assert.equal(p.stage,"goal_definition");
     assert.ok(Number.isInteger(p.revision) && p.revision>0);
     for(const key of ["destination","goals","constraints","weather","candidates","evidence","changes"])
@@ -104,4 +105,20 @@ test("Oyama timeline covers inbound transit, hike and outbound transit, with evi
   for(const leg of [...p.transport.inbound,...p.transport.outbound])
     if(leg.source_id) assert.ok(ids.has(leg.source_id));
   assert.equal(p.weather.status,"pending","moving a preview timeline cannot claim actual weather");
+});
+
+test("day trip is explicit in schema and UI",()=>{
+  const schema=load(path.join(root,"schemas","activity.schema.json"));
+  assert.ok(schema.required.includes("trip_type"));
+  assert.equal(schema.properties.trip_type.const,"day_trip");
+  const html=readFileSync(path.join(site,"plan.html"),"utf8");
+  assert.match(html,/DAY HIKE/);
+  const js=readFileSync(path.join(site,"assets","detail.js"),"utf8");
+  assert.match(js,/trip_type/);
+  assert.match(js,/shift\s*\+=\s*30/);
+  assert.match(js,/跨日/);
+  assert.match(js,/linkedTitle/);
+  const css=readFileSync(path.join(site,"assets","site.css"),"utf8");
+  assert.match(css,/:focus-visible/);
+  assert.match(css,/prefers-reduced-motion/);
 });

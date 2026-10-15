@@ -2,9 +2,9 @@
 
 [简体中文](./README.zh-CN.md) | [English](./README.md)
 
-A **portable, evidence-first** AI hiking planner that supports **multiple independent plans**. No user accounts, database, server, or Python HTML renderer.
+A **portable, evidence-first** AI day-hike planner that supports **multiple independent plans**. No user accounts, database, server, or Python HTML renderer.
 
-**Status: v0.2 (Stage 1).** A static, read-only catalogue and per-plan preview is ready for GitHub Pages. The AI Skill updates activity JSON; the web page displays stored data only.
+**Status: v0.3 (Stage 1, day-trip only).** A static, read-only catalogue and per-plan preview is ready for GitHub Pages. The AI Skill updates activity JSON; the web page displays stored data only.
 
 ## Principles
 
@@ -58,7 +58,7 @@ A plan keeps a stable URL: `https://thoth-quest.github.io/hike-planner-skill/pla
 
 ## Detail page (tabs + relative timeline)
 
-The public plan viewer opens on **Route** by default, alongside **Overview**, **Weather & safety**, and **History** tabs. The Route tab places **transport before the hike**, then the **hiking itinerary**, then **transport after the hike** on one chronological timeline. Switch between key waypoints and all waypoints.
+The viewer uses a quiet, mobile-first day-hike field-guide design. **Route** is the main tab, alongside **Plan**, **Safety**, and **History**. The Route tab places **transport before the hike**, then the **hiking itinerary**, then **transport after the hike** on one chronological timeline. Switch between key waypoints and all waypoints.
 
 The arrival-time field and **−30 / +30 minute** controls shift the displayed times together, without touching JSON or recording revisions. For the Oyama draft the starting time and stop offsets are explicitly **illustrative estimates**, not a confirmed trip date, bus timetable, pace prediction, or sunset-safe plan. Ask the Skill to research the intended date and write approved times later.
 
@@ -98,6 +98,10 @@ Follow-up:
 > Update the date and refresh weather evidence for plan 2026-11-oyama only.
 
 Skill install/file edit support varies across hosts. Pasting a GitHub link into any web AI does not guarantee automatic installation or code execution.
+
+## Current scope: day trips only
+
+Each plan declares `trip_type: "day_trip"`. The relative timeline must stay within one calendar day; crossing midnight is flagged, not treated as a multi-day itinerary. Overnight trips, lodging and multi-day transport are intentionally deferred to a future version.
 
 ## Safety and privacy
 

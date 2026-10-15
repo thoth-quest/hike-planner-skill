@@ -72,7 +72,7 @@
         shown.forEach((p) => {
           const a = add(target, el("a", null, "plan-card"));
           a.href = href("plan.html?id=" + encodeURIComponent(p.id));
-          add(a, badge(p.example_only ? "演示计划" : statusText[p.status] || "计划", p.status === "needs_review" ? "caution" : ""));
+          add(a, badge(p.example_only ? "日归 · 演示" : "日归 · "+(statusText[p.status] || "计划"), p.status === "needs_review" ? "caution" : ""));
           add(a, el("h3", p.title || p.id));
           add(a, el("p", (p.destination?.name || "目的地待定") + " · " + meaningfulDate(p)));
           add(a, el("p", p.goals?.primary || "主要目标待定"));

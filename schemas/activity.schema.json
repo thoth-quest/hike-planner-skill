@@ -15,7 +15,8 @@
     "weather",
     "candidates",
     "evidence",
-    "changes"
+    "changes",
+    "trip_type"
   ],
   "properties": {
     "id": {
@@ -495,6 +496,11 @@
         }
       },
       "additionalProperties": true
+    },
+    "trip_type": {
+      "type": "string",
+      "const": "day_trip",
+      "description": "Current release supports a one-day itinerary only"
     }
   },
   "additionalProperties": true

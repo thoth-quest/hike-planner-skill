@@ -40,5 +40,6 @@
   },
   "candidates": [],
   "evidence": [],
-  "changes": []
+  "changes": [],
+  "trip_type": "day_trip"
 }

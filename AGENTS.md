@@ -18,7 +18,8 @@ This is a **portable, multi-plan Agent Skill with an optional public, read-only 
 
 ## Product constraints
 
-- Stage 1: activity objectives, date, destination, feasibility, source-backed weather, change log.
+- Stage 1 is day-trip only: one calendar day per plan (`trip_type: "day_trip"`). Multi-day plans and overnight accommodation are postponed.
+- Activity objectives, date, destination, feasibility, source-backed weather, change log.
 - Support fixed, preferred and undecided destinations. Ask one useful question at a time.
 - Don't invent real-world data. Forecast snapshots must contain sources and checked_at timestamps; old forecasts are not live.
 - Updates to one activity must not mutate other activities. Increment revision and record changes for confirmed edits.

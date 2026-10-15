@@ -1,12 +1,12 @@
 {
   "id": "oyama-day-hike",
   "schema_version": 1,
-  "revision": 2,
+  "revision": 3,
   "stage": "goal_definition",
   "status": "draft",
   "title": "丹泽·大山｜女坂登顶·见晴台环线",
   "example_only": false,
-  "updated_at": "2026-10-15T18:11:00+09:00",
+  "updated_at": "2026-10-15T18:45:00+09:00",
   "visibility_note": "公开规划草稿，不包含参与者身份或私人集合地点",
   "destination": {
     "state": "fixed",
@@ -359,6 +359,14 @@
         "route_offsets_count": 14
       },
       "reason": "为静态页面添加可整体偏移的相对登山时间轴；估算仅用于预览，非确认行程"
+    },
+    {
+      "revision": 3,
+      "at": "2026-10-15T18:45:00+09:00",
+      "field": "trip_type",
+      "before": null,
+      "after": "day_trip",
+      "reason": "当前只支持日归登山；多日计划以后另建模型"
     }
   ],
   "pending_decisions": [
@@ -372,5 +380,6 @@
     "anchor_label": "抵达大山缆车巴士站（假设）",
     "status": "illustrative",
     "notice": "所有时间均为界面排程用的粗略估算，尚未按出行日期、体力、实际班次与日落核实；8:00也仅为演算默认值。页面调整不会写回计划。"
-  }
+  },
+  "trip_type": "day_trip"
 }

@@ -20,3 +20,10 @@
 ## Later stages
 
 Stage 2 group logistics, Stage 3 route/public transport and passes, Stage 4 pre-trip verification, Stage 5 during-hike adaptations, Stage 6 retrospective. Private user plans should remain separate from public preview data.
+
+## v0.3 — Day-hike UX
+
+- [x] Explicit `day_trip` scope, postpone multi-day model
+- [x] Redesign mobile-first day-hike plan screens with design tokens and accessible tabs
+- [x] Refine timeline, time-shifting controls and inline evidence links
+- [ ] Plan multi-day itineraries as a separate future experience

@@ -7,6 +7,10 @@ description: Plan and revise multiple independently identified hiking activities
 
 Use when someone asks to plan a hike, compare hiking destinations, revisit a plan, or check whether conditions changed. **Keep each hike as a separate activity.**
 
+## Current scope — day trip only
+
+This release handles **one calendar day per plan**. Every created plan must set `trip_type: "day_trip"`. The timeline never represents lodging, overnight transfers or multiple day plans. A time offset across midnight should be marked invalid for a confirmed day-hike schedule, not silently treated as a second day. Multi-day planning will require a separate model and UI in a later release.
+
 ## Select or create a plan FIRST
 
 1. If the user names a prior plan or supplies its ID, find that plan in their workspace. Do not overwrite another plan.
