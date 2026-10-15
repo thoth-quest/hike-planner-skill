@@ -1,3 +1,4 @@
+import { makeTimeline, clockText } from "./timeline.mjs";
 "use strict";
 // Day-trip plan viewer. Browses only local JSON; never writes data or calls weather services.
 (() => {
@@ -69,111 +70,139 @@
     ? String(Math.floor(n/60)).padStart(2,"0")+":"+String(n%60).padStart(2,"0") : "跨日";
   function renderRoute(p) {
     const root = $("panel-route");
-    if(!p.route?.sections?.length && !p.transport?.inbound?.length) {
-      const c=card(root,"尚未安排路线");
-      paragraph(c,"这个计划尚无登山线路。等 Skill 确认一日路线后，时间轴会出现在这里。");
+    if (!p.route?.sections?.length && !p.transport?.inbound?.length) {
+      paragraph(card(root,"路线尚未规划"),"等待 Skill 为此行程添加当天往返路线。");
       return;
     }
-    const stages=p.route?.sections||[];
-    const trail=stages.flatMap(s=>(s.stops||[]).map(stop=>({...stop,group:s.name})));
-    const before=(p.transport?.inbound||[]).filter(x=>x.preview_phase!=="hike");
-    const after=p.transport?.outbound||[];
-    const timing=p.preview_timing||{};
-    const base=parseTime(timing.anchor_time)||480;
-    let anchor=base,shift=0,expanded=false;
-    const c=card(root,"一日路线时间轴");
-    const plannerHead=c.querySelector(".panel-head");
-    add(plannerHead,el("span","估算排程","pill caution"));
-    const toolbar=add(c,el("div",null,"time-toolbar"));
-    const controls=add(toolbar,el("div"));
-    const label=add(controls,el("label",timing.anchor_label?.replace("（假设）","")||"巴士站预计抵达"));
-    label.htmlFor="arrival-time";
-    const box=add(controls,el("div",null,"time-toolbar-controls"));
-    const input=add(box,el("input"));
-    input.type="time";input.id="arrival-time";input.value=timeText(base);input.step=300;
-    const minus=add(box,el("button","−30 分钟"));
-    const plus=add(box,el("button","+30 分钟"));
-    const reset=add(box,el("button","重置"));
-    [minus,plus,reset].forEach(x=>x.type="button");
-    add(toolbar,el("div","日期未定 · 更改只影响预览，不保存","sub-text"));
-    const headline=add(c,el("div",null,"planner-top"));
-    const windowText=add(headline,el("div",null,"day-clock"));
-    const offText=add(headline,el("div","时间偏移 0 分钟","sub-text"));
-    const overflow=add(c,el("div",null,"timeline-day-warning"));
-    overflow.hidden=true;
-    const line=add(c,el("div",null,"journey"));
-    const expand=add(c,el("button","展开全部节点","timeline-expand"));
-    expand.type="button";
-    const offset=item=>Number.isInteger(item.offset_minutes)?item.offset_minutes:null;
-    const last=offset(after.at(-1)) ?? offset(trail.at(-1));
-    const total=last!==null && last>=0? Math.floor(last/60)+" 小时"+(last%60?" "+last%60+" 分":"") : "待核实";
-    const clock=item=> offset(item)===null?"—":timeText(anchor+shift+offset(item));
-    function paint() {
-      windowText.textContent="";
-      add(windowText,el("span",timeText(anchor+shift)));
-      add(windowText,document.createTextNode(" → "));
-      add(windowText,el("span",last===null?"待确认":timeText(anchor+shift+last)));
-      add(windowText,el("span","   ·   "+total,"sub-text"));
-      offText.textContent=shift===0?"未偏移":"整体偏移 "+(shift>0?"+":"")+shift+" 分";
-      overflow.hidden = !(last!==null && (anchor+shift+last>=1440 || anchor+shift+Math.min(-35,offset(before[0])??0)<0));
-      overflow.textContent="当前偏移超出了同一天的时间范围。此版本只支持日归，请调整时刻。";
-      line.replaceChildren();
-      const addPhase=(heading,num,kind,items)=>{
+    const adjustments={};
+    let expanded=false;
+    let opened=null;
+    const pane=card(root,"行程时间轴");
+    const label=pane.querySelector(".panel-head");
+    add(label,el("span","节点级模拟","pill caution"));
+    const help=add(pane,el("div",null,"notice"));
+    add(help,el("strong","班次固定 · 延误逐点计算"));
+    paragraph(help,"巴士、电车按 Skill 查到的固定发车时间显示，不随登山延误改变；步行、自驾可在具体节点增减耗时。若错过班次，显示换乘风险，不自动编造下一班。");
+    const bar=add(pane,el("div",null,"simulation-bar"));
+    const summary=add(bar,el("div","尚无节点调整","sub-text"));
+    const reset=add(bar,el("button","清除全部调整","quiet-button"));
+    reset.type="button";
+    const timeline=add(pane,el("div",null,"journey"));
+    const toggle=add(pane,el("button","展开全部路线节点","timeline-expand"));
+    toggle.type="button";
+    const warning=add(pane,el("div",null,"timeline-day-warning"));
+    warning.hidden=true;
+    function paint(){
+      const schedule=makeTimeline(p,adjustments);
+      const count=schedule.changes.length;
+      summary.textContent=count?count+" 处时间调整 · 仅供本次预览":"无延误模拟 · 按计划原始估算";
+      reset.disabled=!count;
+      warning.hidden=!schedule.overDay&&!schedule.hasMissedConnection;
+      if(!warning.hidden){
+        warning.textContent=(schedule.hasMissedConnection?"已错过固定班次，请由 Skill 重新查询可乘车次。 ":"")+
+          (schedule.overDay?"模拟时间超出当天，当前仅支持日归行程。":"");
+      }
+      timeline.replaceChildren();
+      const showGroup=(name,num,type,items)=>{
         if(!items.length)return;
-        const block=add(line,el("section",null,"journey-block"));
-        const headingRow=add(block,el("div",null,"journey-label"));
-        const title=add(headingRow,el("div",null,"journey-name"));
+        const outer=add(timeline,el("section",null,"journey-block"));
+        const heading=add(outer,el("div",null,"journey-label"));
+        const title=add(heading,el("div",null,"journey-name"));
         add(title,el("span",num,"journey-index"));
-        add(title,el("span",heading));
-        add(headingRow,el("span",kind==="trail"?"步行登山":"公共交通","journey-category"));
-        const ul=add(block,el("ol",null,"timeline"));
-        const shown=kind==="trail"&&!expanded?items.filter((x,i)=>x.key_point||i===0||i===items.length-1):items;
-        let prevGroup="";
-        shown.forEach(item=>{
-          if(kind==="trail" && item.group!==prevGroup) {
-            const group=add(ul,el("li",item.group,"timeline-group")); group.setAttribute("aria-label","路段");
-            prevGroup=item.group;
+        add(title,el("span",name));
+        add(heading,el("span",type==="trail"?"山路 · 估算":type==="before"?"公共交通 / 出发":"公共交通 / 返程","journey-category"));
+        const line=add(outer,el("ol",null,"timeline"));
+        const visible=type==="trail"&&!expanded
+          ?items.filter((x,index)=>x.key_point||index===0||index===items.length-1):items;
+        let group="";
+        visible.forEach(item=>{
+          if(type==="trail"&&item.section_name!==group){
+            group=item.section_name;
+            add(line,el("li",group,"timeline-group"));
           }
-          const li=add(ul,el("li",null,"timeline-item"+(item.key_point?" highlight":"")));
-          add(li,el("span",clock(item),"timeline-time"+(clock(item)==="—"?" unknown":"")));
-          const name=add(li,el("h3"));
-          linkedTitle(name,item.name||"路线节点",p,item.source_ids||item.source_id);
-          if(item.note)paragraph(li,item.note);
-          if(offset(item)===null)paragraph(li,"尚无可核实的时刻", "inline-note");
+          const li=add(line,el("li",null,"timeline-item"+(item.key_point?" highlight":"")));
+          const stamped=item.kind==="transit" && item.status==="fixed"
+            ?clockText(item.departure)+" → "+clockText(item.scheduled_arrival)
+            :item.kind==="transit" && item.status==="connection_missed"
+              ?(item.departure===null?"接驳中断":clockText(item.departure)+" · 已错过")
+              :item.kind==="transit" && item.status==="pending"
+                ?"班次待查" :item.arrival===null?"—":clockText(item.arrival);
+          add(li,el("span",stamped,"timeline-time"+(item.arrival===null?" unknown":"")));
+          const h=add(li,el("h3"));
+          linkedTitle(h,item.label,p,item.source_id);
+          if(item.status==="pending" && item.kind==="transit") {
+            paragraph(li,"未核实出发日车次；不使用估算时间替代时刻表。");
+          }else if(item.status==="connection_missed"){
+            paragraph(li,"前序行程未赶上该班，不能自动顺延固定发车时刻。","issue-text");
+          }else if(item.status==="fixed"){
+            paragraph(li,"固定班次"+(item.service_id?" · "+item.service_id:"")+
+              (item.delay?" · 模拟到站晚点 "+(item.delay>0?"+":"")+item.delay+" 分钟":""));
+          }else if(item.kind==="trail"){
+            if(item.status==="illustrative")paragraph(li,"行程时间估算 · 尚未与实际到达车次衔接");
+            if(item.note && (expanded||item.key_point))paragraph(li,item.note);
+          }else if(item.note) paragraph(li,item.note);
+          const canAdjust=item.kind==="trail"||
+            item.kind==="transit"&&(item.status==="fixed"||item.mode==="driving"||item.mode==="walking"||item.mode==="flexible");
+          if(!canAdjust)return;
+          const actions=add(li,el("div",null,"node-actions"));
+          const amount=adjustments[item.id]||0;
+          if(amount) add(actions,el("span","此节点"+(amount>0?" +":" ")+amount+" 分","node-delay"));
+          const modify=add(actions,el("button",opened===item.id?"收起调整":"调整耗时","node-open"));
+          modify.type="button";
+          modify.setAttribute("aria-expanded",opened===item.id?"true":"false");
+          modify.addEventListener("click",()=>{opened=opened===item.id?null:item.id;paint()});
+          if(opened===item.id){
+            const editor=add(li,el("div",null,"node-editor"));
+            const explanation=item.kind==="transit"?
+              "模拟本班次到站晚点；公开时刻表的发车和计划到达时间保持固定。":
+              "此处增加或减少停留 / 步行耗时，只影响后续节点，不改变本节点到达时刻。";
+            paragraph(editor,explanation,"sub-text");
+            const buttons=add(editor,el("div",null,"delay-buttons"));
+            const minus=add(buttons,el("button","−15 分"));
+            const plus=add(buttons,el("button","+15 分"));
+            const clear=add(buttons,el("button","恢复","quiet-button"));
+            [minus,plus,clear].forEach(x=>x.type="button");
+            minus.disabled=amount<=-90;plus.disabled=amount>=180;clear.disabled=!amount;
+            const edit=(delta)=>{
+              const next=Math.max(-90,Math.min(180,(adjustments[item.id]||0)+delta));
+              if(next)adjustments[item.id]=next;else delete adjustments[item.id];
+              paint();
+            };
+            minus.addEventListener("click",()=>edit(-15));
+            plus.addEventListener("click",()=>edit(15));
+            clear.addEventListener("click",()=>{delete adjustments[item.id];paint()});
+          }
         });
       };
-      addPhase("登山前交通","01","transit",before);
-      addPhase("登山路线","02","trail",trail);
-      addPhase("登山后交通","03","transit",after);
-      expand.hidden=trail.length<5;
-      expand.textContent=expanded?"收起次要节点":"显示完整 "+trail.length+" 个路线节点";
-      minus.disabled=shift<=-180;plus.disabled=shift>=180;
+      showGroup("登山前 · 交通","01","before",schedule.before);
+      showGroup("步行登山 · 当天往返","02","trail",schedule.trail);
+      showGroup("登山后 · 交通","03","after",schedule.after);
+      toggle.hidden=schedule.trail.length<5;
+      toggle.textContent=expanded?"收起次要节点":"展开全部 "+schedule.trail.length+" 个登山节点";
     }
-    minus.addEventListener("click",()=>{shift -= 30;paint();});
-    plus.addEventListener("click",()=>{shift += 30;paint();});
-    reset.addEventListener("click",()=>{anchor=base;shift=0;input.value=timeText(base);paint();});
-    input.addEventListener("change",()=>{const n=parseTime(input.value);if(n!==null){anchor=n;paint();}});
-    expand.addEventListener("click",()=>{expanded=!expanded;paint();});
+    reset.addEventListener("click",()=>{for(const key of Object.keys(adjustments))delete adjustments[key];opened=null;paint()});
+    toggle.addEventListener("click",()=>{expanded=!expanded;paint()});
     paint();
-    const note=add(root,el("section",null,"quiet-card"));
-    add(note,el("div","关于路线与时间","quiet-card-title"));
-    const pnote=add(note,el("p",p.route.duration_reference || timing.notice || "路线时间仍待核实"));
-    add(pnote,document.createTextNode(" "));
-    linkedTitle(pnote,"路线依据",p,p.route.duration_source);
-    if(p.route.alternatives?.length){
-      const details=add(note,el("details"));
-      add(details,el("summary","备用与撤退方案（"+p.route.alternatives.length+"）"));
+    const footer=add(root,el("section",null,"quiet-card"));
+    add(footer,el("div","路线依据与备用方案","quiet-card-title"));
+    if(p.route?.duration_reference) {
+      const desc=add(footer,el("p",p.route.duration_reference));
+      add(desc,document.createTextNode(" "));
+      linkedTitle(desc,"参考路线",p,p.route.duration_source);
+    }
+    if(p.route?.alternatives?.length) {
+      const details=add(footer,el("details"));
+      add(details,el("summary","查看备用与撤退方案（"+p.route.alternatives.length+"）"));
       p.route.alternatives.forEach(a=>{
         const row=add(details,el("div",null,"note-line"));
         add(row,el("strong",a.name));
         paragraph(row,text(a.when)+"；"+text(a.action));
       });
     }
-    if(p.transport?.cable) {
-      const row=add(note,el("div",null,"note-line"));
-      linkedTitle(row,"缆车备用",p,p.transport.cable.source_id);
-      paragraph(row,p.transport.cable.note);
-      paragraph(row,p.transport.cable.normal_hours);
+    if(p.transport?.cable){
+      const t=add(footer,el("div",null,"note-line"));
+      linkedTitle(t,"缆车备用",p,p.transport.cable.source_id);
+      paragraph(t,p.transport.cable.note);
     }
   }
   function renderOverview(p) {

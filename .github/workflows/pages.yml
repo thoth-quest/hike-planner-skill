@@ -4,7 +4,7 @@ on:
     branches: [main]
     paths:
       - "site/**"
-      - "tests/site.test.mjs"
+      - "tests/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -34,8 +34,9 @@ jobs:
         run: |
           node --check site/assets/app.js
           node --check site/assets/detail.js
+          node --check site/assets/timeline.mjs
           node --check scripts/plans.mjs
-          node --test tests/site.test.mjs
+          node --test tests/*.test.mjs
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload static site only

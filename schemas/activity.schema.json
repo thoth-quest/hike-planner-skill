@@ -393,6 +393,9 @@
                     },
                     "key_point": {
                       "type": "boolean"
+                    },
+                    "node_id": {
+                      "type": "string"
                     }
                   }
                 }
@@ -418,13 +421,147 @@
         "inbound": {
           "type": "array",
           "items": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+              "node_id": {
+                "type": "string"
+              },
+              "mode": {
+                "enum": [
+                  "scheduled_transit",
+                  "driving",
+                  "walking",
+                  "flexible"
+                ]
+              },
+              "schedule_status": {
+                "enum": [
+                  "pending",
+                  "verified",
+                  "not_applicable"
+                ]
+              },
+              "timetable": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "service_date",
+                      "departure_time",
+                      "arrival_time",
+                      "source_id",
+                      "checked_at"
+                    ],
+                    "properties": {
+                      "service_date": {
+                        "type": "string",
+                        "format": "date"
+                      },
+                      "departure_time": {
+                        "type": "string",
+                        "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+                      },
+                      "arrival_time": {
+                        "type": "string",
+                        "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+                      },
+                      "source_id": {
+                        "type": "string"
+                      },
+                      "checked_at": {
+                        "type": "string"
+                      },
+                      "service_id": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
+              },
+              "estimated_duration_minutes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "departure_time": {
+                "type": "string"
+              }
+            }
           }
         },
         "outbound": {
           "type": "array",
           "items": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+              "node_id": {
+                "type": "string"
+              },
+              "mode": {
+                "enum": [
+                  "scheduled_transit",
+                  "driving",
+                  "walking",
+                  "flexible"
+                ]
+              },
+              "schedule_status": {
+                "enum": [
+                  "pending",
+                  "verified",
+                  "not_applicable"
+                ]
+              },
+              "timetable": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "service_date",
+                      "departure_time",
+                      "arrival_time",
+                      "source_id",
+                      "checked_at"
+                    ],
+                    "properties": {
+                      "service_date": {
+                        "type": "string",
+                        "format": "date"
+                      },
+                      "departure_time": {
+                        "type": "string",
+                        "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+                      },
+                      "arrival_time": {
+                        "type": "string",
+                        "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+                      },
+                      "source_id": {
+                        "type": "string"
+                      },
+                      "checked_at": {
+                        "type": "string"
+                      },
+                      "service_id": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
+              },
+              "estimated_duration_minutes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "departure_time": {
+                "type": "string"
+              }
+            }
           }
         },
         "cable": {

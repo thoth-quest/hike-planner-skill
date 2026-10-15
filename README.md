@@ -4,7 +4,7 @@
 
 A **portable, evidence-first** AI day-hike planner that supports **multiple independent plans**. No user accounts, database, server, or Python HTML renderer.
 
-**Status: v0.3 (Stage 1, day-trip only).** A static, read-only catalogue and per-plan preview is ready for GitHub Pages. The AI Skill updates activity JSON; the web page displays stored data only.
+**Status: v0.4 (Stage 1, day-trip only).** A static, read-only catalogue and per-plan preview is ready for GitHub Pages. The AI Skill updates activity JSON; the web page displays stored data only.
 
 ## Principles
 
@@ -63,6 +63,14 @@ The viewer uses a quiet, mobile-first day-hike field-guide design. **Route** is 
 The arrival-time field and **−30 / +30 minute** controls shift the displayed times together, without touching JSON or recording revisions. For the Oyama draft the starting time and stop offsets are explicitly **illustrative estimates**, not a confirmed trip date, bus timetable, pace prediction, or sunset-safe plan. Ask the Skill to research the intended date and write approved times later.
 
 Supporting sources are linked directly on the relevant route location, transport step, or risk notice. There is no separate wall of source links.
+
+## Node-by-node time simulation (v0.4)
+
+Every waypoint has its own optional **±15-minute adjustment**. Delays at a hiking or driving node only affect subsequent flexible segments. The adjustment does **not** shift the whole day.
+
+**Rail and bus services have fixed timetables.** Their departure and scheduled arrival times may appear only when a date-specific, verified service is stored with a supporting source URL and check time. If a prior hiking delay misses a departure, the page flags **missed connection** and requires the Skill to research an actual alternative; it never slides the published departure later or invents the next service. A verified rail/bus node may simulate an arrival delay, but the original timetable stays visible and immutable.
+
+**Driving** uses approximate travel durations and can incur congestion delays. **Hiking** uses estimated waypoint offsets and local rests or unexpected setbacks. These are scenarios stored only in browser memory and cannot change the plan JSON, official transit timetable or weather. The current Oyama plan has **no verified service times** because its trip date is unknown; these correctly appear as *timetable pending*. Its 08:00 hiking anchor remains a clearly labeled illustrative assumption, not a claimed bus arrival. Multi-day travel remains out of scope.
 
 ## Weather updates belong to the Skill
 

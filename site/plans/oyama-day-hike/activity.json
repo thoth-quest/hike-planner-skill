@@ -1,12 +1,12 @@
 {
   "id": "oyama-day-hike",
   "schema_version": 1,
-  "revision": 3,
+  "revision": 4,
   "stage": "goal_definition",
   "status": "draft",
   "title": "丹泽·大山｜女坂登顶·见晴台环线",
   "example_only": false,
-  "updated_at": "2026-10-15T18:45:00+09:00",
+  "updated_at": "2026-10-15T19:24:00+09:00",
   "visibility_note": "公开规划草稿，不包含参与者身份或私人集合地点",
   "destination": {
     "state": "fixed",
@@ -60,35 +60,40 @@
             "note": "从巴士终点出发，经こま参道，按现场路标继续徒步",
             "offset_minutes": 0,
             "source_id": "access-cable",
-            "key_point": true
+            "key_point": true,
+            "node_id": "trail-0-0"
           },
           {
             "name": "こま参道 → 大山缆车站附近岔路",
             "note": "从巴士站到缆车站区域通常约15分钟；再步行接入女坂",
             "offset_minutes": 20,
             "source_id": "access-cable",
-            "key_point": false
+            "key_point": false,
+            "node_id": "trail-0-1"
           },
           {
             "name": "女坂",
             "note": "经过阶梯和山道，不等同平坦轻松路线；前往大山寺",
             "offset_minutes": 35,
             "source_id": "route-city",
-            "key_point": false
+            "key_point": false,
+            "node_id": "trail-0-2"
           },
           {
             "name": "大山寺",
             "note": "寺院参观，脚下石阶可能湿滑",
             "offset_minutes": 55,
             "source_id": "route-city",
-            "key_point": false
+            "key_point": false,
+            "node_id": "trail-0-3"
           },
           {
             "name": "大山阿夫利神社下社",
             "note": "中途整理装备、饮水、决定是否继续登顶",
             "offset_minutes": 90,
             "source_id": "summit-city",
-            "key_point": true
+            "key_point": true,
+            "node_id": "trail-0-4"
           }
         ]
       },
@@ -100,21 +105,24 @@
             "note": "山地登山路正式登顶段，从此需评估体力与剩余日照",
             "offset_minutes": 105,
             "source_id": "summit-city",
-            "key_point": false
+            "key_point": false,
+            "node_id": "trail-1-0"
           },
           {
             "name": "富士见台",
             "note": "天气和能见度允许时可看富士山；不保证能见度",
             "offset_minutes": 175,
             "source_id": "summit-city",
-            "key_point": true
+            "key_point": true,
+            "node_id": "trail-1-1"
           },
           {
             "name": "大山山顶",
             "note": "标高约1252米；根据体力、时间和天气决定停留",
             "offset_minutes": 230,
             "source_id": "summit-city",
-            "key_point": true
+            "key_point": true,
+            "node_id": "trail-1-2"
           }
         ]
       },
@@ -126,28 +134,32 @@
             "note": "较长下坡，注意脚下、野生动物、路线指示",
             "offset_minutes": 275,
             "source_id": "tourism-route",
-            "key_point": false
+            "key_point": false,
+            "node_id": "trail-2-0"
           },
           {
             "name": "见晴台",
             "note": "观景和体力检查点，确认下社方向",
             "offset_minutes": 315,
             "source_id": "tourism-route",
-            "key_point": true
+            "key_point": true,
+            "node_id": "trail-2-1"
           },
           {
             "name": "二重瀑布",
             "note": "沿见晴台步道返回下社途中经过",
             "offset_minutes": 350,
             "source_id": "route-city",
-            "key_point": false
+            "key_point": false,
+            "node_id": "trail-2-2"
           },
           {
             "name": "阿夫利神社下社",
             "note": "决定全程步行下山还是乘缆车",
             "offset_minutes": 385,
             "source_id": "route-city",
-            "key_point": true
+            "key_point": true,
+            "node_id": "trail-2-3"
           }
         ]
       },
@@ -159,14 +171,16 @@
             "note": "体力和时间允许时全程步行下山，需注意膝盖和石阶",
             "offset_minutes": 415,
             "source_id": "route-city",
-            "key_point": false
+            "key_point": false,
+            "node_id": "trail-3-0"
           },
           {
             "name": "大山ケーブル（巴士站）",
             "note": "乘车返回伊势原站；末班时刻须按出发日期核实",
             "offset_minutes": 460,
             "source_id": "access-cable",
-            "key_point": true
+            "key_point": true,
+            "node_id": "trail-3-1"
           }
         ]
       }
@@ -201,19 +215,31 @@
         "name": "铁路到伊势原",
         "note": "从横滨方向可考虑经海老名换乘小田急线到伊势原；具体始发站、车次、费用待按个人实际出发地点核实",
         "source_id": null,
-        "offset_minutes": null
+        "offset_minutes": null,
+        "node_id": "before-0",
+        "mode": "scheduled_transit",
+        "schedule_status": "pending",
+        "timetable": null
       },
       {
         "name": "伊势原站北口 → 大山ケーブル巴士站",
         "note": "北口4号站台，伊10或伊11；常规车程约30分钟，具体班次与票价按当日官方信息查询",
         "source_id": "access-cable",
-        "offset_minutes": -35
+        "offset_minutes": null,
+        "node_id": "before-1",
+        "mode": "scheduled_transit",
+        "schedule_status": "pending",
+        "timetable": null
       },
       {
         "name": "巴士站 → こま参道 → 缆车站区域",
         "note": "步行约15分钟，山道入口还需继续步行",
         "source_id": "access-cable",
-        "preview_phase": "hike"
+        "preview_phase": "hike",
+        "node_id": "before-2",
+        "mode": "walking",
+        "schedule_status": "not_applicable",
+        "timetable": null
       }
     ],
     "outbound": [
@@ -221,7 +247,11 @@
         "name": "大山ケーブル巴士站 → 伊势原站北口",
         "note": "返程时刻尤其末班车和实际拥堵情况需要在出发日复核",
         "source_id": "access-cable",
-        "offset_minutes": 500
+        "offset_minutes": null,
+        "node_id": "after-0",
+        "mode": "scheduled_transit",
+        "schedule_status": "pending",
+        "timetable": null
       }
     ],
     "cable": {
@@ -367,6 +397,21 @@
       "before": null,
       "after": "day_trip",
       "reason": "当前只支持日归登山；多日计划以后另建模型"
+    },
+    {
+      "revision": 4,
+      "at": "2026-10-15T19:24:00+09:00",
+      "field": "schedule_simulation",
+      "before": {
+        "model": "global_time_shift",
+        "bus_time_source": "illustrative_offset"
+      },
+      "after": {
+        "model": "per_node_delay",
+        "transit": "fixed_verified_timetable_or_pending",
+        "hike": "estimated_duration"
+      },
+      "reason": "改为节点级延误模拟，固定电车巴士班次不可整体平移；无来源班次保持待查询"
     }
   ],
   "pending_decisions": [
@@ -377,9 +422,9 @@
   ],
   "preview_timing": {
     "anchor_time": "08:00",
-    "anchor_label": "抵达大山缆车巴士站（假设）",
+    "anchor_label": "山路时间轴演示起点（未与公共交通联动）",
     "status": "illustrative",
-    "notice": "所有时间均为界面排程用的粗略估算，尚未按出行日期、体力、实际班次与日落核实；8:00也仅为演算默认值。页面调整不会写回计划。"
+    "notice": "08:00是山路演示起点，不是任何电车或巴士的实际到站时间。交通班次须按确定日期查询。节点耗时调整只影响后续时间，不会修改固定时刻表。"
   },
   "trip_type": "day_trip"
 }

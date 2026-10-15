@@ -53,9 +53,17 @@ A plan may contain `route`, `transport`, `safety`, and `pending_decisions` in ad
 
 ## Detail preview and time shifting
 
-The GitHub Pages detail viewer uses four tabs: route (default), overview, weather/safety, history. Route is a relative time-axis with before-hike transport, trail stages, and after-hike transport. Plan data may include `preview_timing` (`anchor_time`, `anchor_label`, `status: illustrative`, `notice`), optional integer `offset_minutes` and `key_point` on trail stops, plus relative times for transit legs. Every timing is **an estimate** until checked and confirmed for a specific date. Changing the anchor time or clicking ±30 minutes in the page is temporary UI state and MUST NOT modify plan data or change weather. If asked to save a revised schedule, validate the user's intended arrival/departure times against actual public transport, terrain, sunset and participant abilities, then update only that plan's JSON with revision history.
+The GitHub Pages detail viewer uses four tabs: route (default), overview, weather/safety, history. Route is a timeline with before-hike transit, trail stages, and after-hike transit. Plan data may include `preview_timing` (`anchor_time`, `anchor_label`, `status: illustrative`, `notice`), optional integer `offset_minutes` and `key_point` on trail stops, plus relative times for transit legs. Every timing is **an estimate** until checked and confirmed for a specific date. Node-level ±15-minute scenario controls are temporary UI state and MUST NOT modify plan data or change weather. Rail/bus departures are fixed when sourced. If asked to save a revised schedule, validate the user's intended arrival/departure times against actual public transport, terrain, sunset and participant abilities, then update only that plan's JSON with revision history.
 
 Place links at the item they support, using `source_id` (or `source_ids`) referencing `evidence` on route points, transport legs, risks and weather. Do not show a separate dump of references.
+
+## Node-specific delays and transport constraints
+
+On day-trip previews, UI time adjustments are attached to a **particular waypoint or transport arrival**, never to the whole itinerary. Trail/walking stops use estimated offsets; driving legs use estimated durations with possible congestion delay. The page stores simulation deltas in ephemeral browser state; Skill data remains unchanged until a user explicitly approves saved changes.
+
+Public transit MUST use a verified `timetable` object for that exact `constraints.date`: `service_date`, `departure_time`, `arrival_time`, `checked_at`, `source_id`, optional `service_id`. `source_id` must match a verified `evidence` item with an exact URL. Never build a train/bus departure from approximate `offset_minutes` or a hiking anchor. Before verification, mark timetable pending and show no fake clock time. When a late hiking/drive leg makes a fixed departure impossible, flag missed connection and ask for a new actual timetable query; do not shift the departure or invent a later service. Transit arrival delay may be simulated without altering the published scheduled departure/arrival.
+
+Do not treat browser-adjusted arrival estimates as confirmations of route safety, last bus, sunset or weather. Multi-day behavior is explicitly deferred.
 
 ## Source quality and boundaries
 

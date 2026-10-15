@@ -130,3 +130,22 @@ details summary{color:var(--forest);font-size:13px;font-weight:730;cursor:pointe
 @media(max-width:390px){.detail-tabs [role=tab]{font-size:13px}.tab-count{display:none}.time-toolbar button{padding:8px 9px}.timeline{padding-left:69px}.timeline-time{font-size:12px}.trip-header h1{font-size:25px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 @media print{.topbar,.detail-tabs,.time-toolbar,.timeline-expand,.site-footer{display:none!important}.site-shell{padding:0}.trip-header,.panel,.quiet-card{break-inside:avoid;border-color:#ddd}.tab-panel[hidden]{display:none!important}.tab-panel{display:block!important}}
+
+/* Node-level scenario controls. Fixed public transport remains timetable-led. */
+.simulation-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:13px 0 7px;border-bottom:1px solid var(--line-soft);padding:0 0 10px}
+.simulation-bar .sub-text{font-size:12px}
+.simulation-bar .quiet-button{min-height:34px;font-size:12px;padding:5px 10px}
+.node-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px}
+.node-open{background:transparent;border:0;padding:2px 0;color:var(--forest);font-size:12px;font-weight:720;min-height:24px}
+.node-open:hover{text-decoration:underline}
+.node-delay{font-size:11px;font-weight:710;color:#865e22;background:var(--warm);border-radius:5px;padding:2px 6px}
+.node-editor{margin-top:8px;padding:12px 13px;background:var(--forest-soft);border-radius:10px;border:1px solid #d9e8dc}
+.node-editor p{margin:0 0 8px;font-size:12px;color:var(--muted)}
+.delay-buttons{display:flex;gap:7px;flex-wrap:wrap}
+.delay-buttons button{font-size:12px;font-weight:750;min-height:35px;padding:6px 11px;border:1px solid #bfcfc3;border-radius:8px;background:white;color:var(--forest-dark)}
+.delay-buttons button:disabled{opacity:.4}
+.issue-text{color:#a34c37!important;font-weight:690}
+.timeline-item{min-height:65px}
+.timeline-time{font-size:12px}
+.timeline-item h3{font-size:14px}
+@media(max-width:390px){.simulation-bar{align-items:flex-start;flex-direction:column}}
