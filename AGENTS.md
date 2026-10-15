@@ -1,24 +1,30 @@
-# Development instructions
+# Hike Planner development rules
 
-Build a portable **Agent Skill**, not a hosted multi-user platform. Follow the agreed staged scope.
+This is a **portable, multi-plan Agent Skill with an optional public, read-only GitHub Pages viewer**. It is NOT a central multi-user web app.
 
-## Non-negotiable constraints
+## Architecture
 
-- No login, OAuth, centralized database, API secrets, tracking, or external server.
-- Users own their local activity JSON. Never store real participant names, addresses or secrets in the public repo.
-- Stage 1 only: goals, destination selection/validation, date, constraints, weather feasibility and change history.
-- Support both specified and unspecified destinations. Never override a user-confirmed choice silently.
-- The skill should ask one consequential question at a time, reuse known details and allow unknowns.
-- Attach direct source URLs and timestamps to every externally sourced, changeable claim; distinguish forecast, estimate, decision and observed fact.
-- Bad weather can trigger a recommendation, **not** an unapproved change to the user's date.
-- A static HTML export is a snapshot, not a synchronized live page.
-- Weather fetches require a live browsing-capable host; a renderer must not manufacture forecasts.
-- Prefer small testable, dependency-free code. Treat external JSON and AI output as untrusted.
+- The source of truth is one `activity.json` per plan. Public plan files: `site/plans/<slug>/activity.json`.
+- Registry `site/plans/index.json` contains only unique slugs; a slug is stable and independent of date or destination.
+- `site/index.html` lists published plans; `site/plan.html?id=<slug>` reads exactly one plan. No HTML generation, no Python rendering, no weather APIs on the page.
+- Plan creation, revision, evidence checks and weather updates happen in the agent/Skill. Browser code is read-only.
+- Browser code must use textContent/DOM APIs, avoid injecting untrusted plan HTML. Only allow safe http(s) evidence links.
+- Published plans are **public information**. Never upload names, phone numbers, exact personal origins or sensitive notes without consent. Private plans remain local/elsewhere.
+- GitHub Pages deploys exactly the `site/` folder, not the whole repository.
+- No OAuth, accounts, database or hosting backend.
 
-## Done criteria for Stage 1
+## Product constraints
 
-Create a goal from known or unknown destination; revise a single field without losing the rest; preserve previous revisions; handle weather as pending, current or stale with references; export a self-contained mobile page; pass smoke tests.
+- Stage 1: activity objectives, date, destination, feasibility, source-backed weather, change log.
+- Support fixed, preferred and undecided destinations. Ask one useful question at a time.
+- Don't invent real-world data. Forecast snapshots must contain sources and checked_at timestamps; old forecasts are not live.
+- Updates to one activity must not mutate other activities. Increment revision and record changes for confirmed edits.
+- Keep the schema compatible, test manifest-to-files correspondence, and keep Chinese and English README in sync.
 
-## Later, not now
+## Done criteria
 
-Stage 2 group logistics, Stage 3 route/transit/fare plans, Stage 4 pre-departure check, Stage 5 in-trip adjustments, Stage 6 debrief. Keep compatible data extensions but do not implement those features prematurely.
+At least two independent published example plans. Unique safe slugs; stable per-plan links; working directory and detail page; native JS JSON fetch with no HTML generation; automated validation and Pages deploy workflow. Document any remaining one-time GitHub Pages setting.
+
+## Future
+
+Stage 2 group logistics, Stage 3 route/transit/fare passes, Stage 4 pre-trip checks, Stage 5 live adjustments, Stage 6 debrief. Do not overbuild.

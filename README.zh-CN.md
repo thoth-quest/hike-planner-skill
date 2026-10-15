@@ -2,114 +2,121 @@
 
 [简体中文](./README.zh-CN.md) | [English](./README.md)
 
-一个**轻量、可移植、重视信息来源**的 AI 登山及户外活动规划 Skill。目标是让用户在自己使用的 AI 工具中，从确定活动目标开始，逐步完成规划；活动数据由用户自行保存和修改，而不是依赖中心化平台。
+一个**轻量、可移植、基于证据**的 AI 户外活动规划 Skill。支持管理**多份相互独立的登山计划**，无需账号系统、数据库、服务器或 Python 网页生成器。
 
-**当前进度：v0.1 · 第一阶段（目标确定）**。不需要注册账号、部署服务器、连接数据库，也不要求提交私人资料。
+**版本：v0.2（Stage 1）**。已新增纯静态的计划目录和详情页面，准备通过 GitHub Pages 预览。AI Skill 更新数据，网页只展示数据。
 
-> **范围说明**：目前提供 Stage 1 的交互规则、活动数据 Schema、天气与证据核查规范、离线 HTML 生成工具。并不是可实时查询天气的独立 App，也尚未实现多人协调和完整登山行程。
+## 设计原则
 
-## 1. 设计目标
+- **一个计划一个 ID、一份 JSON**：例如大山和金时山各有自己的活动文件，互不覆盖。即使活动日期或目的地改了，计划 ID 也不变。
+- **AI 负责规划和核实**：确定活动目标、日期、候选地点、限制；查询可访问的天气与官方证据；更新对应的 JSON 与修订记录。
+- **GitHub Pages 只负责展示**：浏览器使用 JavaScript 读取 JSON，不运行天气查询、不修改数据、不生成新的 HTML。
+- **隐私由用户决定**：放进 `site/plans/` 的计划会随公开 Pages 一起发布。个人计划可以保留在自己的 AI 工作区，不需要上传。
 
-从**活动目标**而不是大段固定攻略开始，支持两种入口：
+## 在线预览
 
-- **已有目的地**：例如“周六去神奈川大山登山”，先核对目的地是否符合活动目标、强度和时间限制。
-- **尚无目的地**：例如“周末想找一个能看风景的中等强度徒步地点”，先确认基本条件，再比较候选地点。
+当仓库 GitHub Pages 部署成功后，访问：
 
-当目的地和日期明确时，若 AI 运行环境支持网络查询，Skill 会引导 AI 查询天气与气象风险，保存**来源网址、查询时间和适用日期**，并提出继续、观察、调整或延期的建议。天气预报不是登山安全保证，必要时必须重新核实。
+- 计划目录：`https://thoth-quest.github.io/hike-planner-skill/`
+- 大山演示：`https://thoth-quest.github.io/hike-planner-skill/plan.html?id=oyama-demo`
+- 金时山演示：`https://thoth-quest.github.io/hike-planner-skill/plan.html?id=kintoki-demo`
 
-**修改计划是常规操作**：日期、目的地和目标可以多次调整；只重新评估受影响的内容，保留数据版本、证据与修改原因。天气判断不应在用户未确认时直接改动活动日期。
+**注意：** 这些是预期地址，须在 [GitHub Actions](https://github.com/thoth-quest/hike-planner-skill/actions/workflows/pages.yml) 首次部署成功后才可使用。如果尚未启用，请进入 [Pages Settings](https://github.com/thoth-quest/hike-planner-skill/settings/pages)，在 **Build and deployment → Source** 选择 **GitHub Actions**。完整步骤见 [Pages 部署说明](./docs/PAGES.md)。
 
-## 2. 快速开始
+## 创建和管理多份计划
 
-### 用支持读取仓库的 AI 启动规划
-
-让 AI 读取 `skills/hike-planner/SKILL.md`，然后发送：
-
-> 请使用 hike-planner 开始一次登山规划。目前只执行第一阶段：确定目标、目的地、日期和天气条件，不要直接生成完整行程。
-
-也可以将 `skills/hike-planner` 目录安装或导入支持 [Agent Skills](https://agentskills.io/) 的 AI 运行环境。**不同 AI（如 ChatGPT、Codex、WorkBuddy）的安装方式和文件执行能力不一定相同**；单纯粘贴 GitHub 链接不意味着任何网页 AI 都能自动安装或执行脚本。
-
-### 生成手机可查看的静态页面
-
-在仓库根目录执行（只需要 Python 3 标准库）：
-
-```bash
-python3 scripts/render.py examples/oyama.activity.json --output dist/oyama.html
-```
-
-打开 `dist/oyama.html` 就能在手机或电脑上查看示例页面。该 HTML 为自包含文件，**不依赖运行中的后台服务**；可以离线阅读页面中已保存的数据，但外部证据链接仍需联网。
-
-测试生成器：
-
-```bash
-python3 -m unittest discover -s tests
-```
-
-以上命令是运行方式说明，不代表已经在所有目标环境中完成兼容性验证。
-
-## 3. v0.1 已实现的范围
-
-| 功能 | 当前状态 |
-| --- | --- |
-| 识别已有 / 未确定目的地 | Skill 规则已提供 |
-| 从自然语言提取主要目标、次要目标与约束 | Skill 规则已提供 |
-| 日期对应的天气查询与有效期判断 | 查询规范已提供，依赖 AI 环境实际联网能力 |
-| 天气、交通等可变事实附来源链接和核实时间 | 数据格式与规则已提供 |
-| 活动状态、修订版本、修改记录 | JSON Schema 已提供 |
-| 手机端静态页面 | HTML 模板与 Python 生成器已提供 |
-| 多人集合与交通协调、巴士班次、车票优化 | **尚未实现** |
-| 自动后台天气更新、多人在线编辑、统一网页托管 | **尚未实现** |
-
-第一阶段只需得出**简洁的活动目标卡**：去哪里、什么时候、为什么去、有哪些关键限制、天气目前是否适合，以及还需要确认什么。不应提前生成冗长的日程表。
-
-## 4. 项目结构
+仓库目录：
 
 ```text
-skills/hike-planner/
-├── SKILL.md                 AI 的规划指令与阶段规则
-└── references/              目标确认、天气和证据核查原则
-schemas/activity.schema.json 本地活动 JSON 的数据约束
-examples/oyama.activity.json 大山第一阶段示例（非真实实时数据）
-templates/activity.html      适合手机的静态页面模板
-scripts/render.py            JSON → 独立 HTML 的生成工具（仅 Python 标准库）
-tests/test_render.py         页面生成与输入处理的基础测试
-docs/ROADMAP.md              后续功能规划
-AGENTS.md                    项目开发约束
+site/
+├── index.html                         所有公开计划的目录页
+├── plan.html                          共用的计划详情页（按 ID 读取数据）
+├── assets/
+│   ├── app.js                         浏览器展示逻辑，无天气 API
+│   └── site.css
+└── plans/
+    ├── index.json                     公开计划 ID 列表
+    ├── oyama-demo/
+    │   └── activity.json              大山的计划数据
+    ├── kintoki-demo/
+    │   └── activity.json              金时山的计划数据
+    └── <新计划ID>/
+        └── activity.json              每份计划自己的 JSON
 ```
 
-## 5. 数据保存与分享方式
+创建新计划有两种方式：
 
-**不提供公共账户，也不集中收集用户数据。** 每位用户可以在自己的 AI 工作区或本地目录中保存 `activity.json`，并按需要导出 `index.html`。
+**直接编辑 JSON：** 新建 `site/plans/<id>/activity.json`，并把 `<id>` 添加到 `site/plans/index.json` 的 `plans` 数组。确保 JSON 中的 `id` 与文件夹一致。浏览器直接读取该文件，不需要编译或重新生成 HTML。
 
-- `activity.json` 是可修改的**活动数据来源**。
-- 导出的 `index.html` 是某一次生成时的**只读快照**，不是实时网页。
-- 修改日期或目标后，应重新查询相关外部数据并生成新 HTML。
-- 如需微信群里的所有人通过固定网址看到更新版本，需要用户自己选择静态托管与重新发布方式；本项目尚未自动完成这件事。
-- 天气信息只会在 AI **实际重新运行查询**时更新，不会在后台自动刷新。
+**使用可选的 Node 命令初始化：**
 
-**注意隐私**：不要把真实参与者的联系方式、住址、未公开活动安排等信息提交到公开 GitHub 仓库或公共页面。
+```bash
+node scripts/plans.mjs add 2026-11-oyama "11月大山登山"
+node scripts/plans.mjs list
+```
 
-## 6. 证据和安全规则
+此命令只负责创建 JSON 和登记目录，**不负责渲染页面，也不需要 Python**。安装 Skill 的 AI 也可以直接编辑这些文件。
 
-- 天气预报、气象警报、路线开放情况、交通班次、票价和车票适用范围，应优先引用**相关官方资料**。
-- 每个关键可变数据应保存**可打开的来源 URL、查询时间、适用日期**。不同销售渠道的同名交通优惠券，适用区间可能不同。
-- 不得编造发车时间、末班车、票价、山顶天气或安全等级；无法联网时必须说明限制。
-- 对于中长期日期，只能在可靠预报覆盖范围内给出具体天气，不应把长期趋势当作逐小时预报。
-- 登山前需要结合最新天气、路线、人员体力和日落时间复查计划；存在明显危险天气时，应明确建议改期或取消。
+每个计划的固定分享链接格式：
 
-## 7. 后续路线
+```text
+https://thoth-quest.github.io/hike-planner-skill/plan.html?id=<计划ID>
+```
 
-- **Stage 1（当前）**：目标定义、目的地状态、日期、天气评估、修改留痕与静态目标页。
-- **Stage 2（计划中）**：多人出发地与集合时间协调、体力差异、行程共同约束。
-- **Stage 3（计划中）**：登山路线、往返交通、车票优惠与证据、备用方案。
-- **Stage 4–6（计划中）**：出发前复核、活动中调整、结束复盘。
+## 天气如何更新？
 
-进度与待办以 [Roadmap](./docs/ROADMAP.md) 为准。
+由 AI Skill 完成，网页不会主动更新：
 
-## 8. 语言维护
+1. 用户要求重新检查某一份计划的天气。
+2. Skill 根据该计划的日期和地点查询对应来源，记录 `checked_at`、适用日期、证据网址以及天气快照。
+3. Skill 更新**这份计划**的 `activity.json`，并维护 `revision` 和 `changes`；其他计划不受影响。
+4. 推送到 GitHub 后，Pages 工作流重新发布静态文件。网页刷新即可读取最新已保存数据。
 
-本项目提供 [中文 README](./README.zh-CN.md) 和 [English README](./README.md)。更新功能范围、安装步骤、使用方式或限制时，应**同步更新两个版本**。中文与英文均以实际仓库实现为准，避免文档领先于代码。
+没有查询结果时必须显示“未查询”或“需要复核”，不能编造天气。GitHub Pages 部署和缓存可能有延迟；**数据被修改不等于天气实时更新**。
 
-## 许可证
+## 目前功能和范围
 
-[MIT](./LICENSE)。
+| 功能 | 状态 |
+| --- | --- |
+| 自然语言定义目标和候选目的地 | Skill 规则已完成 |
+| 多份独立计划、单独版本与修改记录 | JSON 结构及操作规则已提供 |
+| 计划目录、搜索、每个计划固定链接 | 已实现为静态 HTML + JavaScript |
+| 天气与来源、查询时间的展示 | 已实现读取快照；查询仍依赖 AI 工具 |
+| GitHub Pages 自动发布工作流 | 配置文件已提交；需确认首次部署 |
+| 创建计划辅助命令与数据校验 | 已提供 Node 工具和自动化测试 |
+| 多人实际出行协作、班车票价优化、持续天气监控 | 尚未实现 |
+
+**现阶段仍以 Stage 1 为中心**，不要把示例计划当作已确认的登山攻略。
+
+## 如何在 AI 中使用
+
+向具备仓库读取能力的 AI 提供 `skills/hike-planner/SKILL.md`：
+
+> 用 hike-planner 创建一个新登山计划，从目标确定开始；保存成独立的 activity.json，不覆盖其他计划。
+
+之后可以说：
+
+> 更新计划 2026-11-oyama 的日期，并重新核查天气；只更新这个计划的数据。
+
+完整 Skill 安装与文件写入能力取决于 AI 环境。仅凭一个 GitHub URL，不能保证所有网页版 AI 都会自动安装或执行脚本。
+
+## 安全与数据边界
+
+天气风险、日落、交通班次、票价等易变化的数据须有实际来源、查询时间及适用范围。不能用旧信息冒充实时信息。页面不会调用外部天气 API，也不会产生自动的天气警报。
+
+**GitHub Pages 是公开页面。** 演示计划不包含真实参与者资料。不要把姓名、电话、住址、私人集合地点或其他敏感内容提交至 `site/plans/`。公开分享前检查计划内容。私人计划应留在自己的工作区，只有确认公开的脱敏计划才应放入站点目录。
+
+## 开发与部署
+
+```bash
+node --test tests/site.test.mjs
+node --check site/assets/app.js
+```
+
+[GitHub Pages 部署说明](./docs/PAGES.md) · [开发路线图](./docs/ROADMAP.md) · [Skill](./skills/hike-planner/SKILL.md)
+
+## 多语言维护与许可
+
+维护 [中文版](./README.zh-CN.md) 和 [English version](./README.md) 时应同步更新功能范围、安装说明、使用方式和限制，避免文档超前于代码。
+
+许可证：[MIT](./LICENSE)。

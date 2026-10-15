@@ -1,0 +1,46 @@
+name: Deploy hiking plan previews
+on:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - "tests/site.test.mjs"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node for validation
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate multi-plan data and browser JS
+        run: |
+          node --check site/assets/app.js
+          node --check scripts/plans.mjs
+          node --test tests/site.test.mjs
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload static site only
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site/
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

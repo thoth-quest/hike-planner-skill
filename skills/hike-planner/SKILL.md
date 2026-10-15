@@ -1,50 +1,50 @@
 ---
 name: hike-planner
-description: Plan an outdoor hike step by step, starting from goals, date, destination candidates and weather. Maintain locally owned activity JSON and evidence-backed decisions; generate a compact phone-friendly plan snapshot when asked.
+description: Plan and revise multiple independently identified hiking activities. Define goals, destinations, constraints, and source-backed weather snapshots. The static GitHub Pages viewer reads JSON; only the agent updates plan data.
 ---
 
-# Hike Planner — portable Stage 1
+# Hike Planner · Portable Stage 1
 
-## Start
+Use when someone asks to plan a hike, compare hiking destinations, revisit a plan, or check whether conditions changed. **Keep each hike as a separate activity.**
 
-Trigger when a user asks to plan a hike, organize an outdoor activity, compare destination options, or update an existing plan.
+## Select or create a plan FIRST
 
-**First action:** Extract facts already said. Identify destination mode:
-- `fixed`: destination confirmed, do not replace without approval;
-- `preferred`: named place but alternatives allowed;
-- `undecided`: no destination chosen.
+1. If the user names a prior plan or supplies its ID, find that plan in their workspace. Do not overwrite another plan.
+2. If they want a new outing, create a NEW unique, lowercase slug (e.g. `2026-11-oyama`). The slug is stable even if the destination or date later changes.
+3. In the published preview repository, plan state lives in `site/plans/<slug>/activity.json`, and `site/plans/index.json` lists the published slugs. `id` inside JSON **must equal** `<slug>`. Use [schema](../../schemas/activity.schema.json). Keep unrelated plans untouched.
+4. For a new plan, edit JSON directly or optionally run `node scripts/plans.mjs add <slug> "<title>"` to initialize and register it. This Node command is for convenience only, not rendering.
+5. **Privacy:** `site/plans/` is published via GitHub Pages. Never commit personal details or private activity plans there without the user's explicit choice. Keep private/local plans outside the published directory. Do not add real identities or addresses to public examples.
 
-Do not interpret `preferred` as `fixed`. Ask at most one important follow-up at a time. Do not demand a form or collect identity details. If user says 'go to X' and supplies enough context, proceed to goal definition without asking if X exists.
+## Stage 1 conversation
 
-## Stage 1 workflow
+Record what is already known. Ask only the most consequential missing question.
 
-1. **Goals:** record one primary goal and any optional secondary goals (summit, views, exercise, photography, relaxed walk, etc.). Record priority and hard rules separately.
-2. **Constraints:** capture activity date or range, broad area, estimated group size (optional), difficulty and return deadline if known. Use `null` for unknown values.
-3. **Weather:** once a destination and target date are known, inspect forecast horizon and available source data. Query as appropriate: official alerts, rain and thunder risk, temperature, wind/gusts, sunset, and mountain versus town conditions. Summarize uncertainty and source timestamps. If live sources cannot be accessed, mark `unavailable`, never invent values.
-4. **Destination:** if fixed, check whether it plausibly meets the goal; if undecided, offer 2–4 grounded options with tradeoffs and real sources. User confirms selection.
-5. **Confirm Stage 1:** present a *small* activity goal card: where/when/why, key constraints, weather evaluation, pending decisions, last-checked and evidence links. Do not enter route and bus timetable planning unless asked or user proceeds to a later stage.
+- Destination mode: `fixed` (user decided), `preferred` (possible alternatives), or `undecided`.
+- Primary objective, optional secondary objectives, area, date/range, ability, rough group size and hard constraints (all optional until confirmed).
+- For a fixed destination, assess compatibility with goals. For undecided destination, propose 2–4 sourced candidates with tradeoffs.
+- Once place and date are known, use a browsing-capable agent to check official alerts and appropriate location-specific weather: precipitation, wind/gusts, lightning, temperature/elevation, visibility and sunset, when available. Read [weather policy](references/weather.md). An absent or distant forecast is `pending` or `unavailable`, never imagined.
+- Present a short goal summary and remaining decisions. Do not jump to full train schedules or turn Stage 1 into a long route guide.
 
-## Weather refresh
+## One-plan-at-a-time data updates
 
-Weather is time-sensitive. See [weather policy](references/weather.md). A date several weeks away is not a reliable hour-by-hour forecast. Suggested rechecks: ~7 days, ~3 days, one day before, and morning of departure **when the user returns or a host schedule actually runs**. Never imply background monitoring is active.
+- Pick a precise plan ID before **every write**.
+- Read existing JSON and its `revision`. Apply only confirmed changes to this one plan; preserve other fields, other plans, and prior evidence.
+- Increment `revision` for confirmed updates and append to `changes`: `revision`, `at`, `field`, `before`, `after`, `reason`.
+- If the date or destination changes, mark prior relevant weather data `stale` until fresh evidence is retrieved. Keep previous weather snapshots.
+- Weather checking is an **agent action**. If an actual forecast was checked, add a snapshot with `checked_at`, `valid_for`, `sources`, `values`, `assessment`. Record exact source URLs and do not claim an outdated forecast is current. The user confirms schedule/destination decisions.
+- Check that `id` matches the folder name and the slug appears **once** in `site/plans/index.json`. Do not use the registry as a storage location for full plan data.
 
-Forecast changes should mark dependent decisions `needs_review`; **only confirmed decisions modify the plan**. Severe warnings should lead to clear advice to postpone, cancel or choose safer activity, not just shorter exposure.
+## Static preview (NO rendering/build step)
 
-## Evidence & revisions
+- `site/index.html` loads the registry and each plan JSON in the browser to show a directory.
+- `site/plan.html?id=<slug>` loads **only** `site/plans/<slug>/activity.json` for a stable per-plan URL.
+- The page is display-only and does **not** fetch live weather, modify JSON, or request any permissions.
+- The GitHub Pages workflow copies/publishes `site/` unchanged after repo updates. No Python or HTML generation is needed.
+- If the agent has no repository write access, produce a JSON patch or plan file for the user; don't claim the GitHub preview updated.
+- A GitHub Pages URL reflects the last deployed repository commit. Changes may take time to appear. Public previews require user-controlled publication.
 
-Each evidence item should contain: `id`, `claim`, `url`, `publisher`, `checked_at`, `valid_for` (optional), and `status`. Favor relevant primary sources and link the exact supporting page. No invented timetable, fare, site opening status, or forecast.
+## Source quality and boundaries
 
-Keep a source-of-truth `activity.json` using [schema](../../schemas/activity.schema.json). Increment `revision` for each confirmed update; append to `changes` with field, before, after, reason, timestamp; preserve weather snapshots rather than overwriting historical checks. Use `pending` or `needs_review` where appropriate.
+Evidence items: `id`, `claim`, `url`, `publisher`, `checked_at`, `valid_for` (when applicable), `status`. Prefer the actual official source. Never invent transit times, fares, alerts, trail conditions or weather. Forecast checks should be revisited near departure **only when the user returns or a scheduled agent explicitly runs**. A risk warning should result in appropriate advice, not a silent change to a confirmed date.
 
-## Deliverables
-
-- On request, output/update `activity.json`.
-- When the host can execute Python and access files, run `python3 scripts/render.py activity.json --output index.html` (from repo root) for an offline, shareable phone page.
-- If the host cannot create files, provide compact structured content and explain the limitation. Do not claim live hosting or persistence that does not exist.
-- Every shareable page distinguishes confirmed decisions from proposals and displays evidence links and checked time.
-
-## Boundaries
-
-No accounts, personal address requirement, remote DB or automatic synchronization. Users maintain separate local files. A downloaded static page is a point-in-time snapshot; for a fixed updated URL, choose static hosting and republish it. Companion references: [Stage 1 dialogue](references/workflow.md), [weather & evidence](references/weather.md).
-
-Safety: weather sources and route descriptions are not guarantees. Use official warnings, terrain and group's ability; avoid dark or unsafe travel and say when data are insufficient.
+Stage 2 = people coordination, Stage 3 = trails and trains/farepasses, Stage 4 = pre-trip verification, Stage 5 = adaptive trip, Stage 6 = retrospective. Do not claim later stages exist yet.

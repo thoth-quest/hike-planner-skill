@@ -1,31 +1,32 @@
 {
-  "id": "sample-oyama-stage1",
+  "id": "oyama-demo",
   "schema_version": 1,
   "revision": 1,
   "stage": "goal_definition",
   "status": "draft",
-  "title": "大山登山（示例）",
+  "title": "丹沢・大山：徒步登顶（演示）",
+  "example_only": true,
   "destination": {
     "state": "preferred",
     "name": "丹沢・大山",
     "source": null
   },
   "goals": {
-    "primary": "登顶并锻炼体力",
+    "primary": "徒步登顶并锻炼体力",
     "secondary": [
-      "尽可能徒步",
-      "欣赏风景"
+      "欣赏风景",
+      "根据天气判断是否适合登顶"
     ]
   },
   "constraints": {
     "date": null,
-    "date_range": null,
-    "departure_area": "横滨方向",
-    "difficulty": "中等（待核实）",
+    "date_range": "计划周末，日期待确认",
+    "departure_area": "神奈川县内",
+    "difficulty": "中等（尚未核实路线）",
     "estimated_participants": null,
     "latest_return": null,
     "hard_rules": [
-      "不要在黑暗中继续山路徒步"
+      "天黑前结束山路徒步"
     ]
   },
   "weather": {
@@ -33,8 +34,8 @@
     "snapshots": [],
     "assessment": {
       "level": "unknown",
-      "reason": "尚未确定活动日期，尚未查询天气",
-      "recommendation": "确定日期后检查官方天气与警报"
+      "reason": "尚未确定日期、尚未查询天气",
+      "recommendation": "确认日期后由 Skill 核实天气和官方警报"
     }
   },
   "candidates": [],

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Hike Planner：逐步规划并预览独立的登山活动计划。">
+<title>Hike Planner · 活动计划</title>
+<link rel="stylesheet" href="./assets/site.css">
+<script src="./assets/app.js" defer></script>
+</head>
+<body data-page="home">
+<div class="site-shell">
+<header class="topbar"><a class="brand" href="./">▲ Hike Planner</a><span class="top-pill">Static preview · 静态预览</span></header>
+<main>
+  <section class="hero">
+    <p class="eyebrow">THOTH QUEST / HIKE PLANNER</p>
+    <h1>每次出发，<br>都有自己的计划。</h1>
+    <p>多份活动分别保存。由 AI Skill 创建、核查并更新数据；网页只负责读取并展示，不会自行生成天气预报或修改行程。</p>
+    <div class="hero-notes"><span>无需登录</span><span>独立计划 ID</span><span>有依据的天气快照</span></div>
+  </section>
+  <section class="section">
+    <div class="section-head"><div><p class="eyebrow">PLANS</p><h2>计划目录</h2></div><span id="plan-count" class="count">加载中</span></div>
+    <label class="search-label" for="filter">查找计划</label>
+    <input id="filter" type="search" placeholder="输入名称、地点或计划 ID" aria-label="查找计划">
+    <div id="status" class="status-line" role="status">正在读取计划目录…</div>
+    <div id="plan-list" class="plan-grid"></div>
+  </section>
+  <section class="intro-note"><strong>这些页面不是实时天气服务。</strong> 天气内容来自 Skill 上次写入的计划数据。新的天气检查必须由 Skill 再次完成并保存到对应 JSON，GitHub Pages 更新部署后才会显示新结果。</section>
+</main>
+<footer>Hike Planner · <a href="https://github.com/thoth-quest/hike-planner-skill" target="_blank" rel="noopener noreferrer">GitHub 项目</a> · 公开预览，请勿提交个人敏感信息</footer>
+</div>
+</body>
+</html>

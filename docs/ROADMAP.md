@@ -1,22 +1,22 @@
 # Roadmap
 
-## v0.1 — Stage 1 (this initial version)
+## v0.2 — Multi-plan static preview (code completed; deployment to verify)
 
-- [x] Portable markdown Agent Skill and workflow reference
-- [x] Separate goals, constraints, weather status, evidence, changes
-- [x] Weather source and uncertainty policy; no synthetic forecasts
-- [x] Minimal self-contained HTML renderer
-- [x] Example JSON and standard-library smoke tests
-- [ ] Verify in real ChatGPT/WorkBuddy/Codex hosts individually (host capabilities differ)
-- [ ] Test with multiple real-world goal prompts and iterate on question count
+- [x] One `activity.json` per plan under `site/plans/<slug>/`
+- [x] Registry `site/plans/index.json` and multiple independent demo plans
+- [x] Browser-only read-only catalogue and individual plan viewer
+- [x] No Python renderer or HTML regeneration; weather updated only by the Skill
+- [x] Pages workflow publishing `site/` directly, with JSON tests
+- [x] Optional Node helper for creating and registering a plan
+- [ ] Verify first successful GitHub Pages deployment and published URL
+- [ ] Verify planned edits/weather refresh across two plans in a real AI host
 
-## v0.2 — stage 1 usability
+## Stage 1: more iteration
 
-- [ ] Candidate destination comparison and priority edits, with acceptance scenarios
-- [ ] Optional simple activity JSON editor (local only)
-- [ ] Better weather snapshot differentiation and freshness indicators
-- [ ] Host-specific installation instructions based on validated behavior
+- [ ] Real data source reviews, quote/time validity tests, and destination comparison practice
+- [ ] Improve revision history UI and weather snapshot change comparison
+- [ ] Host-specific installation tests on ChatGPT, WorkBuddy and Codex
 
-## Future (deliberately postponed)
+## Later stages
 
-Stage 2: multi-person logistics; Stage 3: trail/routes, public transport, pass comparison; Stage 4: pre-trip validation; Stage 5: on-trail adjustments; Stage 6: debrief. Publishing a continuously updated shared webpage requires a separate opt-in hosting pathway.
+Stage 2 group logistics, Stage 3 route/public transport and passes, Stage 4 pre-trip verification, Stage 5 during-hike adaptations, Stage 6 retrospective. Private user plans should remain separate from public preview data.

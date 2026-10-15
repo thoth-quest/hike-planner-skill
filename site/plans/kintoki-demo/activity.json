@@ -1,0 +1,44 @@
+{
+  "id": "kintoki-demo",
+  "schema_version": 1,
+  "revision": 1,
+  "stage": "goal_definition",
+  "status": "draft",
+  "title": "箱根・金时山：观景徒步（演示）",
+  "example_only": true,
+  "destination": {
+    "state": "preferred",
+    "name": "金時山",
+    "source": null
+  },
+  "goals": {
+    "primary": "寻找可以观景的一日徒步地点",
+    "secondary": [
+      "控制难度",
+      "保留备用方案"
+    ]
+  },
+  "constraints": {
+    "date": null,
+    "date_range": "日期未定",
+    "departure_area": "关东地区",
+    "difficulty": null,
+    "estimated_participants": null,
+    "latest_return": null,
+    "hard_rules": [
+      "优先选择有明确撤退路线的方案"
+    ]
+  },
+  "weather": {
+    "status": "pending",
+    "snapshots": [],
+    "assessment": {
+      "level": "unknown",
+      "reason": "未查询天气，无法判断观景条件",
+      "recommendation": "明确日期后查询天气、能见度与警报"
+    }
+  },
+  "candidates": [],
+  "evidence": [],
+  "changes": []
+}
