@@ -9,6 +9,9 @@ This is a **portable, multi-plan Agent Skill with an optional public, read-only 
 - `site/index.html` lists published plans; `site/plan.html?id=<slug>` reads exactly one plan. No HTML generation, no Python rendering, no weather APIs on the page.
 - Plan creation, revision, evidence checks and weather updates happen in the agent/Skill. Browser code is read-only.
 - Browser code must use textContent/DOM APIs, avoid injecting untrusted plan HTML. Only allow safe http(s) evidence links.
+- The detail view uses accessible tabs and a read-only relative time axis: inbound transit → hike → outbound transit. ±30 minute shifting must be local presentation state, not a JSON write.
+- Time offsets without date/route validation are explicitly illustrative; never suggest they are verified services or safe return times.
+- Link evidence inline on the relevant transport, waypoint, weather observation or warning; no standalone reference wall.
 - Published plans are **public information**. Never upload names, phone numbers, exact personal origins or sensitive notes without consent. Private plans remain local/elsewhere.
 - GitHub Pages deploys exactly the `site/` folder, not the whole repository.
 - No OAuth, accounts, database or hosting backend.

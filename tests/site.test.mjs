@@ -66,3 +66,42 @@ test("Oyama reference plan includes grounded route and safety information",()=>{
   }
   for(const a of p.safety.alerts) assert.ok(ids.has(a.source_id),"alerts must link to evidence");
 });
+
+test("detail view has tab navigation with the route as default",()=>{
+  const page=readFileSync(path.join(site,"plan.html"),"utf8");
+  assert.match(page,/role="tablist"/);
+  for(const name of ["route","overview","weather","history"]){
+    assert.match(page,new RegExp('id="tab-'+name+'"'));
+    assert.match(page,new RegExp('id="panel-'+name+'"'));
+  }
+  assert.match(page,/id="tab-route"[^>]+aria-selected="true"/);
+  assert.doesNotMatch(page,/id="panel-route"[^>]*hidden/);
+  assert.match(page,/assets\/detail\.js/);
+  assert.ok(existsSync(path.join(site,"assets","detail.js")));
+  const js=readFileSync(path.join(site,"assets","detail.js"),"utf8");
+  assert.match(js,/offset_minutes/);
+  assert.match(js,/shift \+= 30/);
+  assert.match(js,/shift -= 30/);
+  assert.match(js,/aria-controls/);
+  assert.match(js,/linkedTitle/);
+  assert.doesNotMatch(page,/核实来源/);
+  assert.doesNotMatch(js,/fetch\(.*jma|openweathermap|weatherapi/i);
+});
+
+test("Oyama timeline covers inbound transit, hike and outbound transit, with evidence",()=>{
+  const p=load(path.join(dir,"oyama-day-hike","activity.json"));
+  assert.equal(p.preview_timing.status,"illustrative");
+  assert.match(p.preview_timing.anchor_time,/^\d\d:\d\d$/);
+  const stops=p.route.sections.flatMap(x=>x.stops);
+  assert.ok(stops.length>=10);
+  assert.equal(stops[0].offset_minutes,0);
+  assert.ok(stops.every(x=>Number.isInteger(x.offset_minutes)));
+  assert.ok(stops.every((x,i)=>i===0||x.offset_minutes>=stops[i-1].offset_minutes));
+  assert.ok(p.transport.inbound.some(x=>x.offset_minutes<0));
+  assert.ok(p.transport.outbound.some(x=>x.offset_minutes>stops.at(-1).offset_minutes));
+  const ids=new Set(p.evidence.map(x=>x.id));
+  for(const stop of stops)assert.ok(ids.has(stop.source_id),"missing inline source reference for "+stop.name);
+  for(const leg of [...p.transport.inbound,...p.transport.outbound])
+    if(leg.source_id) assert.ok(ids.has(leg.source_id));
+  assert.equal(p.weather.status,"pending","moving a preview timeline cannot claim actual weather");
+});

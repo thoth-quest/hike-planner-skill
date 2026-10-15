@@ -47,6 +47,12 @@ Record what is already known. Ask only the most consequential missing question.
 
 A plan may contain `route`, `transport`, `safety`, and `pending_decisions` in addition to Stage 1 fields. These are **proposed, evidence-linked planning aids** and are not automatically approved or checked for a specific trip date. Cite official sources in `evidence` and reference their IDs from relevant route/transport/safety items. The browser should display these stored sections, never generate live route/weather facts. When a planned trip date is confirmed, revise **only the target plan**, refresh date-sensitive route/transport/weather information with timestamped evidence, then update the JSON and commit.
 
+## Detail preview and time shifting
+
+The GitHub Pages detail viewer uses four tabs: route (default), overview, weather/safety, history. Route is a relative time-axis with before-hike transport, trail stages, and after-hike transport. Plan data may include `preview_timing` (`anchor_time`, `anchor_label`, `status: illustrative`, `notice`), optional integer `offset_minutes` and `key_point` on trail stops, plus relative times for transit legs. Every timing is **an estimate** until checked and confirmed for a specific date. Changing the anchor time or clicking ±30 minutes in the page is temporary UI state and MUST NOT modify plan data or change weather. If asked to save a revised schedule, validate the user's intended arrival/departure times against actual public transport, terrain, sunset and participant abilities, then update only that plan's JSON with revision history.
+
+Place links at the item they support, using `source_id` (or `source_ids`) referencing `evidence` on route points, transport legs, risks and weather. Do not show a separate dump of references.
+
 ## Source quality and boundaries
 
 Evidence items: `id`, `claim`, `url`, `publisher`, `checked_at`, `valid_for` (when applicable), `status`. Prefer the actual official source. Never invent transit times, fares, alerts, trail conditions or weather. Forecast checks should be revisited near departure **only when the user returns or a scheduled agent explicitly runs**. A risk warning should result in appropriate advice, not a silent change to a confirmed date.

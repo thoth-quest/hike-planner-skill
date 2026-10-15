@@ -56,6 +56,14 @@ node scripts/plans.mjs list
 
 A plan keeps a stable URL: `https://thoth-quest.github.io/hike-planner-skill/plan.html?id=<slug>`.
 
+## Detail page (tabs + relative timeline)
+
+The public plan viewer opens on **Route** by default, alongside **Overview**, **Weather & safety**, and **History** tabs. The Route tab places **transport before the hike**, then the **hiking itinerary**, then **transport after the hike** on one chronological timeline. Switch between key waypoints and all waypoints.
+
+The arrival-time field and **−30 / +30 minute** controls shift the displayed times together, without touching JSON or recording revisions. For the Oyama draft the starting time and stop offsets are explicitly **illustrative estimates**, not a confirmed trip date, bus timetable, pace prediction, or sunset-safe plan. Ask the Skill to research the intended date and write approved times later.
+
+Supporting sources are linked directly on the relevant route location, transport step, or risk notice. There is no separate wall of source links.
+
 ## Weather updates belong to the Skill
 
 1. User asks to recheck weather for a particular plan.

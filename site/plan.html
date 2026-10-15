@@ -2,26 +2,35 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="登山活动目标、约束条件、天气证据及变更记录。">
-<title>活动详情 · Hike Planner</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="登山计划时间轴、路线、天气和行前准备">
+<title>登山计划 · Hike Planner</title>
 <link rel="stylesheet" href="./assets/site.css">
-<script src="./assets/app.js" defer></script>
+<script src="./assets/detail.js" defer></script>
 </head>
 <body data-page="detail">
 <div class="site-shell">
 <header class="topbar"><a class="brand" href="./">▲ Hike Planner</a><a class="back-link" href="./">← 所有计划</a></header>
-<main id="detail-root">
-  <section class="hero detail-hero">
-    <p class="eyebrow">HIKING PLAN · STAGE 1</p>
+<main>
+  <section class="hero detail-hero compact-hero">
+    <p class="eyebrow">HIKING PLAN</p>
     <h1 id="detail-title">正在读取活动…</h1>
     <div id="detail-chips" class="hero-notes"></div>
-    <p id="detail-summary">请稍候。</p>
+    <p id="detail-summary"></p>
   </section>
-  <div id="detail-status" class="status-line" role="status"></div>
-  <div id="detail-content"></div>
+  <p id="detail-status" class="status-line" role="status">正在加载计划…</p>
+  <nav id="detail-tabs" class="detail-tabs" role="tablist" aria-label="计划详情">
+    <button type="button" class="detail-tab" id="tab-route" role="tab" aria-controls="panel-route" aria-selected="true" tabindex="0">路线</button>
+    <button type="button" class="detail-tab" id="tab-overview" role="tab" aria-controls="panel-overview" aria-selected="false" tabindex="-1">概览</button>
+    <button type="button" class="detail-tab" id="tab-weather" role="tab" aria-controls="panel-weather" aria-selected="false" tabindex="-1">天气与安全</button>
+    <button type="button" class="detail-tab" id="tab-history" role="tab" aria-controls="panel-history" aria-selected="false" tabindex="-1">变更</button>
+  </nav>
+  <section id="panel-route" role="tabpanel" aria-labelledby="tab-route" class="tab-panel"></section>
+  <section id="panel-overview" role="tabpanel" aria-labelledby="tab-overview" class="tab-panel" hidden></section>
+  <section id="panel-weather" role="tabpanel" aria-labelledby="tab-weather" class="tab-panel" hidden></section>
+  <section id="panel-history" role="tabpanel" aria-labelledby="tab-history" class="tab-panel" hidden></section>
 </main>
-<footer>天气与路线信息会随时间变化。页面不自动检查外部天气源，出发前务必重新核对官方警报与路线信息。</footer>
+<footer>页面仅预览计划 JSON。时间偏移仅改变本次显示，不修改计划；天气和交通请在出发前由 Skill 重新核实。</footer>
 </div>
 </body>
 </html>
