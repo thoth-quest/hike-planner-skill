@@ -34,7 +34,7 @@ class RenderTests(unittest.TestCase):
         self.sample["title"] = '</script><script>alert("unsafe")</script>'
         html = self._generate(self.sample)
         self.assertNotIn('</script><script>alert("unsafe")', html)
-        self.assertIn(r'\\u003c/script\\u003e', html)
+        self.assertIn(r'\u003c/script\u003e', html)
 
     def test_missing_core_data_rejected(self):
         self.sample.pop("weather")
