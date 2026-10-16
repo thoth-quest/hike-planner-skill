@@ -72,7 +72,7 @@ try {
   await summit.getByRole('button',{name:'+15 分',exact:true}).click();
   assert.equal(await summit.locator('.timeline-time').innerText(),'11:50');
   assert.equal(await finish.locator('.timeline-time').innerText(),'15:55');
-  const midRoute=page.locator('.timeline-item').filter({has:page.getByRole('heading',{name:/见晴台 ↗/})});
+  const midRoute=page.locator('.timeline-item').filter({has:page.getByRole('heading',{name:'见晴台 ↗',exact:true})});
   await midRoute.locator('input[type="time"]').fill('14:00');
   assert.equal(await midRoute.locator('.timeline-time').innerText(),'14:00','later node time uses its current arrival after upstream delay');
   assert.equal(await finish.locator('.timeline-time').innerText(),'16:25','later node adjustment propagates only downstream');
