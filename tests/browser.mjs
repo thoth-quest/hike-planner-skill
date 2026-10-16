@@ -85,8 +85,8 @@ try {
   await page.waitForFunction(([id,old])=>{const row=document.querySelector(`[data-node-id="${id}"] .timeline-clock-trigger`);return row&&row.textContent!==old},["trail-2-1",originalMidRoute]);
   assert.notEqual(await midRoute.locator('.timeline-clock-trigger').innerText(),originalMidRoute,'a later node can be adjusted independently');
   assert.equal(await page.locator('.timeline-item').count(),17);
-  await page.getByRole('button',{name:'清除全部调整'}).click();
-  assert.equal(await finish.locator('.timeline-clock-trigger').innerText(),'15:40');
+  await midRoute.locator('.node-reset').click();
+  assert.equal(await finish.locator('.timeline-clock-trigger').innerText(),originalFinish,'the later node reset restores its original downstream time');
   await page.reload();await page.locator('#detail-status').filter({hasText:'已读取当前计划'}).waitFor();
   assert.equal(await page.locator('.node-delay').count(),0);
   await page.goto(base+'plan.html?id=2026-10-17-kintoki-yokohama');
