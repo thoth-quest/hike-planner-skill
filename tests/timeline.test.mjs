@@ -37,6 +37,25 @@ test("fixed public transit stays unchanged when a hike node runs late",()=>{
   assert.equal(late.hasMissedConnection,true);
   assert.deepEqual(p,original,"scenario must never modify plan JSON");
 });
+test("public transit node can be temporarily advanced or delayed without rewriting its sourced timetable",()=>{
+ const p=fixture();
+ const original=structuredClone(p);
+ const early=makeTimeline(p,{},{},{},{train:-10});
+ assert.equal(early.before[0].departure,410);
+ assert.equal(early.before[0].scheduled_arrival,430);
+ assert.equal(early.before[0].base_departure,420);
+ assert.equal(early.before[0].status,"adjusted");
+ assert.equal(early.before[1].status,"fixed");
+ const late=makeTimeline(p,{},{},{},{train:15});
+ assert.equal(late.before[0].departure,435);
+ assert.equal(late.before[0].scheduled_arrival,455);
+ assert.equal(late.before[1].status,"connection_missed");
+ const earlyReturn=makeTimeline(p,{},{},{},{"bus-out":-5});
+ assert.equal(earlyReturn.after[0].status,"adjusted");
+ assert.equal(earlyReturn.after[0].departure,580);
+ assert.equal(earlyReturn.finish,610,"an adjusted outbound service still completes the trip at its simulated arrival");
+ assert.deepEqual(p,original,"temporary transit offset must not change published data");
+});
 test("node delay affects only following flexible waypoints",()=>{
  const a=makeTimeline(fixture(),{summit:15});
  assert.equal(a.trail[0].arrival,480);
@@ -148,9 +167,14 @@ test('actual nearby services expose the closest two before and after a requested
  leg.timetable_options=['07:00','07:15','07:45','08:00'].map((departure,i)=>({
   ...known('2026-10-24',departure,`${String(Number(departure.slice(0,2))+1).padStart(2,'0')}:${departure.slice(3)}`),service_id:`S${i}`
  }));
+ leg.timetable_coverage={service_date:'2026-10-24',scope:'full_day',service_count:4,source_id:'proof',checked_at:'2026-10-24T06:00:00+09:00'};
  const entry=makeTimeline(p).before[0];
  assert.deepEqual(entry.previous_services.map(x=>x.departure),[420,435]);
  assert.deepEqual(entry.next_services.map(x=>x.departure),[465,480]);
+ assert.equal(entry.available_services.length,4,"the viewer keeps the entire queried day list as well as nearby choices");
+ assert.equal(entry.full_day_services,true,"coverage is marked complete only when the stored service count matches");
+ leg.timetable_coverage.service_count=5;
+ assert.equal(makeTimeline(p).before[0].full_day_services,false,"an incomplete service count must not be labeled full-day complete");
 });
 
 test('choosing a sourced service is temporary and can reveal a missed connection',()=>{

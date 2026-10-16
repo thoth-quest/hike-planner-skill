@@ -1,5 +1,5 @@
 // Pure, dependency-free, testable day-trip time simulation.
-// Fixed public transport departures and arrivals come ONLY from sourced timetable records.
+// Public transport timetable records stay as source evidence; scenario offsets are temporary.
 // Node adjustments are scenario-only. No live queries and no plan JSON mutations.
 export function parseClock(value) {
   if (typeof value !== "string" || !/^([01]\d|2[0-3]):[0-5]\d$/.test(value)) return null;
@@ -20,7 +20,7 @@ const validTimetable = (leg, day, evidence) => {
   if(!proof || departure===null || arrival===null || arrival<departure) return null;
   return {departure,arrival,source_id:s.source_id,service_id:s.service_id||null};
 };
-export function makeTimeline(plan, edits={}, selections={}, arrivalEdits={}) {
+export function makeTimeline(plan, edits={}, selections={}, arrivalEdits={}, transitOffsets={}) {
   const steps=[];
   const date=plan.constraints?.date||null;
   const before=(plan.transport?.inbound||[]).filter(leg=>leg.preview_phase!=="hike");
@@ -44,8 +44,11 @@ export function makeTimeline(plan, edits={}, selections={}, arrivalEdits={}) {
     const selectedId=selections[id];
     const selectedOption=verifiedOptions.find(x=>x.service_id===selectedId);
     const s=selectedOption||validTimetable(leg,date,plan.evidence);
+    const transitOffset=integer(transitOffsets[id])??0;
     const reference=cursor??parseClock(leg.reference_time);
-    const serviceOptions=reference===null?verifiedOptions:verifiedOptions.slice().sort((a,b)=>a.departure-b.departure);
+    const serviceOptions=[...(s?[s]:[]),...verifiedOptions]
+      .filter((service,index,list)=>list.findIndex(other=>other.service_id===service.service_id&&other.departure===service.departure)===index)
+      .sort((a,b)=>a.departure-b.departure);
     const previousServices=reference===null?[]:serviceOptions.filter(x=>x.departure<=reference).slice(-2);
     const nextServices=reference===null?serviceOptions.slice(0,2):serviceOptions.filter(x=>x.departure>reference).slice(0,2);
     let status="pending",display=null,dep=null,arr=null;
@@ -57,14 +60,16 @@ export function makeTimeline(plan, edits={}, selections={}, arrivalEdits={}) {
         if(phase==="before") hasInboundArrival=true;
       } else { status=blocked?"connection_missed":"pending"; cursor=null; uncertain=true; }
     } else if(s) {
-      dep=s.departure;arr=s.arrival;
-      // Published timetable remains immutable, even if a previous hike runs late.
-      if(blocked || (cursor!==null && cursor>s.departure)){
+      const actualDeparture=s.departure+transitOffset;
+      const actualArrival=s.arrival+transitOffset;
+      dep=actualDeparture;arr=actualArrival;
+      // Keep the sourced service intact; simulate a temporary early/late run at this node.
+      if(blocked || (cursor!==null && cursor>actualDeparture)){
         status="connection_missed";cursor=null;blocked=true;problem=true;
       } else if(uncertain) {
         status="connection_unknown"; cursor=null;
       } else {
-        status="fixed";display=s.arrival;cursor=s.arrival+delay;
+        status=transitOffset===0?"fixed":"adjusted";display=actualArrival;cursor=actualArrival+delay;
         if(phase==="before") hasInboundArrival=true;
       }
     } else {
@@ -74,10 +79,13 @@ export function makeTimeline(plan, edits={}, selections={}, arrivalEdits={}) {
     }
     entries.push({id,kind:"transit",phase,mode,label:leg.name||"交通节点",
       note:leg.note||"",source_id:s?.source_id||leg.source_id||null,
-      departure:dep,scheduled_arrival:arr,base_arrival:display,
+      departure:dep,base_departure:s?.departure??null,
+      scheduled_arrival:arr,base_scheduled_arrival:s?.arrival??null,base_arrival:display,
       previous_services:previousServices,next_services:nextServices,
+      available_services:serviceOptions,
+      full_day_services:leg.timetable_coverage?.scope==="full_day"&&leg.timetable_coverage.service_date===date&&leg.timetable_coverage.service_count===serviceOptions.length&&(plan.evidence||[]).some(e=>e.id===leg.timetable_coverage.source_id&&e.status==="verified"&&/^https:\/\//.test(e.url||"")),
       arrival:display,ready_after:display===null?null:display+delay,
-      status,delay,service_id:s?.service_id||null});
+      status,delay,transit_offset:transitOffset,service_id:s?.service_id||null});
     return status;
   }
   before.forEach((x,i)=>transit(x,"before",i));
@@ -118,7 +126,7 @@ export function makeTimeline(plan, edits={}, selections={}, arrivalEdits={}) {
   after.forEach((x,i)=>transit(x,"after",i));
   const trailEnd=steps.at(-1)?.ready_after??null;
   const lastOutbound=entries.filter(x=>x.phase==="after").at(-1);
-  const finish=lastOutbound?.status==="fixed"||lastOutbound?.status==="estimated"
+  const finish=lastOutbound?.status==="fixed"||lastOutbound?.status==="adjusted"||lastOutbound?.status==="estimated"
     ?lastOutbound.ready_after:lastOutbound?null:trailEnd;
   const overnight=[...before,...after].some(leg=>{
     const t=leg.timetable, dep=parseClock(t?.departure_time), arr=parseClock(t?.arrival_time);
@@ -131,6 +139,7 @@ export function makeTimeline(plan, edits={}, selections={}, arrivalEdits={}) {
     hasUnknownConnection:entries.some(x=>x.status==="connection_unknown"),
     changes:[
       ...Object.entries(edits).filter(([id,n])=>integer(n)!==null&&n!==0).map(([id,minutes])=>({id,minutes,kind:"delay"})),
-      ...Object.entries(arrivalEdits).filter(([id,n])=>integer(n)!==null&&n!==0).map(([id,minutes])=>({id,minutes,kind:"arrival"}))
+      ...Object.entries(arrivalEdits).filter(([id,n])=>integer(n)!==null&&n!==0).map(([id,minutes])=>({id,minutes,kind:"arrival"})),
+      ...Object.entries(transitOffsets).filter(([id,n])=>integer(n)!==null&&n!==0).map(([id,minutes])=>({id,minutes,kind:"transit"}))
     ]};
 }

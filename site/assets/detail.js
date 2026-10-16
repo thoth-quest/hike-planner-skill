@@ -95,6 +95,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
     }
     const adjustments={};
     const arrivalAdjustments={};
+    const transitOffsets={};
     const serviceSelections={};
     let expanded=p.route?.expanded_by_default===true;
     let opened=null;
@@ -103,8 +104,8 @@ import { makeTimeline, clockText } from "./timeline.mjs";
     const label=pane.querySelector(".panel-head");
     add(label,el("span","节点级模拟","pill caution"));
     const help=add(pane,el("div",null,"notice"));
-    add(help,el("strong","班次固定 · 延误逐点计算"));
-    paragraph(help,"巴士、电车按 Skill 查到的固定发车时间显示，不随登山延误改变；步行、自驾可在具体节点增减耗时。若错过班次，显示换乘风险，不自动编造下一班。");
+    add(help,el("strong","全日班次 · 节点时间可模拟偏移"));
+    paragraph(help,"Skill 查询并保存出行日该线路的全部实际班次。可选择任一班次，再在时间节点滚动设置临时提前或延误；原始时刻表保留，变化只影响本节点及后续接驳。步行、自驾也可逐点调整，页面不会编造班次。");
     const bar=add(pane,el("div",null,"simulation-bar"));
     const summary=add(bar,el("div","尚无节点调整","sub-text"));
     const reset=add(bar,el("button","清除全部调整","quiet-button"));
@@ -119,14 +120,14 @@ import { makeTimeline, clockText } from "./timeline.mjs";
     if(p.preview_timing?.notice) paragraph(help,p.preview_timing.notice);
     function paint(){
       const version=++paintVersion;
-      const schedule=makeTimeline(p,adjustments,serviceSelections,arrivalAdjustments);
+      const schedule=makeTimeline(p,adjustments,serviceSelections,arrivalAdjustments,transitOffsets);
       const count=schedule.changes.length;
       const selectedCount=Object.keys(serviceSelections).length;
-      summary.textContent=selectedCount?selectedCount+" 个班次选择"+(count?" · "+count+" 处时间调整":" · 仅供本次预览"):count?count+" 处时间调整 · 仅供本次预览":"无延误模拟 · 按计划原始估算";
+      summary.textContent=selectedCount?selectedCount+" 个班次选择"+(count?" · "+count+" 处时间调整":" · 仅供本次预览"):count?count+" 处时间调整 · 仅供本次预览":"无时间模拟 · 按原计划估算";
       reset.disabled=!count&&!selectedCount;
       warning.hidden=!schedule.overDay&&!schedule.hasMissedConnection&&!schedule.hasUnknownConnection;
       if(!warning.hidden){
-        warning.textContent=(schedule.hasMissedConnection?"已错过固定班次，请由 Skill 重新查询可乘车次。 ":"")+
+        warning.textContent=(schedule.hasMissedConnection?"当前接驳已错过；请从当天已查询班次中选择其他车次，若全日列表不完整则由 Skill 补查。 ":"")+
           (schedule.hasUnknownConnection?"前序到达时间未定，接驳尚不能确认。 ":"")+
           (schedule.overDay?"模拟时间超出当天，当前仅支持日归行程。":"");
       }
@@ -151,39 +152,41 @@ import { makeTimeline, clockText } from "./timeline.mjs";
           const li=add(line,el("li",null,"timeline-item"+(item.key_point?" highlight":"")));
           li.dataset.nodeId=item.id;
           const repaint=(action)=>{paint();const row=[...timeline.querySelectorAll(".timeline-item")].find(x=>x.dataset.nodeId===item.id);row?.querySelector(action)?.focus({preventScroll:true});};
-          const stamped=item.kind==="transit" && (item.status==="fixed"||item.status==="connection_unknown")
+          const stamped=item.kind==="transit" && (item.status==="fixed"||item.status==="adjusted"||item.status==="connection_unknown")
             ?clockText(item.departure)+" → "+clockText(item.scheduled_arrival)
             :item.kind==="transit" && item.status==="connection_missed"
               ?(item.departure===null?"接驳中断":clockText(item.departure)+" · 已错过")
               :item.kind==="transit" && item.status==="pending"
                 ?(item.mode==="scheduled_transit"?"班次未核实":"时间待定") :item.arrival===null?"—":clockText(item.arrival);
-          const adjustable=item.arrival!==null&&(item.kind==="trail"||item.kind==="transit"&&(item.mode==="driving"||item.mode==="walking"||item.mode==="flexible"));
+          const adjustable=item.kind==="transit"&&item.base_departure!==null&&item.status!=="pending"||item.arrival!==null&&(item.kind==="trail"||item.kind==="transit"&&(item.mode==="driving"||item.mode==="walking"||item.mode==="flexible"));
           if(adjustable){
             const clockRow=add(li,el("div",null,"timeline-clock-row"));
-            const clock=clockText(item.arrival);
+            const isTransit=item.kind==="transit"&&item.mode==="scheduled_transit";
+            const clock=isTransit?clockText(item.departure)+" → "+clockText(item.scheduled_arrival):clockText(item.arrival);
             const clockButton=add(clockRow,el("button",clock,"timeline-clock-trigger"));
-            clockButton.type="button";clockButton.setAttribute("aria-label","调整"+item.label+"到达时间，当前"+clock);
+            clockButton.type="button";clockButton.setAttribute("aria-label",(isTransit?"调整"+item.label+"发车时间":"调整"+item.label+"到达时间")+"，当前"+clock);
             clockButton.setAttribute("aria-expanded",opened===item.id?"true":"false");
             clockButton.addEventListener("click",()=>{opened=opened===item.id?null:item.id;repaint(".timeline-clock-trigger")});
             const clearNode=add(clockRow,el("button","重置","node-reset"));clearNode.type="button";
-            clearNode.disabled=!adjustments[item.id]&&!arrivalAdjustments[item.id];
+            clearNode.disabled=!adjustments[item.id]&&!arrivalAdjustments[item.id]&&!transitOffsets[item.id];
             clearNode.setAttribute("aria-label","重置"+item.label+"的时间调整");
-            clearNode.addEventListener("click",()=>{delete adjustments[item.id];delete arrivalAdjustments[item.id];repaint(".timeline-clock-trigger")});
+            clearNode.addEventListener("click",()=>{delete adjustments[item.id];delete arrivalAdjustments[item.id];delete transitOffsets[item.id];repaint(".timeline-clock-trigger")});
             if(opened===item.id){
               const editor=add(li,el("div",null,"time-wheel-editor"));
-              const [hourText,minuteText]=clock.split(":");
+              const editClock=isTransit?clockText(item.departure):clockText(item.arrival);
+              const [hourText,minuteText]=editClock.split(":");
               let selectedHour=Number(hourText),selectedMinute=Number(minuteText);
               const wheels=add(editor,el("div",null,"time-wheels"));
               const pick=(part,value)=>{
                 if(part==="hour")selectedHour=value;else selectedMinute=value;
                 const target=selectedHour*60+selectedMinute;
-                const shift=Math.max(item.min_arrival_shift??0,target-item.base_arrival);
-                if(shift)arrivalAdjustments[item.id]=shift;else delete arrivalAdjustments[item.id];
+                if(isTransit){let shift=target-item.base_departure;if(shift>720)shift=shift-1440;else if(shift< -720)shift=shift+1440;if(shift)transitOffsets[item.id]=shift;else delete transitOffsets[item.id];}
+                else {const shift=Math.max(item.min_arrival_shift??0,target-item.base_arrival);if(shift)arrivalAdjustments[item.id]=shift;else delete arrivalAdjustments[item.id];}
                 paint();
               };
               wheelColumn(wheels,"时",selectedHour,23,n=>{if(version===paintVersion)pick("hour",n)});
               wheelColumn(wheels,"分",selectedMinute,59,n=>{if(version===paintVersion)pick("minute",n)});
-              paragraph(editor,"滚动时、分设置此节点到达时间；只重算后续节点。","sub-text");
+              paragraph(editor,isTransit?"滚动时、分模拟本班次发车提前或延误；班次原始时刻保留，并重算后续接驳。":"滚动时、分设置此节点到达时间；只重算后续节点。","sub-text");
             }
           }else add(li,el("span",stamped,"timeline-time"+(item.arrival===null?" unknown":"")));
           const h=add(li,el("h3"));
@@ -194,23 +197,30 @@ import { makeTimeline, clockText } from "./timeline.mjs";
           }else if(item.status==="pending" && item.kind==="transit") {
             paragraph(li,"此段尚无已核实的实际班次记录；不使用估算时间替代时刻表。");
           }else if(item.status==="connection_missed"){
-            paragraph(li,"前序行程未赶上该班，不能自动顺延固定发车时刻。","issue-text");
-          }else if(item.status==="fixed"){
-            paragraph(li,"固定班次"+(item.service_id?" · "+item.service_id:"")+
-              (item.delay?" · 模拟到站晚点 "+(item.delay>0?"+":"")+item.delay+" 分钟":""));
+            paragraph(li,"前序行程未接上该班次；原始发车时间不会自动顺延，可从当天已查询的其他班次中选择。","issue-text");
+          }else if(item.status==="fixed"||item.status==="adjusted"){
+            paragraph(li,(item.status==="adjusted"?"班次时间临时偏移 "+(item.transit_offset>0?"+":"")+item.transit_offset+" 分钟":"时刻表班次")+(item.service_id?" · "+item.service_id:""));
           }else if(item.kind==="trail"){
             if(item.status==="illustrative")paragraph(li,"行程时间估算 · 尚未与实际到达车次衔接");
             if(item.note && (expanded||item.key_point))paragraph(li,item.note);
           }
           if(item.previous_services?.length||item.next_services?.length){
             const services=add(li,el("div",null,"service-options"));
-            add(services,el("span","前后可选班次 · 点选后仅作本机模拟","service-options-title"));
-            [...item.previous_services,...item.next_services].forEach(service=>{
+            add(services,el("span","最近前后班次 · 点选后仅作本机模拟","service-options-title"));
+            const renderService=(parent,service)=>{
               const selected=serviceSelections[item.id]===service.service_id||(!serviceSelections[item.id]&&item.service_id===service.service_id);
-              const choice=add(services,el("button",clockText(service.departure)+" → "+clockText(service.arrival)+(service.service_id?" · "+service.service_id:""),"service-choice"+(selected?" selected":"")));
+              const choice=add(parent,el("button",clockText(service.departure)+" → "+clockText(service.arrival)+(service.service_id?" · "+service.service_id:""),"service-choice"+(selected?" selected":"")));
               choice.type="button";choice.setAttribute("aria-pressed",selected?"true":"false");
               choice.addEventListener("click",()=>{serviceSelections[item.id]=service.service_id;repaint(".service-choice")});
-            });
+            };
+            [...item.previous_services,...item.next_services].forEach(service=>renderService(services,service));
+            if(item.available_services?.length){
+              const all=add(services,el("details",null,"service-day-list"));
+              add(all,el("summary",(item.full_day_services?"当天全部 ":"已查询 ")+item.available_services.length+" 班"+(item.full_day_services?"":" · 当天班次未齐"),"service-day-summary"));
+              if(!item.full_day_services)paragraph(all,"此计划未记录该线路全日班次；不能将这些选项当作当天完整时刻表。","sub-text");
+              const list=add(all,el("div",null,"service-day-options"));
+              item.available_services.forEach(service=>renderService(list,service));
+            }
           }else if(item.kind==="transit"&&item.mode==="scheduled_transit"&&item.status==="pending"){
             paragraph(li,"此段尚无已核实的实际班次记录；Skill 应先查询并记录日期对应的时刻表，再确认接驳，不要求使用者代查。","sub-text");
           }
@@ -228,7 +238,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
       toggle.hidden=schedule.trail.length<5;
       toggle.textContent=expanded?"收起次要节点":"展开全部 "+schedule.trail.length+" 个登山节点";
     }
-    reset.addEventListener("click",()=>{for(const key of Object.keys(adjustments))delete adjustments[key];for(const key of Object.keys(arrivalAdjustments))delete arrivalAdjustments[key];for(const key of Object.keys(serviceSelections))delete serviceSelections[key];opened=null;paint()});
+    reset.addEventListener("click",()=>{for(const key of Object.keys(adjustments))delete adjustments[key];for(const key of Object.keys(arrivalAdjustments))delete arrivalAdjustments[key];for(const key of Object.keys(transitOffsets))delete transitOffsets[key];for(const key of Object.keys(serviceSelections))delete serviceSelections[key];opened=null;paint()});
     toggle.addEventListener("click",()=>{expanded=!expanded;paint()});
     paint();
     const footer=add(root,el("section",null,"quiet-card"));

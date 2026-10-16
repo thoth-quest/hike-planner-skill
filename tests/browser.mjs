@@ -18,6 +18,7 @@ sampleLeg.timetable_options=['07:00','07:15','07:45','08:00'].map((departure,ind
  service_date:'2026-10-24',departure_time:departure,arrival_time:`${String(Number(departure.slice(0,2))+1).padStart(2,'0')}:${departure.slice(3)}`,
  checked_at:'2026-10-16T10:00:00+09:00',source_id:'browser-timetable',service_id:`TEST-${index+1}`
 }));
+sampleLeg.timetable_coverage={service_date:'2026-10-24',scope:'full_day',service_count:4,source_id:'browser-timetable',checked_at:'2026-10-16T10:00:00+09:00'};
 await mkdir(path.join(root,'plans',fixture.id),{recursive:true});
 await writeFile(path.join(root,'plans',fixture.id,'activity.json'),JSON.stringify(fixture));
 const manifest=JSON.parse(await readFile(path.join(root,'plans/index.json'),'utf8'));manifest.plans.push(fixture.id);
@@ -56,8 +57,18 @@ try {
   await page.locator('#tab-route').click();
   const firstTransit=page.locator('.timeline-item').filter({has:page.getByRole('heading',{name:/铁路到伊势原/})});
   assert.equal(await firstTransit.locator('.service-choice').count(),4,'two actual options before and after the requested time');
-  await firstTransit.getByRole('button',{name:/07:45 → 08:45/}).click();
-  assert.match(await firstTransit.innerText(),/固定班次.*TEST-3/);
+  await firstTransit.locator('.service-day-summary').click();
+  assert.equal(await firstTransit.locator('.service-day-options .service-choice').count(),4,'the complete queried day is selectable');
+  await firstTransit.locator('.service-day-options .service-choice').filter({hasText:'07:45 → 08:45'}).click();
+  assert.match(await firstTransit.innerText(),/时刻表班次.*TEST-3/);
+  await firstTransit.locator('.timeline-clock-trigger').click();
+  const transitMinuteWheel=firstTransit.locator('.time-wheel').nth(1);
+  await page.waitForFunction(()=>{const wheel=document.querySelector('[data-node-id="before-0"] .time-wheel-column:nth-child(2) .time-wheel');return wheel&&Math.round(wheel.scrollTop/36)===45});
+  await transitMinuteWheel.evaluate(node=>{node.scrollTop=40*36;node.dispatchEvent(new Event('scroll',{bubbles:true}))});
+  await page.waitForFunction(()=>document.querySelector('[data-node-id="before-0"]')?.innerText.includes('班次时间临时偏移 -5 分钟'));
+  assert.match(await firstTransit.innerText(),/07:40 → 08:40/,'the transit clock wheel permits advancing a service');
+  await firstTransit.locator('.node-reset').click();
+  assert.match(await firstTransit.innerText(),/07:45 → 08:45/,'reset restores the published service clock');
   await page.getByRole('button',{name:'清除全部调整'}).click();
   assert.match(await firstTransit.innerText(),/班次未核实/);
   await page.getByRole('button',{name:'展开全部 14 个登山节点'}).click();

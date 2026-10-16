@@ -128,6 +128,18 @@ test("Oyama timeline covers inbound transit, hike and outbound transit, with evi
   assert.equal(p.weather.status,"pending","moving a preview timeline cannot claim actual weather");
 });
 
+test("Okutama shared JR segment stores all verified trip-day trains",()=>{
+  const p=JSON.parse(readFileSync(path.join(site,"plans","2026-10-18-okutama-trail","activity.json"),"utf8"));
+  const leg=p.transport.outbound.find(x=>x.node_id==="after-okutama-jr");
+  assert.equal(leg.timetable_coverage.scope,"full_day");
+  assert.equal(leg.timetable_coverage.service_date,p.constraints.date);
+  assert.equal(leg.timetable_coverage.service_count,leg.timetable_options.length);
+  assert.equal(leg.timetable_options.length,37);
+  assert.equal(new Set(leg.timetable_options.map(x=>x.service_id)).size,37);
+  assert.ok(leg.timetable_options.every(x=>x.service_date===p.constraints.date&&p.evidence.some(e=>e.id===x.source_id&&e.status==="verified")));
+  assert.equal(leg.timetable_options.some(x=>x.departure_time==="17:34"),false,"exclude the special train that does not run on the plan date");
+});
+
 test("day trip is explicit in schema and UI",()=>{
   const schema=load(path.join(root,"schemas","activity.schema.json"));
   assert.ok(schema.required.includes("trip_type"));

@@ -1,12 +1,12 @@
 {
   "id": "2026-10-18-okutama-trail",
   "schema_version": 1,
-  "revision": 1,
+  "revision": 2,
   "stage": "goal_definition",
   "status": "needs_review",
   "title": "大多摩ウォーキングトレイル｜古里駅から奥多摩駅",
   "example_only": false,
-  "updated_at": "2026-10-16T16:00:00+09:00",
+  "updated_at": "2026-10-16T19:32:00+09:00",
   "visibility_note": "线下多人活动计划。未记录参与者姓名、联系方式或个人出发地；仅本机查看。",
   "destination": {
     "state": "fixed",
@@ -41,7 +41,9 @@
       {
         "checked_at": "2026-10-16T15:45:00+09:00",
         "valid_for": "2026-10-18",
-        "sources": ["https://weather.yahoo.co.jp/weather/13/4410/13308.html"],
+        "sources": [
+          "https://weather.yahoo.co.jp/weather/13/4410/13308.html"
+        ],
         "values": {
           "location": "奥多摩町（山地预报并非路线高处实测）",
           "forecast": "晴时多云",
@@ -73,27 +75,95 @@
       {
         "name": "古里出发｜小丹波与松ノ木尾根",
         "stops": [
-          {"name":"古里駅集合","note":"10:30集合。整理装备、确认人数后出发；各人自行解决抵达古里站的交通。","offset_minutes":0,"source_id":"yamap-route","key_point":true,"node_id":"trail-kori"},
-          {"name":"小丹波観光駐車場・登山口","note":"离开古里站后沿指示进入步道；路线前段有明显起伏。","offset_minutes":20,"source_id":"yamap-route","key_point":true,"node_id":"trail-kotamba"},
-          {"name":"松ノ木尾根展望台","note":"前半段爬升与山路路段；按队伍速度休息补水。","offset_minutes":65,"source_id":"yamap-map","key_point":true,"node_id":"trail-matsunoki"},
-          {"name":"双竜の滝・鳩ノ巣駅方向","note":"接近鳩ノ巣一带，注意湿滑路面和台阶。","offset_minutes":105,"source_id":"yamap-route","key_point":true,"node_id":"trail-hatonosu-approach"}
+          {
+            "name": "古里駅集合",
+            "note": "10:30集合。整理装备、确认人数后出发；各人自行解决抵达古里站的交通。",
+            "offset_minutes": 0,
+            "source_id": "yamap-route",
+            "key_point": true,
+            "node_id": "trail-kori"
+          },
+          {
+            "name": "小丹波観光駐車場・登山口",
+            "note": "离开古里站后沿指示进入步道；路线前段有明显起伏。",
+            "offset_minutes": 20,
+            "source_id": "yamap-route",
+            "key_point": true,
+            "node_id": "trail-kotamba"
+          },
+          {
+            "name": "松ノ木尾根展望台",
+            "note": "前半段爬升与山路路段；按队伍速度休息补水。",
+            "offset_minutes": 65,
+            "source_id": "yamap-map",
+            "key_point": true,
+            "node_id": "trail-matsunoki"
+          },
+          {
+            "name": "双竜の滝・鳩ノ巣駅方向",
+            "note": "接近鳩ノ巣一带，注意湿滑路面和台阶。",
+            "offset_minutes": 105,
+            "source_id": "yamap-route",
+            "key_point": true,
+            "node_id": "trail-hatonosu-approach"
+          }
         ]
       },
       {
         "name": "鳩ノ巣渓谷｜白丸与奥多摩",
         "stops": [
-          {"name":"鳩ノ巣渓谷・鳩ノ巣小橋","note":"沿溪谷步道前进；桥面和河边岩石可能湿滑。","offset_minutes":130,"source_id":"yamap-route","key_point":true,"node_id":"trail-hatonosu-gorge"},
-          {"name":"白丸ダム堰堤（活动日封闭）","note":"2026-09-28至2027-02-24（预计）堰堤禁止通行。不得穿越堰堤；按东京交通局和游客中心最新图示选择鳩ノ巣小橋或数馬峡橋方向的通行路线。绕行具体线路/距离尚未能从公告文字确认，因此本计划整体路线待复核。","offset_minutes":165,"source_id":"dam-closure","key_point":true,"node_id":"trail-dam-closure"},
-          {"name":"奥多摩中学校バス停附近","note":"继续按大多摩ウォーキングトレイル路标向氷川、奥多摩站步行；可在沿途餐馆停留用餐。","offset_minutes":190,"source_id":"yamap-route","key_point":false,"node_id":"trail-okutama-school"},
-          {"name":"奥多摩駅到达","note":"预计从集合出发约3–4小时。温泉在车站附近，步行前往后再按实到时间选返程列车。","offset_minutes":210,"source_id":"yamap-route","key_point":true,"node_id":"trail-okutama-station"}
+          {
+            "name": "鳩ノ巣渓谷・鳩ノ巣小橋",
+            "note": "沿溪谷步道前进；桥面和河边岩石可能湿滑。",
+            "offset_minutes": 130,
+            "source_id": "yamap-route",
+            "key_point": true,
+            "node_id": "trail-hatonosu-gorge"
+          },
+          {
+            "name": "白丸ダム堰堤（活动日封闭）",
+            "note": "2026-09-28至2027-02-24（预计）堰堤禁止通行。不得穿越堰堤；按东京交通局和游客中心最新图示选择鳩ノ巣小橋或数馬峡橋方向的通行路线。绕行具体线路/距离尚未能从公告文字确认，因此本计划整体路线待复核。",
+            "offset_minutes": 165,
+            "source_id": "dam-closure",
+            "key_point": true,
+            "node_id": "trail-dam-closure"
+          },
+          {
+            "name": "奥多摩中学校バス停附近",
+            "note": "继续按大多摩ウォーキングトレイル路标向氷川、奥多摩站步行；可在沿途餐馆停留用餐。",
+            "offset_minutes": 190,
+            "source_id": "yamap-route",
+            "key_point": false,
+            "node_id": "trail-okutama-school"
+          },
+          {
+            "name": "奥多摩駅到达",
+            "note": "预计从集合出发约3–4小时。温泉在车站附近，步行前往后再按实到时间选返程列车。",
+            "offset_minutes": 210,
+            "source_id": "yamap-route",
+            "key_point": true,
+            "node_id": "trail-okutama-station"
+          }
         ]
       }
     ],
     "alternatives": [
-      {"name":"队伍速度较慢或不适","when":"任何成员明显疲劳、受伤或天气转差","action":"就近在鳩ノ巣駅等青梅线车站结束路线；先核对当日列车，不要求全队继续到奥多摩。"},
-      {"name":"白丸绕行无法确认","when":"出发前仍无法根据官方路线图确认安全绕行","action":"不穿越关闭堰堤；改走游客中心认可的替代步道，或取消白丸以西段并重新核对终点和列车。"}
+      {
+        "name": "队伍速度较慢或不适",
+        "when": "任何成员明显疲劳、受伤或天气转差",
+        "action": "就近在鳩ノ巣駅等青梅线车站结束路线；先核对当日列车，不要求全队继续到奥多摩。"
+      },
+      {
+        "name": "白丸绕行无法确认",
+        "when": "出发前仍无法根据官方路线图确认安全绕行",
+        "action": "不穿越关闭堰堤；改走游客中心认可的替代步道，或取消白丸以西段并重新核对终点和列车。"
+      }
     ],
-    "source_ids": ["yamap-route","yamap-map","dam-closure"]
+    "source_ids": [
+      "yamap-route",
+      "yamap-map",
+      "dam-closure"
+    ]
   },
   "transport": {
     "status": "common_segment_only",
@@ -101,7 +171,7 @@
     "outbound": [
       {
         "name": "奥多摩駅 → 青梅方向（JR青梅线）",
-        "note": "以下为2026-10-18星期日的实际周末时刻。17:10、17:44、18:19发车；若在もえぎの湯泡满3小时，建议以18:19为目标。17:34的临时特急只在11月8日运行，不适用于本次日期。各人的离开青梅后的线路与票价不同，本计划不代设共同终点。",
+        "note": "JR東日本2026年10月土休日ダイヤにある奥多摩→青梅方向の全日37班次已逐班核对。建议泡汤约3小时后选择18:19；前后可在时间轴展开全部车次。17:34特急新酒・もみじ回遊号仅11月8日运行，不适用于10月18日。此处仅列共同乘坐的奥多摩→青梅区段，各人青梅之后自行换乘。",
         "source_id": "jr-okutama-timetable",
         "reference_time": "17:44",
         "node_id": "after-okutama-jr",
@@ -110,16 +180,316 @@
         "timetable": {
           "service_date": "2026-10-18",
           "departure_time": "17:44",
-          "arrival_time": "17:46",
-          "source_id": "jr-train-1702",
-          "checked_at": "2026-10-16T15:45:00+09:00",
+          "arrival_time": "18:23",
+          "source_id": "jr-service-1702",
+          "checked_at": "2026-10-16T19:32:00+09:00",
           "service_id": "JR青梅線 普通1702"
         },
         "timetable_options": [
-          {"service_date":"2026-10-18","departure_time":"17:10","arrival_time":"17:46","source_id":"jr-train-1706","checked_at":"2026-10-16T15:45:00+09:00","service_id":"JR青梅線 普通1706"},
-          {"service_date":"2026-10-18","departure_time":"17:44","arrival_time":"18:23","source_id":"jr-train-1702","checked_at":"2026-10-16T15:45:00+09:00","service_id":"JR青梅線 普通1702"},
-          {"service_date":"2026-10-18","departure_time":"18:19","arrival_time":"18:56","source_id":"jr-train-1804","checked_at":"2026-10-16T15:45:00+09:00","service_id":"JR青梅線 普通1804"}
-        ]
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "05:06",
+            "arrival_time": "05:40",
+            "source_id": "jr-service-0506",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通506"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "05:47",
+            "arrival_time": "06:25",
+            "source_id": "jr-service-0504",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通504"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "06:08",
+            "arrival_time": "06:46",
+            "source_id": "jr-service-0608",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通608"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "06:34",
+            "arrival_time": "07:15",
+            "source_id": "jr-service-0606",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通606"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "07:05",
+            "arrival_time": "07:54",
+            "source_id": "jr-service-0702",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通702"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "07:25",
+            "arrival_time": "08:08",
+            "source_id": "jr-service-0704",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通704"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "07:52",
+            "arrival_time": "08:30",
+            "source_id": "jr-service-0708",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通708"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "08:25",
+            "arrival_time": "09:03",
+            "source_id": "jr-service-0806",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通806"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "08:54",
+            "arrival_time": "09:43",
+            "source_id": "jr-service-0802",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通802"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "09:30",
+            "arrival_time": "10:18",
+            "source_id": "jr-service-0904",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通904"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "10:01",
+            "arrival_time": "10:39",
+            "source_id": "jr-service-1008",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通1008"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "10:21",
+            "arrival_time": "10:56",
+            "source_id": "jr-service-1006",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通1006"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "11:00",
+            "arrival_time": "11:34",
+            "source_id": "jr-service-1102",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通1102"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "11:32",
+            "arrival_time": "12:09",
+            "source_id": "jr-service-1104",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通1104"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "12:06",
+            "arrival_time": "12:43",
+            "source_id": "jr-service-1206",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通1206"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "12:40",
+            "arrival_time": "13:17",
+            "source_id": "jr-service-1202",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通1202"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "13:14",
+            "arrival_time": "13:49",
+            "source_id": "jr-service-1304",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通1304"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "13:46",
+            "arrival_time": "14:21",
+            "source_id": "jr-service-1306",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通1306"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "14:19",
+            "arrival_time": "14:54",
+            "source_id": "jr-service-1402",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通1402"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "14:48",
+            "arrival_time": "15:26",
+            "source_id": "jr-service-1404",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通1404"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "15:14",
+            "arrival_time": "15:40",
+            "source_id": "jr-service-7540",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 ホリデー快速おくたま7540"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "15:25",
+            "arrival_time": "16:01",
+            "source_id": "jr-service-1506",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通1506"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "15:56",
+            "arrival_time": "16:38",
+            "source_id": "jr-service-1502",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通1502"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "16:20",
+            "arrival_time": "16:52",
+            "source_id": "jr-service-7646",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 ホリデー快速おくたま7646"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "16:32",
+            "arrival_time": "17:10",
+            "source_id": "jr-service-1604",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通1604"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "16:58",
+            "arrival_time": "17:25",
+            "source_id": "jr-service-7640",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 ホリデー快速おくたま7640"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "17:10",
+            "arrival_time": "17:46",
+            "source_id": "jr-service-1706",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通1706"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "17:44",
+            "arrival_time": "18:23",
+            "source_id": "jr-service-1702",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通1702"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "18:19",
+            "arrival_time": "18:56",
+            "source_id": "jr-service-1804",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通1804"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "18:54",
+            "arrival_time": "19:29",
+            "source_id": "jr-service-1806",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通1806"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "19:27",
+            "arrival_time": "20:02",
+            "source_id": "jr-service-1902",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通1902"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "19:59",
+            "arrival_time": "20:37",
+            "source_id": "jr-service-1904",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通1904"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "20:33",
+            "arrival_time": "21:08",
+            "source_id": "jr-service-2006",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通2006"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "21:05",
+            "arrival_time": "21:44",
+            "source_id": "jr-service-2102",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通2102"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "21:40",
+            "arrival_time": "22:16",
+            "source_id": "jr-service-2104",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通2104"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "22:26",
+            "arrival_time": "23:03",
+            "source_id": "jr-service-2206",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通2206"
+          },
+          {
+            "service_date": "2026-10-18",
+            "departure_time": "23:00",
+            "arrival_time": "23:36",
+            "source_id": "jr-service-2302",
+            "checked_at": "2026-10-16T19:32:00+09:00",
+            "service_id": "JR青梅線 普通2302"
+          }
+        ],
+        "timetable_coverage": {
+          "service_date": "2026-10-18",
+          "scope": "full_day",
+          "service_count": 37,
+          "source_id": "jr-okutama-timetable",
+          "checked_at": "2026-10-16T19:32:00+09:00"
+        }
       }
     ],
     "pass_note": "本计划只列所有人共同使用的奥多摩站出发青梅线区段；不虚构任何人的始发站或全程票价。各人自行购票至古里、再从奥多摩返回自己的目的地。"
@@ -127,9 +497,24 @@
   "safety": {
     "status": "needs_predeparture_review",
     "alerts": [
-      {"level":"caution","title":"白丸ダム堰堤施工封闭","note":"2026-09-28至2027-02-24（预计）白丸调节池ダム顶部道路关闭，河流两岸不能经堰顶横断；鳩ノ巣小橋和数馬峡橋是邻近横断点，约相距2 km。按最新官方图示绕行，切勿进入封闭区域。","source_id":"dam-closure"},
-      {"level":"caution","title":"路线距离与绕行后的里程需复核","note":"团体活动文案7.4 km/535 m与近期YAMAP记录吻合，但YAMAP模型路线为7.6 km/558 m；堰顶关闭后的绕行距离另计，集合前应确认实际轨迹。","source_id":"yamap-route"},
-      {"level":"caution","title":"温泉周末可能限流","note":"近期YAMAP活动记录提到温泉曾因拥挤限制入场；当日以设施现场信息为准，不把泡汤当作返程列车接驳保证。","source_id":"moegi-info"}
+      {
+        "level": "caution",
+        "title": "白丸ダム堰堤施工封闭",
+        "note": "2026-09-28至2027-02-24（预计）白丸调节池ダム顶部道路关闭，河流两岸不能经堰顶横断；鳩ノ巣小橋和数馬峡橋是邻近横断点，约相距2 km。按最新官方图示绕行，切勿进入封闭区域。",
+        "source_id": "dam-closure"
+      },
+      {
+        "level": "caution",
+        "title": "路线距离与绕行后的里程需复核",
+        "note": "团体活动文案7.4 km/535 m与近期YAMAP记录吻合，但YAMAP模型路线为7.6 km/558 m；堰顶关闭后的绕行距离另计，集合前应确认实际轨迹。",
+        "source_id": "yamap-route"
+      },
+      {
+        "level": "caution",
+        "title": "温泉周末可能限流",
+        "note": "近期YAMAP活动记录提到温泉曾因拥挤限制入场；当日以设施现场信息为准，不把泡汤当作返程列车接驳保证。",
+        "source_id": "moegi-info"
+      }
     ],
     "checklist": [
       "10月17日晚复核奥多摩游客中心的最新路线状态和白丸ダム封闭图",
@@ -141,20 +526,440 @@
   },
   "candidates": [],
   "evidence": [
-    {"id":"yamap-route","claim":"YAMAP活动记录：2026-10-11古里駅至奥多摩方向，7.4 km、爬升535 m；路径检查点含小丹波、鳩ノ巣渓谷、白丸ダム、奥多摩中学校バス停。为个人GPS记录，不等于官方通行保证。","url":"https://yamap.com/activities/51843192","publisher":"YAMAP用户活动记录","checked_at":"2026-10-16T15:45:00+09:00","valid_for":"参考轨迹；活动日路线须复核","status":"verified"},
-    {"id":"yamap-map","claim":"YAMAP模型路线：古里駅到奥多摩駅附近，标准3小时25分、7.6 km、爬升558 m，并列出古里、小丹波、白丸、奥多摩中学校等节点。","url":"https://yamap.com/model-courses/70300","publisher":"YAMAP","checked_at":"2026-10-16T15:45:00+09:00","valid_for":null,"status":"verified"},
-    {"id":"official-route","claim":"奥多摩町官方大多摩ウォーキングトレイル（古里～氷川）路线图。","url":"https://www.town.okutama.tokyo.jp/gyosei/6/kankojoho/miru/1728.html","publisher":"奥多摩町","checked_at":"2026-10-16T15:45:00+09:00","valid_for":null,"status":"verified"},
-    {"id":"trail-status","claim":"奥多摩游客中心2026-10-02登山道状态表：大多摩ウォーキングトレイル本身可走，但白丸ダム堰堤施工封闭。","url":"https://okutamavc.ces-net.jp/info/52","publisher":"奥多摩ビジターセンター","checked_at":"2026-10-16T15:45:00+09:00","valid_for":"截至页面下次更新；出发前复核","status":"verified"},
-    {"id":"dam-closure","claim":"東京都交通局公告：白丸调节池ダム堰顶2026-09-28至2027-02-24预计关闭；近邻过河桥为数馬峡橋和鳩ノ巣小橋，约相距2 km。","url":"https://www.kotsu.metro.tokyo.jp/pickup_information/news/others/2026/otr_i_2026090112744_h.html","publisher":"東京都交通局","checked_at":"2026-10-16T15:45:00+09:00","valid_for":"2026-09-28至2027-02-24（预计）","status":"verified"},
-    {"id":"jr-okutama-timetable","claim":"JR东日本奥多摩站周末/节假日青梅线时刻表：10月18日适用周末时刻，含17:10、17:44及18:19班次。","url":"https://timetables.jreast.co.jp/2610/timetable/tt0368/0368011.html","publisher":"JR東日本","checked_at":"2026-10-16T15:45:00+09:00","valid_for":"2026-10-18","status":"verified"},
-    {"id":"jr-train-1706","claim":"JR青梅线普通1706：2026-10-18周末运行，奥多摩17:10发，青梅17:46到。","url":"https://timetables.jreast.co.jp/2610/train/095/095721.html","publisher":"JR東日本","checked_at":"2026-10-16T15:45:00+09:00","valid_for":"2026-10-18","status":"verified"},
-    {"id":"jr-train-1702","claim":"JR青梅线普通1702：2026-10-18周末运行，奥多摩17:44发，青梅18:23到。","url":"https://timetables.jreast.co.jp/2610/train/025/028231.html","publisher":"JR東日本","checked_at":"2026-10-16T15:45:00+09:00","valid_for":"2026-10-18","status":"verified"},
-    {"id":"jr-train-1804","claim":"JR青梅线普通1804：2026-10-18周末运行，奥多摩18:19发，青梅18:56到。","url":"https://timetables.jreast.co.jp/2610/train/040/042731.html","publisher":"JR東日本","checked_at":"2026-10-16T15:45:00+09:00","valid_for":"2026-10-18","status":"verified"},
-    {"id":"moegi-info","claim":"もえぎの湯官方营业时间及价格：4–11月通常10:00–20:00、19:00停止受理；成人3小时1,200日元；周一休息。","url":"https://www.okutamas.co.jp/moegi/price/info/","publisher":"奥多摩温泉 もえぎの湯","checked_at":"2026-10-16T15:45:00+09:00","valid_for":"按季节营业；当天复核","status":"verified"},
-    {"id":"weather-okutama","claim":"奥多摩町10月18日预报，10月16日06:00发布：晴时多云，低温12°C、高温21°C、降水概率10%。","url":"https://weather.yahoo.co.jp/weather/13/4410/13308.html","publisher":"Yahoo!天気・災害","checked_at":"2026-10-16T15:45:00+09:00","valid_for":"2026-10-18；低海拔町域预报","status":"verified"}
+    {
+      "id": "yamap-route",
+      "claim": "YAMAP活动记录：2026-10-11古里駅至奥多摩方向，7.4 km、爬升535 m；路径检查点含小丹波、鳩ノ巣渓谷、白丸ダム、奥多摩中学校バス停。为个人GPS记录，不等于官方通行保证。",
+      "url": "https://yamap.com/activities/51843192",
+      "publisher": "YAMAP用户活动记录",
+      "checked_at": "2026-10-16T15:45:00+09:00",
+      "valid_for": "参考轨迹；活动日路线须复核",
+      "status": "verified"
+    },
+    {
+      "id": "yamap-map",
+      "claim": "YAMAP模型路线：古里駅到奥多摩駅附近，标准3小时25分、7.6 km、爬升558 m，并列出古里、小丹波、白丸、奥多摩中学校等节点。",
+      "url": "https://yamap.com/model-courses/70300",
+      "publisher": "YAMAP",
+      "checked_at": "2026-10-16T15:45:00+09:00",
+      "valid_for": null,
+      "status": "verified"
+    },
+    {
+      "id": "official-route",
+      "claim": "奥多摩町官方大多摩ウォーキングトレイル（古里～氷川）路线图。",
+      "url": "https://www.town.okutama.tokyo.jp/gyosei/6/kankojoho/miru/1728.html",
+      "publisher": "奥多摩町",
+      "checked_at": "2026-10-16T15:45:00+09:00",
+      "valid_for": null,
+      "status": "verified"
+    },
+    {
+      "id": "trail-status",
+      "claim": "奥多摩游客中心2026-10-02登山道状态表：大多摩ウォーキングトレイル本身可走，但白丸ダム堰堤施工封闭。",
+      "url": "https://okutamavc.ces-net.jp/info/52",
+      "publisher": "奥多摩ビジターセンター",
+      "checked_at": "2026-10-16T15:45:00+09:00",
+      "valid_for": "截至页面下次更新；出发前复核",
+      "status": "verified"
+    },
+    {
+      "id": "dam-closure",
+      "claim": "東京都交通局公告：白丸调节池ダム堰顶2026-09-28至2027-02-24预计关闭；近邻过河桥为数馬峡橋和鳩ノ巣小橋，约相距2 km。",
+      "url": "https://www.kotsu.metro.tokyo.jp/pickup_information/news/others/2026/otr_i_2026090112744_h.html",
+      "publisher": "東京都交通局",
+      "checked_at": "2026-10-16T15:45:00+09:00",
+      "valid_for": "2026-09-28至2027-02-24（预计）",
+      "status": "verified"
+    },
+    {
+      "id": "jr-okutama-timetable",
+      "claim": "JR东日本奥多摩站青梅线土曜・休日时刻表；完整查看出行日全班次并逐一核对各车次详情。2026-10-18适用土休日时刻。",
+      "url": "https://timetables.jreast.co.jp/2610/timetable/tt0368/0368011.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "moegi-info",
+      "claim": "もえぎの湯官方营业时间及价格：4–11月通常10:00–20:00、19:00停止受理；成人3小时1,200日元；周一休息。",
+      "url": "https://www.okutamas.co.jp/moegi/price/info/",
+      "publisher": "奥多摩温泉 もえぎの湯",
+      "checked_at": "2026-10-16T15:45:00+09:00",
+      "valid_for": "按季节营业；当天复核",
+      "status": "verified"
+    },
+    {
+      "id": "weather-okutama",
+      "claim": "奥多摩町10月18日预报，10月16日06:00发布：晴时多云，低温12°C、高温21°C、降水概率10%。",
+      "url": "https://weather.yahoo.co.jp/weather/13/4410/13308.html",
+      "publisher": "Yahoo!天気・災害",
+      "checked_at": "2026-10-16T15:45:00+09:00",
+      "valid_for": "2026-10-18；低海拔町域预报",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-0506",
+      "claim": "JR青梅线普通506：2026-10-18周末适用，奥多摩05:06发、青梅05:40到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/040/042691.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-0504",
+      "claim": "JR青梅线普通504：2026-10-18周末适用，奥多摩05:47发、青梅06:25到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/095/095311.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-0608",
+      "claim": "JR青梅线普通608：2026-10-18周末适用，奥多摩06:08发、青梅06:46到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/095/095331.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-0606",
+      "claim": "JR青梅线普通606：2026-10-18周末适用，奥多摩06:34发、青梅07:15到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/095/095371.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-0702",
+      "claim": "JR青梅线普通702：2026-10-18周末适用，奥多摩07:05发、青梅07:54到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/025/028141.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-0704",
+      "claim": "JR青梅线普通704：2026-10-18周末适用，奥多摩07:25发、青梅08:08到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/095/096361.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-0708",
+      "claim": "JR青梅线普通708：2026-10-18周末适用，奥多摩07:52发、青梅08:30到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/095/095441.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-0806",
+      "claim": "JR青梅线普通806：2026-10-18周末适用，奥多摩08:25发、青梅09:03到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/095/095481.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-0802",
+      "claim": "JR青梅线普通802：2026-10-18周末适用，奥多摩08:54发、青梅09:43到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/025/028161.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-0904",
+      "claim": "JR青梅线普通904：2026-10-18周末适用，奥多摩09:30发、青梅10:18到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/025/028171.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-1008",
+      "claim": "JR青梅线普通1008：2026-10-18周末适用，奥多摩10:01发、青梅10:39到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/105/109801.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-1006",
+      "claim": "JR青梅线普通1006：2026-10-18周末适用，奥多摩10:21发、青梅10:56到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/095/095541.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-1102",
+      "claim": "JR青梅线普通1102：2026-10-18周末适用，奥多摩11:00发、青梅11:34到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/025/028191.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-1104",
+      "claim": "JR青梅线普通1104：2026-10-18周末适用，奥多摩11:32发、青梅12:09到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/040/042701.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-1206",
+      "claim": "JR青梅线普通1206：2026-10-18周末适用，奥多摩12:06发、青梅12:43到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/095/096451.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-1202",
+      "claim": "JR青梅线普通1202：2026-10-18周末适用，奥多摩12:40发、青梅13:17到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/085/085441.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-1304",
+      "claim": "JR青梅线普通1304：2026-10-18周末适用，奥多摩13:14发、青梅13:49到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/075/075311.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-1306",
+      "claim": "JR青梅线普通1306：2026-10-18周末适用，奥多摩13:46发、青梅14:21到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/095/095601.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-1402",
+      "claim": "JR青梅线普通1402：2026-10-18周末适用，奥多摩14:19发、青梅14:54到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/025/028211.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-1404",
+      "claim": "JR青梅线普通1404：2026-10-18周末适用，奥多摩14:48发、青梅15:26到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/040/042711.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-7540",
+      "claim": "JR青梅线ホリデー快速おくたま7540：2026-10-18周末适用，奥多摩15:14发、青梅15:40到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/095/096491.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-1506",
+      "claim": "JR青梅线普通1506：2026-10-18周末适用，奥多摩15:25发、青梅16:01到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/095/096501.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-1502",
+      "claim": "JR青梅线普通1502：2026-10-18周末适用，奥多摩15:56发、青梅16:38到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/085/085461.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-7646",
+      "claim": "JR青梅线ホリデー快速おくたま7646：2026-10-18周末适用，奥多摩16:20发、青梅16:52到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/095/096531.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-1604",
+      "claim": "JR青梅线普通1604：2026-10-18周末适用，奥多摩16:32发、青梅17:10到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/075/075321.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-7640",
+      "claim": "JR青梅线ホリデー快速おくたま7640：2026-10-18周末适用，奥多摩16:58发、青梅17:25到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/095/096561.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-1706",
+      "claim": "JR青梅线普通1706：2026-10-18周末适用，奥多摩17:10发、青梅17:46到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/095/095721.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-1702",
+      "claim": "JR青梅线普通1702：2026-10-18周末适用，奥多摩17:44发、青梅18:23到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/025/028231.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-1804",
+      "claim": "JR青梅线普通1804：2026-10-18周末适用，奥多摩18:19发、青梅18:56到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/040/042731.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-1806",
+      "claim": "JR青梅线普通1806：2026-10-18周末适用，奥多摩18:54发、青梅19:29到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/095/096591.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-1902",
+      "claim": "JR青梅线普通1902：2026-10-18周末适用，奥多摩19:27发、青梅20:02到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/025/028241.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-1904",
+      "claim": "JR青梅线普通1904：2026-10-18周末适用，奥多摩19:59发、青梅20:37到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/085/085511.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-2006",
+      "claim": "JR青梅线普通2006：2026-10-18周末适用，奥多摩20:33发、青梅21:08到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/095/096631.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-2102",
+      "claim": "JR青梅线普通2102：2026-10-18周末适用，奥多摩21:05发、青梅21:44到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/025/028261.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-2104",
+      "claim": "JR青梅线普通2104：2026-10-18周末适用，奥多摩21:40发、青梅22:16到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/075/075331.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-2206",
+      "claim": "JR青梅线普通2206：2026-10-18周末适用，奥多摩22:26发、青梅23:03到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/095/096671.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    },
+    {
+      "id": "jr-service-2302",
+      "claim": "JR青梅线普通2302：2026-10-18周末适用，奥多摩23:00发、青梅23:36到。",
+      "url": "https://timetables.jreast.co.jp/2610/train/095/096681.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T19:32:00+09:00",
+      "valid_for": "2026-10-18",
+      "status": "verified"
+    }
   ],
   "changes": [
-    {"revision":1,"at":"2026-10-16T16:00:00+09:00","field":"new_plan","before":null,"after":{"date":"2026-10-18","route":"古里駅→奥多摩駅","common_transport":"JR青梅线返程","participants":2},"reason":"依据用户给出的多人活动接龙，通过 Skill 建立离线攻略；不设横滨或其他个人始发地，并省略参与者姓名。"}
+    {
+      "revision": 1,
+      "at": "2026-10-16T16:00:00+09:00",
+      "field": "new_plan",
+      "before": null,
+      "after": {
+        "date": "2026-10-18",
+        "route": "古里駅→奥多摩駅",
+        "common_transport": "JR青梅线返程",
+        "participants": 2
+      },
+      "reason": "依据用户给出的多人活动接龙，通过 Skill 建立离线攻略；不设横滨或其他个人始发地，并省略参与者姓名。"
+    },
+    {
+      "revision": 2,
+      "at": "2026-10-16T19:32:00+09:00",
+      "field": "transport.outbound[after-okutama-jr].timetable_options",
+      "before": {
+        "service_count": 3
+      },
+      "after": {
+        "service_count": 37,
+        "coverage": "full_day",
+        "selected_service": "JR青梅線 普通1702"
+      },
+      "reason": "依照用户要求查询并保存2026-10-18奥多摩→青梅方向全天实际列车；排除只在11月8日运行的17:34特急，保留原始来源并供离线页面全日选择。"
+    }
   ],
   "pending_decisions": [
     "白丸ダム封闭时官方推荐的具体绕行轨迹及新增里程，需要结合官方封闭图和现场路标最后确认",
@@ -172,8 +977,26 @@
   "costs": {
     "currency": "JPY",
     "items": [
-      {"name":"JR往返个人交通费（因个人始发站不同，未合并计价）","amount_yen":null,"quantity":1,"scope":"per_person","status":"pending","included":true,"source_id":null,"note":"每人自行核对到古里和从奥多摩返回自己的目的地；不是共同团体费用。"},
-      {"name":"もえぎの湯成人入浴（可选，3小时）","amount_yen":1200,"quantity":1,"scope":"per_person","status":"confirmed","included":false,"source_id":"moegi-info","note":"不含超时费；小学生600日元，未就学儿童免费。入场及营业以现场为准。"}
+      {
+        "name": "JR往返个人交通费（因个人始发站不同，未合并计价）",
+        "amount_yen": null,
+        "quantity": 1,
+        "scope": "per_person",
+        "status": "pending",
+        "included": true,
+        "source_id": null,
+        "note": "每人自行核对到古里和从奥多摩返回自己的目的地；不是共同团体费用。"
+      },
+      {
+        "name": "もえぎの湯成人入浴（可选，3小时）",
+        "amount_yen": 1200,
+        "quantity": 1,
+        "scope": "per_person",
+        "status": "confirmed",
+        "included": false,
+        "source_id": "moegi-info",
+        "note": "不含超时费；小学生600日元，未就学儿童免费。入场及营业以现场为准。"
+      }
     ]
   }
 }

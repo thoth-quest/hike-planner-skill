@@ -33,4 +33,4 @@ At least two independent plans, with private/local plans kept outside public Pag
 
 Stage 2 group logistics, Stage 3 route/transit/fare passes, Stage 4 pre-trip checks, Stage 5 live adjustments, Stage 6 debrief. Do not overbuild.
 
-- Public rail/bus departures are immutable, only shown with date-specific verified timetable evidence; missed connections are warnings, never automatically shifted services. Driving congestion and hiking setbacks propagate only downstream. Test all three cases.
+- For public rail/bus, query and store every actual service on the trip date for each route segment, with evidence and query time. Keep the published timetable separate from temporary simulated early/late offsets; time wheels allow both directions. Missed connections remain warnings, and alternatives must be selected from sourced services. Test both offset directions and downstream effects.
