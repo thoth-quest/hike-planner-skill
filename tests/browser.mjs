@@ -56,7 +56,7 @@ try {
   await page.locator('#tab-overview').press('Home');assert.equal(await page.locator('#panel-overview').isVisible(),true);
   await page.locator('#tab-route').click();
   const firstTransit=page.locator('.timeline-item').filter({has:page.getByRole('heading',{name:/铁路到伊势原/})});
-  assert.equal(await firstTransit.locator('.service-choice').count(),4,'two actual options before and after the requested time');
+  assert.equal(await firstTransit.locator('.service-options > .service-choice').count(),4,'two actual options before and after the requested time');
   await firstTransit.locator('.service-day-summary').click();
   assert.equal(await firstTransit.locator('.service-day-options .service-choice').count(),4,'the complete queried day is selectable');
   await firstTransit.locator('.service-day-options .service-choice').filter({hasText:'07:45 → 08:45'}).click();
