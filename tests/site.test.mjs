@@ -71,19 +71,21 @@ test("Oyama reference plan includes grounded route and safety information",()=>{
 test("detail view opens Plan first and places Route in the third tab",()=>{
   const page=readFileSync(path.join(site,"plan.html"),"utf8");
   assert.match(page,/role="tablist"/);
-  for(const name of ["route","overview","weather","history"]){
+  for(const name of ["route","overview","weather","costs","history"]){
     assert.match(page,new RegExp('id="tab-'+name+'"'));
     assert.match(page,new RegExp('id="panel-'+name+'"'));
   }
   assert.match(page,/id="tab-overview"[^>]+aria-selected="true"/);
   assert.doesNotMatch(page,/id="panel-overview"[^>]*hidden/);
   assert.match(page,/id="tab-route"[^>]+aria-controls="panel-route"[^>]*>路线 <span class="tab-count">03/);
+  assert.match(page,/id="tab-costs"[^>]+aria-controls="panel-costs"[^>]*>费用 <span class="tab-count">04/);
   assert.match(page,/assets\/detail\.js/);
   assert.ok(existsSync(path.join(site,"assets","detail.js")));
   const js=readFileSync(path.join(site,"assets","detail.js"),"utf8");
   assert.match(js,/makeTimeline/);
   assert.match(js,/makeTimeline/);
   assert.match(js,/adjustments\[item\.id\]/);
+  assert.match(js,/target-item\.arrival/);
   assert.doesNotMatch(js,/shift\s*[+\-]=/);
   assert.match(js,/aria-controls/);
   assert.match(js,/linkedTitle/);

@@ -137,13 +137,18 @@ import { makeTimeline, clockText } from "./timeline.mjs";
             const control=add(li,el("label",null,"timeline-time-control"));
             const input=add(control,el("input"));input.type="time";input.step="60";input.value=clockText(item.arrival)==="跨日"?"":clockText(item.arrival);input.setAttribute("aria-label","调整"+item.label+"的到达时间");
             add(control,el("span",clockText(item.arrival),"timeline-time"));
-            input.addEventListener("change",()=>{
+            const commitTime=()=>{
+              if(!/^\\d{2}:\\d{2}$/.test(input.value))return;
               const [hours,minutes]=input.value.split(":").map(Number);
               const target=hours*60+minutes;
-              const next=Math.max(item.min_delay??0,target-item.base_arrival);
+              // The selected time is relative to this node's current arrival,
+              // which already includes delays on earlier nodes.
+              const next=Math.max(item.min_delay??0,target-item.arrival);
               if(next)adjustments[item.id]=next;else delete adjustments[item.id];
               paint();
-            });
+            };
+            input.addEventListener("input",commitTime);
+            input.addEventListener("change",commitTime);
           }else add(li,el("span",stamped,"timeline-time"+(item.arrival===null?" unknown":"")));
           const h=add(li,el("h3"));
           linkedTitle(h,item.label,p,item.source_id);
@@ -265,7 +270,6 @@ import { makeTimeline, clockText } from "./timeline.mjs";
       const pending=card(root,"下一步确认");
       list(pending,p.pending_decisions);
     }
-    renderCosts(root,p);
     if(p.candidates?.length){
       const candidates=card(root,"备选目的地");
       p.candidates.forEach(x=>{
@@ -276,7 +280,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
     }
   }
   function yen(value){return "¥"+Number(value).toLocaleString("ja-JP");}
-  function renderCosts(root,p){
+  function renderCostItems(root,p){
     const costs=p.costs||{currency:"JPY",items:[]};
     const box=card(root,"费用估算");
     const included=(costs.items||[]).filter(x=>x.included!==false);
@@ -363,6 +367,10 @@ import { makeTimeline, clockText } from "./timeline.mjs";
     add(infoCard,el("div","数据与页面的边界","quiet-card-title"));
     paragraph(infoCard,"网页中的时间偏移仅用于预览，不会写回 JSON。确认日期、更新天气及交通后，由 Skill 修改对应计划并保留记录。");
   }
+  function renderCosts(p) {
+    const root=$("panel-costs");
+    renderCostItems(root,p);
+  }
   async function main() {
     tabs();
     const state=$("detail-status");
@@ -398,6 +406,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
       renderRoute(p);
       renderOverview(p);
       renderWeather(p);
+      renderCosts(p);
       renderHistory(p);
     } catch(error){
       state.textContent="加载失败："+error.message;

@@ -54,7 +54,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{o
 .trip-facts span{font-size:12px;color:var(--muted)}
 .trip-facts span strong{font-weight:760;color:var(--ink)}
 .trip-facts span:not(:first-child)::before{content:"·";margin-right:15px;color:#b0bdb4}
-.detail-tabs{position:sticky;top:0;z-index:20;background:var(--paper);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:1px solid var(--line);padding-top:9px}
+.detail-tabs{position:sticky;top:0;z-index:20;background:var(--paper);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-bottom:1px solid var(--line);padding-top:9px}
 .detail-tabs [role=tab]{border:0;border-bottom:2px solid transparent;background:transparent;color:var(--muted);font-size:14px;font-weight:740;min-height:52px;padding:12px 7px;white-space:nowrap}
 .detail-tabs [role=tab][aria-selected=true]{color:var(--forest-dark);border-bottom-color:var(--forest);background:transparent}
 .detail-tabs [role=tab]:hover{color:var(--ink)}
