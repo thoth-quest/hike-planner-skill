@@ -72,6 +72,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
       return;
     }
     const adjustments={};
+    const serviceSelections={};
     let expanded=false;
     let opened=null;
     const pane=card(root,"行程时间轴");
@@ -93,10 +94,11 @@ import { makeTimeline, clockText } from "./timeline.mjs";
     summary.setAttribute("aria-live","polite");
     if(p.preview_timing?.notice) paragraph(help,p.preview_timing.notice);
     function paint(){
-      const schedule=makeTimeline(p,adjustments);
+      const schedule=makeTimeline(p,adjustments,serviceSelections);
       const count=schedule.changes.length;
-      summary.textContent=count?count+" 处时间调整 · 仅供本次预览":"无延误模拟 · 按计划原始估算";
-      reset.disabled=!count;
+      const selectedCount=Object.keys(serviceSelections).length;
+      summary.textContent=selectedCount?selectedCount+" 个班次选择"+(count?" · "+count+" 处时间调整":" · 仅供本次预览"):count?count+" 处时间调整 · 仅供本次预览":"无延误模拟 · 按计划原始估算";
+      reset.disabled=!count&&!selectedCount;
       warning.hidden=!schedule.overDay&&!schedule.hasMissedConnection&&!schedule.hasUnknownConnection;
       if(!warning.hidden){
         warning.textContent=(schedule.hasMissedConnection?"已错过固定班次，请由 Skill 重新查询可乘车次。 ":"")+
@@ -123,13 +125,26 @@ import { makeTimeline, clockText } from "./timeline.mjs";
           }
           const li=add(line,el("li",null,"timeline-item"+(item.key_point?" highlight":"")));
           li.dataset.nodeId=item.id;
+          const repaint=(action)=>{paint();const row=[...timeline.querySelectorAll(".timeline-item")].find(x=>x.dataset.nodeId===item.id);row?.querySelector(action)?.focus({preventScroll:true});};
           const stamped=item.kind==="transit" && (item.status==="fixed"||item.status==="connection_unknown")
             ?clockText(item.departure)+" → "+clockText(item.scheduled_arrival)
             :item.kind==="transit" && item.status==="connection_missed"
               ?(item.departure===null?"接驳中断":clockText(item.departure)+" · 已错过")
               :item.kind==="transit" && item.status==="pending"
                 ?(item.mode==="scheduled_transit"?"班次待查":"时间待定") :item.arrival===null?"—":clockText(item.arrival);
-          add(li,el("span",stamped,"timeline-time"+(item.arrival===null?" unknown":"")));
+          const adjustable=item.arrival!==null&&(item.kind==="trail"||item.kind==="transit"&&(item.mode==="driving"||item.mode==="walking"||item.mode==="flexible"));
+          if(adjustable){
+            const control=add(li,el("label",null,"timeline-time-control"));
+            const input=add(control,el("input"));input.type="time";input.step="60";input.value=clockText(item.arrival)==="跨日"?"":clockText(item.arrival);input.setAttribute("aria-label","调整"+item.label+"的到达时间");
+            add(control,el("span",clockText(item.arrival),"timeline-time"));
+            input.addEventListener("change",()=>{
+              const [hours,minutes]=input.value.split(":").map(Number);
+              const target=hours*60+minutes;
+              const next=Math.max(item.min_delay??0,target-item.base_arrival);
+              if(next)adjustments[item.id]=next;else delete adjustments[item.id];
+              paint();
+            });
+          }else add(li,el("span",stamped,"timeline-time"+(item.arrival===null?" unknown":"")));
           const h=add(li,el("h3"));
           linkedTitle(h,item.label,p,item.source_id);
           if(item.note && item.kind==="transit") paragraph(li,item.note);
@@ -146,8 +161,20 @@ import { makeTimeline, clockText } from "./timeline.mjs";
             if(item.status==="illustrative")paragraph(li,"行程时间估算 · 尚未与实际到达车次衔接");
             if(item.note && (expanded||item.key_point))paragraph(li,item.note);
           }
+          if(item.previous_services?.length||item.next_services?.length){
+            const services=add(li,el("div",null,"service-options"));
+            add(services,el("span","前后可选班次 · 点选后仅作本机模拟","service-options-title"));
+            [...item.previous_services,...item.next_services].forEach(service=>{
+              const selected=serviceSelections[item.id]===service.service_id||(!serviceSelections[item.id]&&item.service_id===service.service_id);
+              const choice=add(services,el("button",clockText(service.departure)+" → "+clockText(service.arrival)+(service.service_id?" · "+service.service_id:""),"service-choice"+(selected?" selected":"")));
+              choice.type="button";choice.setAttribute("aria-pressed",selected?"true":"false");
+              choice.addEventListener("click",()=>{serviceSelections[item.id]=service.service_id;repaint(".service-choice")});
+            });
+          }else if(item.kind==="transit"&&item.mode==="scheduled_transit"&&item.status==="pending"){
+            paragraph(li,"确定日期、出发站和目标时刻后，由 Skill 查询附近实际班次；未查询前不显示推测时刻。","sub-text");
+          }
           const canAdjust=item.arrival!==null && (item.kind==="trail"||
-            item.kind==="transit"&&(item.status==="fixed"||item.mode==="driving"||item.mode==="walking"||item.mode==="flexible"));
+            item.kind==="transit"&&(item.mode==="driving"||item.mode==="walking"||item.mode==="flexible"));
           if(!canAdjust)return;
           const actions=add(li,el("div",null,"node-actions"));
           const amount=item.delay;
@@ -155,7 +182,6 @@ import { makeTimeline, clockText } from "./timeline.mjs";
           const modify=add(actions,el("button",opened===item.id?"收起调整":"调整耗时","node-open"));
           modify.type="button";
           modify.setAttribute("aria-expanded",opened===item.id?"true":"false");
-          const repaint=(action)=>{ paint(); const row=[...timeline.querySelectorAll(".timeline-item")].find(x=>x.dataset.nodeId===item.id); row?.querySelector(action)?.focus({preventScroll:true}); };
           modify.addEventListener("click",()=>{opened=opened===item.id?null:item.id;repaint(".node-open")});
           if(opened===item.id){
             const editor=add(li,el("div",null,"node-editor"));
@@ -188,7 +214,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
       toggle.hidden=schedule.trail.length<5;
       toggle.textContent=expanded?"收起次要节点":"展开全部 "+schedule.trail.length+" 个登山节点";
     }
-    reset.addEventListener("click",()=>{for(const key of Object.keys(adjustments))delete adjustments[key];opened=null;paint()});
+    reset.addEventListener("click",()=>{for(const key of Object.keys(adjustments))delete adjustments[key];for(const key of Object.keys(serviceSelections))delete serviceSelections[key];opened=null;paint()});
     toggle.addEventListener("click",()=>{expanded=!expanded;paint()});
     paint();
     const footer=add(root,el("section",null,"quiet-card"));
@@ -239,6 +265,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
       const pending=card(root,"下一步确认");
       list(pending,p.pending_decisions);
     }
+    renderCosts(root,p);
     if(p.candidates?.length){
       const candidates=card(root,"备选目的地");
       p.candidates.forEach(x=>{
@@ -246,6 +273,43 @@ import { makeTimeline, clockText } from "./timeline.mjs";
         linkedTitle(row,x.name,p,x.source_id);
         paragraph(row,text(x.reason));
       });
+    }
+  }
+  function yen(value){return "¥"+Number(value).toLocaleString("ja-JP");}
+  function renderCosts(root,p){
+    const costs=p.costs||{currency:"JPY",items:[]};
+    const box=card(root,"费用估算");
+    const included=(costs.items||[]).filter(x=>x.included!==false);
+    const priced=included.filter(x=>Number.isInteger(x.amount_yen));
+    const unknown=included.filter(x=>!Number.isInteger(x.amount_yen));
+    let perPerson=0,groupFixed=0;
+    priced.forEach(x=>{
+      const amount=x.amount_yen*(x.quantity||1);
+      if(x.scope==="group")groupFixed+=amount;else perPerson+=amount;
+      const row=add(box,el("div",null,"cost-row"));
+      const detail=add(row,el("div",null,"cost-detail"));
+      const label=add(detail,el("strong",x.name));
+      if(x.source_id)linkedTitle(detail,"来源 ↗",p,x.source_id);
+      paragraph(detail,(x.quantity>1?yen(x.amount_yen)+" × "+x.quantity:"参考单价 "+yen(x.amount_yen))+" · "+(x.status==="confirmed"?"已核实":"参考估算")+(x.note?" · "+x.note:""));
+      add(row,el("strong",yen(amount),"cost-amount"));
+    });
+    unknown.forEach(x=>{
+      const row=add(box,el("div",null,"cost-row cost-pending"));
+      add(row,el("strong",x.name));add(row,el("span","待确认"));
+      if(x.note)paragraph(row,x.note);
+    });
+    const people=p.constraints?.estimated_participants;
+    const total=perPerson*(Number.isInteger(people)?people:1)+groupFixed;
+    const summary=add(box,el("div",null,"cost-summary"));
+    add(summary,el("span","已录入单人小计"));add(summary,el("strong",yen(perPerson)));
+    if(groupFixed){add(summary,el("span","全组固定费用"));add(summary,el("strong",yen(groupFixed)));}
+    if(Number.isInteger(people)&&people>1){add(summary,el("span","按 "+people+" 人计算总额"));add(summary,el("strong",yen(total)));}
+    else if(groupFixed&&!Number.isInteger(people))paragraph(box,"填写人数后可计算含全组固定费用的总额。","sub-text");
+    paragraph(box,unknown.length?"费用尚未完整：出发车站、日期或票券方案待确定。":"金额为计划数据中的费用合计；出发前需复核票价。","sub-text");
+    const optional=(costs.items||[]).filter(x=>x.included===false);
+    if(optional.length){
+      add(box,el("h3","可选项目"));
+      optional.forEach(x=>{const row=add(box,el("div",null,"cost-row"));add(row,el("span",x.name));add(row,el("strong",Number.isInteger(x.amount_yen)?yen(x.amount_yen*(x.quantity||1)):"待确认"));if(x.source_id)linkedTitle(row,"来源 ↗",p,x.source_id);});
     }
   }
   function renderWeather(p) {

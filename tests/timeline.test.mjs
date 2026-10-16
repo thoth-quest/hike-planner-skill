@@ -129,3 +129,24 @@ test('overnight timetable is explicitly flagged as unsupported',()=>{
  const p=fixture();p.transport.inbound[0].timetable=known('2026-10-24','23:50','00:20');
  const t=makeTimeline(p);assert.equal(t.overDay,true);assert.equal(t.before[0].status,'pending');
 });
+
+test('actual nearby services expose the closest two before and after a requested time',()=>{
+ const p=fixture();
+ const leg=p.transport.inbound[0];leg.timetable=null;leg.reference_time='07:30';
+ leg.timetable_options=['07:00','07:15','07:45','08:00'].map((departure,i)=>({
+  ...known('2026-10-24',departure,`${String(Number(departure.slice(0,2))+1).padStart(2,'0')}:${departure.slice(3)}`),service_id:`S${i}`
+ }));
+ const entry=makeTimeline(p).before[0];
+ assert.deepEqual(entry.previous_services.map(x=>x.departure),[420,435]);
+ assert.deepEqual(entry.next_services.map(x=>x.departure),[465,480]);
+});
+
+test('choosing a sourced service is temporary and can reveal a missed connection',()=>{
+ const p=fixture();const leg=p.transport.inbound[0];leg.timetable=null;leg.reference_time='07:30';
+ leg.timetable_options=[{...known('2026-10-24','07:45','08:05'),service_id:'late-choice'}];
+ const chosen=makeTimeline(p,{}, {train:'late-choice'});
+ assert.equal(chosen.before[0].status,'fixed');
+ assert.equal(chosen.before[0].departure,465);
+ assert.equal(chosen.before[1].status,'connection_missed');
+ assert.equal(leg.timetable,null,'the original plan stays read-only');
+});

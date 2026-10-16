@@ -1,6 +1,6 @@
 ---
 name: hike-planner
-description: Plan and revise multiple independently identified hiking activities. Define goals, destinations, constraints, and source-backed weather snapshots. The static GitHub Pages viewer reads JSON; only the agent updates plan data.
+description: Plan and revise multiple independently identified hiking activities. Define goals, destinations, constraints, and source-backed weather snapshots. The offline static viewer reads JSON; only the agent updates plan data.
 ---
 
 # Hike Planner · Portable Stage 1
@@ -17,7 +17,7 @@ This release handles **one calendar day per plan**. Every created plan must set 
 2. If they want a new outing, create a NEW unique, lowercase slug (e.g. `2026-11-oyama`). The slug is stable even if the destination or date later changes.
 3. In the published preview repository, plan state lives in `site/plans/<slug>/activity.json`, and `site/plans/index.json` lists the published slugs. `id` inside JSON **must equal** `<slug>`. Use [schema](../../schemas/activity.schema.json). Keep unrelated plans untouched.
 4. For a new plan, edit JSON directly or optionally run `node scripts/plans.mjs add <slug> "<title>"` to initialize and register it. This Node command is for convenience only, not rendering.
-5. **Privacy:** `site/plans/` is published via GitHub Pages. Never commit personal details or private activity plans there without the user's explicit choice. Keep private/local plans outside the published directory. Do not add real identities or addresses to public examples.
+5. **Privacy:** `site/plans/` may be copied to public GitHub Pages. Never commit personal details or private activity plans there without the user's explicit choice. Keep private/local plans outside the published directory. Do not add real identities or addresses to public examples.
 
 ## Stage 1 conversation
 
@@ -59,7 +59,7 @@ A plan may contain `route`, `transport`, `safety`, and `pending_decisions` in ad
 
 ## Detail preview and time shifting
 
-The GitHub Pages detail viewer uses four tabs: route (default), overview, weather/safety, history. Route is a timeline with before-hike transit, trail stages, and after-hike transit. Plan data may include `preview_timing` (`anchor_time`, `anchor_label`, `status: illustrative`, `notice`), optional integer `offset_minutes` and `key_point` on trail stops, and estimated durations for driving/walking legs. Every timing is **an estimate** until checked and confirmed for a specific date. Node-level ±15-minute scenario controls are temporary UI state and MUST NOT modify plan data or change weather. Rail/bus departures are fixed when sourced. If asked to save a revised schedule, validate the user's intended arrival/departure times against actual public transport, terrain, sunset and participant abilities, then update only that plan's JSON with revision history.
+The offline-first detail viewer uses four tabs in this order: overview/plan (default), weather/safety, route, history. Route is a timeline with before-hike transit, trail stages, and after-hike transit. Tap a hiking/driving time directly to use the device time picker; this changes only that node and downstream estimates in temporary browser state. Plan data may include `preview_timing` (`anchor_time`, `anchor_label`, `status: illustrative`, `notice`), optional integer `offset_minutes` and `key_point` on trail stops, and estimated durations for driving/walking legs. Every timing is **an estimate** until checked and confirmed for a specific date. Node-level ±15-minute scenario controls are temporary UI state and MUST NOT modify plan data or change weather. Rail/bus departures are fixed when sourced. If asked to save a revised schedule, validate the user's intended arrival/departure times against actual public transport, terrain, sunset and participant abilities, then update only that plan's JSON with revision history.
 
 Place links at the item they support, using `source_id` (or `source_ids`) referencing `evidence` on route points, transport legs, risks and weather. Do not show a separate dump of references.
 
@@ -67,13 +67,13 @@ Place links at the item they support, using `source_id` (or `source_ids`) refere
 
 On day-trip previews, UI time adjustments are attached to a **particular waypoint or transport arrival**, never to the whole itinerary. Trail/walking stops use estimated offsets; driving legs use estimated durations with possible congestion delay. The page stores simulation deltas in ephemeral browser state; Skill data remains unchanged until a user explicitly approves saved changes.
 
-Public transit MUST use a verified `timetable` object for that exact `constraints.date`: `service_date`, `departure_time`, `arrival_time`, `checked_at`, `source_id`, optional `service_id`. `source_id` must match a verified `evidence` item with an exact URL. Never build a train/bus departure from approximate `offset_minutes` or a hiking anchor. Before verification, mark timetable pending and show no fake clock time. When a late hiking/drive leg makes a fixed departure impossible, flag missed connection and ask for a new actual timetable query; do not shift the departure or invent a later service. Transit arrival delay may be simulated without altering the published scheduled departure/arrival.
+Public transit MUST use a verified `timetable` object for that exact `constraints.date`: `service_date`, `departure_time`, `arrival_time`, `checked_at`, `source_id`, optional `service_id`. `source_id` must match a verified `evidence` item with an exact URL. When a target boarding time is known, store `reference_time` plus up to two actually queried earlier and two later services in `timetable_options`, each with its own service ID, date, clocks, check time and evidence ID. The viewer filters these to the nearest two on either side and allows temporary selection; it must never synthesize adjacent departures. Never build a train/bus departure from approximate `offset_minutes` or a hiking anchor. Before verification, mark timetable pending and show no fake clock time. When a late hiking/drive leg makes a fixed departure impossible, flag missed connection and ask for a new actual timetable query; do not shift the departure or invent a later service. Time controls on fixed train/bus nodes select only an actual sourced timetable option, never a free-form clock.
 
 Do not treat browser-adjusted arrival estimates as confirmations of route safety, last bus, sunset or weather. Multi-day behavior is explicitly deferred.
 
 ## Source quality and boundaries
 
-Evidence items: `id`, `claim`, `url`, `publisher`, `checked_at`, `valid_for` (when applicable), `status`. Prefer the actual official source. Never invent transit times, fares, alerts, trail conditions or weather. Forecast checks should be revisited near departure **only when the user returns or a scheduled agent explicitly runs**. A risk warning should result in appropriate advice, not a silent change to a confirmed date.
+Costs are stored in `costs.items` as source-backed per-person or group line items with amount, quantity, inclusion flag and pending/estimated/confirmed status. The viewer sums available prices, separates optional items, and marks the total incomplete while included fares remain unresolved. Evidence items: `id`, `claim`, `url`, `publisher`, `checked_at`, `valid_for` (when applicable), `status`. Prefer the actual official source. Never invent transit times, fares, alerts, trail conditions or weather. Forecast checks should be revisited near departure **only when the user returns or a scheduled agent explicitly runs**. A risk warning should result in appropriate advice, not a silent change to a confirmed date.
 
 Stage 2 = people coordination, Stage 3 = trails and trains/farepasses, Stage 4 = pre-trip verification, Stage 5 = adaptive trip, Stage 6 = retrospective. Do not claim later stages exist yet.
 

@@ -68,15 +68,16 @@ test("Oyama reference plan includes grounded route and safety information",()=>{
   for(const a of p.safety.alerts) assert.ok(ids.has(a.source_id),"alerts must link to evidence");
 });
 
-test("detail view has tab navigation with the route as default",()=>{
+test("detail view opens Plan first and places Route in the third tab",()=>{
   const page=readFileSync(path.join(site,"plan.html"),"utf8");
   assert.match(page,/role="tablist"/);
   for(const name of ["route","overview","weather","history"]){
     assert.match(page,new RegExp('id="tab-'+name+'"'));
     assert.match(page,new RegExp('id="panel-'+name+'"'));
   }
-  assert.match(page,/id="tab-route"[^>]+aria-selected="true"/);
-  assert.doesNotMatch(page,/id="panel-route"[^>]*hidden/);
+  assert.match(page,/id="tab-overview"[^>]+aria-selected="true"/);
+  assert.doesNotMatch(page,/id="panel-overview"[^>]*hidden/);
+  assert.match(page,/id="tab-route"[^>]+aria-controls="panel-route"[^>]*>路线 <span class="tab-count">03/);
   assert.match(page,/assets\/detail\.js/);
   assert.ok(existsSync(path.join(site,"assets","detail.js")));
   const js=readFileSync(path.join(site,"assets","detail.js"),"utf8");
@@ -88,6 +89,16 @@ test("detail view has tab navigation with the route as default",()=>{
   assert.match(js,/linkedTitle/);
   assert.doesNotMatch(page,/核实来源/);
   assert.doesNotMatch(js,/fetch\(.*jma|openweathermap|weatherapi/i);
+});
+
+test('Oyama has source-backed fee inputs and does not invent unresolved rail fares',()=>{
+ const p=load(path.join(dir,"oyama-day-hike","activity.json"));
+ assert.equal(p.costs.currency,"JPY");
+ assert.equal(p.costs.items.find(x=>x.name.includes("巴士站"))?.amount_yen,410);
+ assert.equal(p.costs.items.find(x=>x.name.includes("往返电车"))?.amount_yen,null);
+ assert.equal(p.costs.items.filter(x=>x.included===false)[0]?.amount_yen,640);
+ const evidence=new Set(p.evidence.map(x=>x.id));
+ assert.ok(p.costs.items.filter(x=>x.amount_yen!==null).every(x=>evidence.has(x.source_id)));
 });
 
 test("Oyama timeline covers inbound transit, hike and outbound transit, with evidence",()=>{

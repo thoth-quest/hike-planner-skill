@@ -1,12 +1,12 @@
 {
   "id": "oyama-day-hike",
   "schema_version": 1,
-  "revision": 4,
+  "revision": 5,
   "stage": "goal_definition",
   "status": "draft",
   "title": "丹泽·大山｜女坂登顶·见晴台环线",
   "example_only": false,
-  "updated_at": "2026-10-15T19:24:00+09:00",
+  "updated_at": "2026-10-16T10:17:00+09:00",
   "visibility_note": "公开规划草稿，不包含参与者身份或私人集合地点",
   "destination": {
     "state": "fixed",
@@ -219,6 +219,7 @@
         "node_id": "before-0",
         "mode": "scheduled_transit",
         "schedule_status": "pending",
+        "timetable_options": [],
         "timetable": null
       },
       {
@@ -229,6 +230,7 @@
         "node_id": "before-1",
         "mode": "scheduled_transit",
         "schedule_status": "pending",
+        "timetable_options": [],
         "timetable": null
       },
       {
@@ -251,6 +253,7 @@
         "node_id": "after-0",
         "mode": "scheduled_transit",
         "schedule_status": "pending",
+        "timetable_options": [],
         "timetable": null
       }
     ],
@@ -341,10 +344,10 @@
       "claim": "大山缆车官方：普通营业时间工作日9:00–16:30、休息日9:00–17:00，恶劣天气可能停运",
       "url": "https://www.ooyama-cable.co.jp/timetable/",
       "publisher": "大山观光电铁",
-      "checked_at": "2026-10-15T18:02:23+09:00",
+      "checked_at": "2026-10-16T10:17:00+09:00",
       "valid_for": null,
       "status": "verified",
-      "note": "班次及末班以目标日期最新公布为准，红叶季、节日可能延长"
+      "note": "2026-10-16复核：大山缆车～阿夫利神社成人单程640日元、往返1270日元；B券单程优惠580日元。票价和营业情况出发前复核。"
     },
     {
       "id": "bear-alert",
@@ -375,6 +378,16 @@
       "valid_for": null,
       "status": "verified",
       "note": "该页面下行走男坂，不完全等同本计划返程"
+    },
+    {
+      "id": "bus-fare-reference",
+      "claim": "神奈川中央交通・伊势原站北口⇄大山缆车站巴士成人普通单程票价参考",
+      "url": "https://transfer-cloud.navitime.biz/kanachu/trips?external-arrival-busstop=18135&external-departure-busstop=18100",
+      "publisher": "神奈川中央交通／NAVITIME 乗換案内",
+      "checked_at": "2026-10-16T10:17:00+09:00",
+      "valid_for": null,
+      "status": "verified",
+      "note": "查询结果列出成人单程410日元；目标日期未定，班次仍待查询，出发前复核票价与Freepass适用范围。"
     }
   ],
   "changes": [
@@ -412,6 +425,18 @@
         "hike": "estimated_duration"
       },
       "reason": "改为节点级延误模拟，固定电车巴士班次不可整体平移；无来源班次保持待查询"
+    },
+    {
+      "revision": 5,
+      "at": "2026-10-16T10:17:00+09:00",
+      "field": "costs",
+      "before": null,
+      "after": {
+        "known_transit_subtotal_per_person_jpy": 820,
+        "return_origin_fare": "pending",
+        "ropeway_alternative_jpy": 640
+      },
+      "reason": "恢复带来源的费用汇总；出发站与日期尚未确定的票价保留待确认。"
     }
   ],
   "pending_decisions": [
@@ -426,5 +451,40 @@
     "status": "illustrative",
     "notice": "08:00是山路演示起点，不是任何电车或巴士的实际到站时间。交通班次须按确定日期查询。节点耗时调整只影响后续时间，不会修改固定时刻表。"
   },
-  "trip_type": "day_trip"
+  "trip_type": "day_trip",
+  "costs": {
+    "currency": "JPY",
+    "items": [
+      {
+        "name": "伊勢原站 ⇄ 大山缆车巴士站（成人参考票价）",
+        "amount_yen": 410,
+        "quantity": 2,
+        "scope": "per_person",
+        "status": "estimated",
+        "included": true,
+        "source_id": "bus-fare-reference",
+        "note": "按普通成人单程票价估算往返；乘 Freepass 时不可重复计费"
+      },
+      {
+        "name": "往返电车：个人出发站 ⇄ 伊势原",
+        "amount_yen": null,
+        "quantity": 1,
+        "scope": "per_person",
+        "status": "pending",
+        "included": true,
+        "source_id": null,
+        "note": "始发站未定，查询路线后补入"
+      },
+      {
+        "name": "大山缆车单程（体力不足时备选）",
+        "amount_yen": 640,
+        "quantity": 1,
+        "scope": "per_person",
+        "status": "estimated",
+        "included": false,
+        "source_id": "cable-timetable",
+        "note": "普通成人单程参考票价；B券持有人另有折扣"
+      }
+    ]
+  }
 }

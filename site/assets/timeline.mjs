@@ -20,7 +20,7 @@ const validTimetable = (leg, day, evidence) => {
   if(!proof || departure===null || arrival===null || arrival<departure) return null;
   return {departure,arrival,source_id:s.source_id,service_id:s.service_id||null};
 };
-export function makeTimeline(plan, edits={}) {
+export function makeTimeline(plan, edits={}, selections={}) {
   const steps=[];
   const date=plan.constraints?.date||null;
   const before=(plan.transport?.inbound||[]).filter(leg=>leg.preview_phase!=="hike");
@@ -40,7 +40,14 @@ export function makeTimeline(plan, edits={}) {
     const id=leg.node_id||phase+"-"+index;
     const mode=leg.mode||"scheduled_transit";
     const delay=Math.max(0,getDelay(id));
-    const s=validTimetable(leg,date,plan.evidence);
+    const verifiedOptions=(leg.timetable_options||[]).map(x=>validTimetable({...leg,timetable:x,schedule_status:"verified"},date,plan.evidence)).filter(Boolean);
+    const selectedId=selections[id];
+    const selectedOption=verifiedOptions.find(x=>x.service_id===selectedId);
+    const s=selectedOption||validTimetable(leg,date,plan.evidence);
+    const reference=cursor??parseClock(leg.reference_time);
+    const serviceOptions=reference===null?verifiedOptions:verifiedOptions.slice().sort((a,b)=>a.departure-b.departure);
+    const previousServices=reference===null?[]:serviceOptions.filter(x=>x.departure<=reference).slice(-2);
+    const nextServices=reference===null?serviceOptions.slice(0,2):serviceOptions.filter(x=>x.departure>reference).slice(0,2);
     let status="pending",display=null,dep=null,arr=null;
     if(mode==="driving"||mode==="walking"||mode==="flexible") {
       const start=cursor??parseClock(leg.departure_time);
@@ -68,6 +75,7 @@ export function makeTimeline(plan, edits={}) {
     entries.push({id,kind:"transit",phase,mode,label:leg.name||"交通节点",
       note:leg.note||"",source_id:s?.source_id||leg.source_id||null,
       departure:dep,scheduled_arrival:arr,base_arrival:display,
+      previous_services:previousServices,next_services:nextServices,
       arrival:display,ready_after:display===null?null:display+delay,
       status,delay,service_id:s?.service_id||null});
     return status;
