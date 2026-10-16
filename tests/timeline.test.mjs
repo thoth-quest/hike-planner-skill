@@ -45,6 +45,18 @@ test("node delay affects only following flexible waypoints",()=>{
  assert.equal(a.after[0].departure,585);
  assert.equal(a.after[0].status,"fixed");
 });
+test("setting a waypoint arrival moves that waypoint and later nodes, not earlier ones",()=>{
+ const a=makeTimeline(fixture(),{},{},{summit:15});
+ assert.equal(a.trail[0].arrival,480);
+ assert.equal(a.trail[1].arrival,555);
+ assert.equal(a.trail[1].base_arrival,540);
+ assert.equal(a.trail[2].arrival,585);
+});
+test("an earlier selected arrival cannot precede the previous waypoint",()=>{
+ const a=makeTimeline(fixture(),{},{},{summit:-90});
+ assert.equal(a.trail[1].arrival,480);
+ assert.equal(a.trail[1].min_arrival_shift,-60);
+});
 test("a late train can miss the fixed inbound bus and blocks downstream hiking estimates",()=>{
  const a=makeTimeline(fixture(),{train:15});
  assert.equal(a.before[0].departure,420);

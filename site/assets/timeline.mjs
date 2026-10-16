@@ -20,7 +20,7 @@ const validTimetable = (leg, day, evidence) => {
   if(!proof || departure===null || arrival===null || arrival<departure) return null;
   return {departure,arrival,source_id:s.source_id,service_id:s.service_id||null};
 };
-export function makeTimeline(plan, edits={}, selections={}) {
+export function makeTimeline(plan, edits={}, selections={}, arrivalEdits={}) {
   const steps=[];
   const date=plan.constraints?.date||null;
   const before=(plan.transport?.inbound||[]).filter(leg=>leg.preview_phase!=="hike");
@@ -94,15 +94,19 @@ export function makeTimeline(plan, edits={}, selections={}) {
     const nominal=offset===null||walkingBase===null?null:walkingBase+offset+cumulative;
     const nextOffset=integer(route[i+1]?.offset_minutes);
     const minimum=offset!==null && nextOffset!==null ? -Math.max(0,nextOffset-offset) : 0;
+    const previousOffset=integer(route[i-1]?.offset_minutes);
+    const minimumArrival=offset!==null && previousOffset!==null ? -Math.max(0,offset-previousOffset) : 0;
     const delay=Math.max(minimum,getDelay(id));
+    const arrivalShift=Math.max(minimumArrival,adjustment(arrivalEdits,id));
+    const arrival=nominal===null?null:nominal+arrivalShift;
     const status=missedInbound?"connection_missed":nominal===null?"pending":linked?"estimated_linked":"illustrative";
     steps.push({id,kind:"trail",phase:"trail",label:stop.name||"登山节点",
       note:stop.note||"",section_name:stop.section_name,
       source_id:stop.source_id||null,key_point:!!stop.key_point,
-      arrival:nominal,base_arrival:nominal===null?null:nominal-cumulative,
-      ready_after:nominal===null?null:nominal+delay,
-      status,delay,min_delay:minimum,offset_minutes:offset});
-    cumulative+=delay;
+      arrival,base_arrival:nominal,
+      ready_after:arrival===null?null:arrival+delay,
+      status,delay,min_delay:minimum,min_arrival_shift:minimumArrival,offset_minutes:offset});
+    cumulative+=delay+arrivalShift;
   });
   // Once hiking has finished, use its actual scenario completion for the outbound connection.
   // The previous inbound cursor must not override the hike.
@@ -125,5 +129,8 @@ export function makeTimeline(plan, edits={}, selections={}) {
     trail:steps,after:entries.filter(x=>x.phase==="after"),linked,anchor:walkingBase,
     finish,trailEnd,hasMissedConnection:problem,overDay,
     hasUnknownConnection:entries.some(x=>x.status==="connection_unknown"),
-    changes:Object.entries(edits).filter(([id,n])=>integer(n)!==null&&n!==0).map(([id,minutes])=>({id,minutes}))};
+    changes:[
+      ...Object.entries(edits).filter(([id,n])=>integer(n)!==null&&n!==0).map(([id,minutes])=>({id,minutes,kind:"delay"})),
+      ...Object.entries(arrivalEdits).filter(([id,n])=>integer(n)!==null&&n!==0).map(([id,minutes])=>({id,minutes,kind:"arrival"}))
+    ]};
 }

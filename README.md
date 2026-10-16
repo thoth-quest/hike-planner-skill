@@ -62,11 +62,11 @@ A plan keeps a stable URL: `https://thoth-quest.github.io/hike-planner-skill/pla
 
 ## Detail page (tabs + relative timeline)
 
-The viewer uses a quiet, mobile-first day-hike field-guide design. **Plan** is the first tab, followed by **Safety**, **Route**, and **History**. The Route tab places **transport before the hike**, then the **hiking itinerary**, then **transport after the hike** on one chronological timeline. Switch between key waypoints and all waypoints.
+The viewer uses a quiet, mobile-first day-hike field-guide design. **Plan** is the first tab, followed by **Safety**, **Route**, **Fees**, and **History**. The Route tab places **transport before the hike**, then the **hiking itinerary**, then **transport after the hike** on one chronological timeline. Switch between key waypoints and all waypoints.
 
-Tap a hiking or driving time on the timeline to open the device time picker; downstream estimates recalculate from that node. Fixed transit can only be chosen from actual queried services, with up to two nearby departures before and after the requested time. Without an explicit illustrative anchor the viewer shows no default clock time.
+Tap a hiking or driving time on the timeline to open the device time picker; the selected waypoint and downstream estimates recalculate. The separate delay control adds time after the selected waypoint. Fixed transit can only be chosen from actual queried services, with up to two nearby departures before and after the requested time. Without an explicit illustrative anchor the viewer shows no default clock time.
 
-The Plan tab includes a per-person fee subtotal, sourced line items, optional costs, and an incomplete-total notice while fares are unknown. Supporting sources are linked directly on the relevant route location, transport step, cost or risk notice. There is no separate wall of source links.
+The Fees tab includes a per-person subtotal, sourced line items, optional costs, and an incomplete-total notice while fares are unknown. Supporting sources are linked directly on the relevant route location, transport step, cost or risk notice. There is no separate wall of source links.
 
 ## Node-by-node time simulation (v0.4)
 
@@ -74,7 +74,7 @@ Every waypoint has its own optional **±15-minute adjustment**. Delays at a hiki
 
 **Rail and bus services have fixed timetables.** Their departure and scheduled arrival times may appear only when a date-specific, verified service is stored with a supporting source URL and check time. The Skill can store up to two real services immediately before and after the requested time; the user may choose one temporarily on the timeline. If a prior hiking delay misses a departure, the page flags **missed connection** and requires the Skill to research an actual alternative; it never slides the published departure later or invents the next service.
 
-**Driving** uses approximate travel durations and can incur congestion delays. **Hiking** uses estimated waypoint offsets and local rests or unexpected setbacks. Tap either time on the timeline to open the device's native time picker; downstream estimates recalculate from that node. These scenarios stay only in browser memory and cannot change the plan JSON, official transit timetable or weather. The current Oyama plan has **no verified service times** because its trip date is unknown; these correctly appear as *timetable pending*. Its 08:00 hiking anchor remains a clearly labeled illustrative assumption, not a claimed bus arrival. The Plan tab also calculates a sourced fare subtotal and marks the full cost incomplete while the departure-station fare is unknown. Multi-day travel remains out of scope.
+**Driving** uses approximate travel durations and can incur congestion delays. **Hiking** uses estimated waypoint offsets and local rests or unexpected setbacks. Tap either time on the timeline to open the device's native time picker; the selected waypoint and downstream estimates recalculate. The separate delay control adds time after the waypoint. These scenarios stay only in browser memory and cannot change the plan JSON, official transit timetable or weather. The current Oyama plan has **no verified service times** because its trip date is unknown; these correctly appear as *timetable pending*. Its 08:00 hiking anchor remains a clearly labeled illustrative assumption, not a claimed bus arrival. The Fees tab calculates a sourced subtotal and marks the full cost incomplete while the departure-station fare is unknown. Multi-day travel remains out of scope.
 
 ## Weather updates belong to the Skill
 

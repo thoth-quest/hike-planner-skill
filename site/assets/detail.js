@@ -72,6 +72,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
       return;
     }
     const adjustments={};
+    const arrivalAdjustments={};
     const serviceSelections={};
     let expanded=false;
     let opened=null;
@@ -94,7 +95,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
     summary.setAttribute("aria-live","polite");
     if(p.preview_timing?.notice) paragraph(help,p.preview_timing.notice);
     function paint(){
-      const schedule=makeTimeline(p,adjustments,serviceSelections);
+      const schedule=makeTimeline(p,adjustments,serviceSelections,arrivalAdjustments);
       const count=schedule.changes.length;
       const selectedCount=Object.keys(serviceSelections).length;
       summary.textContent=selectedCount?selectedCount+" 个班次选择"+(count?" · "+count+" 处时间调整":" · 仅供本次预览"):count?count+" 处时间调整 · 仅供本次预览":"无延误模拟 · 按计划原始估算";
@@ -141,10 +142,10 @@ import { makeTimeline, clockText } from "./timeline.mjs";
               if(!/^\d{2}:\d{2}$/.test(input.value))return;
               const [hours,minutes]=input.value.split(":").map(Number);
               const target=hours*60+minutes;
-              // The selected time is relative to this node's current arrival,
-              // which already includes delays on earlier nodes.
-              const next=Math.max(item.min_delay??0,target-item.arrival);
-              if(next)adjustments[item.id]=next;else delete adjustments[item.id];
+              // Set this waypoint's arrival; upstream changes are already
+              // reflected in base_arrival and only later nodes move.
+              const next=Math.max(item.min_arrival_shift??0,target-item.base_arrival);
+              if(next)arrivalAdjustments[item.id]=next;else delete arrivalAdjustments[item.id];
               paint();
             };
             input.addEventListener("input",commitTime);
@@ -219,7 +220,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
       toggle.hidden=schedule.trail.length<5;
       toggle.textContent=expanded?"收起次要节点":"展开全部 "+schedule.trail.length+" 个登山节点";
     }
-    reset.addEventListener("click",()=>{for(const key of Object.keys(adjustments))delete adjustments[key];for(const key of Object.keys(serviceSelections))delete serviceSelections[key];opened=null;paint()});
+    reset.addEventListener("click",()=>{for(const key of Object.keys(adjustments))delete adjustments[key];for(const key of Object.keys(arrivalAdjustments))delete arrivalAdjustments[key];for(const key of Object.keys(serviceSelections))delete serviceSelections[key];opened=null;paint()});
     toggle.addEventListener("click",()=>{expanded=!expanded;paint()});
     paint();
     const footer=add(root,el("section",null,"quiet-card"));
