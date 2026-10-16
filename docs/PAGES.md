@@ -11,7 +11,7 @@ Current preview design is **read-only and entirely static**.
    - Directory: `https://thoth-quest.github.io/hike-planner-skill/`
    - Individual plan: `https://thoth-quest.github.io/hike-planner-skill/plan.html?id=oyama-demo`
 
-**Do not assume these URLs work before GitHub reports an actual successful deployment.**
+**A successful workflow is insufficient: verify the catalogue, detail page, JSON and JS content against the deployed commit.**
 
 ## 2. No build / 无构建流程
 
@@ -54,3 +54,9 @@ The page displays only `weather` fields already present in `activity.json`. It d
 - **Local file opens but plan fails to load:** browsers generally restrict `fetch()` with `file://`. Use GitHub Pages or any local static HTTP server; this is not an HTML generator.
 
 GitHub official docs: https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
+
+## Publication conflict / 发布冲突
+
+If the homepage is a Jekyll-rendered README while `plan.html` is 404, a branch-based Pages build may be replacing the Actions artifact. The workflow checks `build_type` and attempts to set `workflow` using its existing Pages permission. If GitHub denies this, an administrator must select **GitHub Actions** in Settings → Pages; no new token or elevated permission is requested by the application.
+
+`node scripts/verify-pages.mjs` with `PAGE_URL` set compares deployed files byte-for-byte against the checkout. HTTP 200 alone is not success. `BASE_URL=https://…/ npm run test:browser` runs the same desktop/mobile interaction suite against a published site. Browser screenshots are retained in the `browser-checks` workflow artifact.

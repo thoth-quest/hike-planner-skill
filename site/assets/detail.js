@@ -65,9 +65,6 @@ import { makeTimeline, clockText } from "./timeline.mjs";
       });
     });
   }
-  const parseTime = v => /^([01]\d|2[0-3]):[0-5]\d$/.test(v||"") ? Number(v.slice(0,2))*60+Number(v.slice(3)) : null;
-  const timeText = n => Number.isFinite(n) && n>=0 && n<1440
-    ? String(Math.floor(n/60)).padStart(2,"0")+":"+String(n%60).padStart(2,"0") : "跨日";
   function renderRoute(p) {
     const root = $("panel-route");
     if (!p.route?.sections?.length && !p.transport?.inbound?.length) {
@@ -92,14 +89,18 @@ import { makeTimeline, clockText } from "./timeline.mjs";
     toggle.type="button";
     const warning=add(pane,el("div",null,"timeline-day-warning"));
     warning.hidden=true;
+    warning.setAttribute("role","status");
+    summary.setAttribute("aria-live","polite");
+    if(p.preview_timing?.notice) paragraph(help,p.preview_timing.notice);
     function paint(){
       const schedule=makeTimeline(p,adjustments);
       const count=schedule.changes.length;
       summary.textContent=count?count+" 处时间调整 · 仅供本次预览":"无延误模拟 · 按计划原始估算";
       reset.disabled=!count;
-      warning.hidden=!schedule.overDay&&!schedule.hasMissedConnection;
+      warning.hidden=!schedule.overDay&&!schedule.hasMissedConnection&&!schedule.hasUnknownConnection;
       if(!warning.hidden){
         warning.textContent=(schedule.hasMissedConnection?"已错过固定班次，请由 Skill 重新查询可乘车次。 ":"")+
+          (schedule.hasUnknownConnection?"前序到达时间未定，接驳尚不能确认。 ":"")+
           (schedule.overDay?"模拟时间超出当天，当前仅支持日归行程。":"");
       }
       timeline.replaceChildren();
@@ -121,16 +122,20 @@ import { makeTimeline, clockText } from "./timeline.mjs";
             add(line,el("li",group,"timeline-group"));
           }
           const li=add(line,el("li",null,"timeline-item"+(item.key_point?" highlight":"")));
-          const stamped=item.kind==="transit" && item.status==="fixed"
+          li.dataset.nodeId=item.id;
+          const stamped=item.kind==="transit" && (item.status==="fixed"||item.status==="connection_unknown")
             ?clockText(item.departure)+" → "+clockText(item.scheduled_arrival)
             :item.kind==="transit" && item.status==="connection_missed"
               ?(item.departure===null?"接驳中断":clockText(item.departure)+" · 已错过")
               :item.kind==="transit" && item.status==="pending"
-                ?"班次待查" :item.arrival===null?"—":clockText(item.arrival);
+                ?(item.mode==="scheduled_transit"?"班次待查":"时间待定") :item.arrival===null?"—":clockText(item.arrival);
           add(li,el("span",stamped,"timeline-time"+(item.arrival===null?" unknown":"")));
           const h=add(li,el("h3"));
           linkedTitle(h,item.label,p,item.source_id);
-          if(item.status==="pending" && item.kind==="transit") {
+          if(item.note && item.kind==="transit") paragraph(li,item.note);
+          if(item.status==="connection_unknown") {
+            paragraph(li,"班次已核实 · 前序到达未定，接驳待确认。","issue-text");
+          }else if(item.status==="pending" && item.kind==="transit") {
             paragraph(li,"未核实出发日车次；不使用估算时间替代时刻表。");
           }else if(item.status==="connection_missed"){
             paragraph(li,"前序行程未赶上该班，不能自动顺延固定发车时刻。","issue-text");
@@ -140,37 +145,40 @@ import { makeTimeline, clockText } from "./timeline.mjs";
           }else if(item.kind==="trail"){
             if(item.status==="illustrative")paragraph(li,"行程时间估算 · 尚未与实际到达车次衔接");
             if(item.note && (expanded||item.key_point))paragraph(li,item.note);
-          }else if(item.note) paragraph(li,item.note);
-          const canAdjust=item.kind==="trail"||
-            item.kind==="transit"&&(item.status==="fixed"||item.mode==="driving"||item.mode==="walking"||item.mode==="flexible");
+          }
+          const canAdjust=item.arrival!==null && (item.kind==="trail"||
+            item.kind==="transit"&&(item.status==="fixed"||item.mode==="driving"||item.mode==="walking"||item.mode==="flexible"));
           if(!canAdjust)return;
           const actions=add(li,el("div",null,"node-actions"));
-          const amount=adjustments[item.id]||0;
+          const amount=item.delay;
           if(amount) add(actions,el("span","此节点"+(amount>0?" +":" ")+amount+" 分","node-delay"));
           const modify=add(actions,el("button",opened===item.id?"收起调整":"调整耗时","node-open"));
           modify.type="button";
           modify.setAttribute("aria-expanded",opened===item.id?"true":"false");
-          modify.addEventListener("click",()=>{opened=opened===item.id?null:item.id;paint()});
+          const repaint=(action)=>{ paint(); const row=[...timeline.querySelectorAll(".timeline-item")].find(x=>x.dataset.nodeId===item.id); row?.querySelector(action)?.focus({preventScroll:true}); };
+          modify.addEventListener("click",()=>{opened=opened===item.id?null:item.id;repaint(".node-open")});
           if(opened===item.id){
             const editor=add(li,el("div",null,"node-editor"));
-            const explanation=item.kind==="transit"?
+            const explanation=item.kind==="transit"&&item.mode==="scheduled_transit"?
               "模拟本班次到站晚点；公开时刻表的发车和计划到达时间保持固定。":
-              "此处增加或减少停留 / 步行耗时，只影响后续节点，不改变本节点到达时刻。";
+              item.kind==="transit"?"模拟堵车或途中延误，只影响后续节点。":
+              "调整后续路段耗时；缩短量不能超过下一段原始耗时，末节点只能增加停留。";
             paragraph(editor,explanation,"sub-text");
             const buttons=add(editor,el("div",null,"delay-buttons"));
             const minus=add(buttons,el("button","−15 分"));
             const plus=add(buttons,el("button","+15 分"));
             const clear=add(buttons,el("button","恢复","quiet-button"));
             [minus,plus,clear].forEach(x=>x.type="button");
-            minus.disabled=amount<=-90;plus.disabled=amount>=180;clear.disabled=!amount;
+            const minimum=item.min_delay??0;
+            minus.disabled=amount<=minimum;plus.disabled=amount>=180;clear.disabled=!amount;
             const edit=(delta)=>{
-              const next=Math.max(-90,Math.min(180,(adjustments[item.id]||0)+delta));
+              const next=Math.max(minimum,Math.min(180,amount+delta));
               if(next)adjustments[item.id]=next;else delete adjustments[item.id];
-              paint();
+              repaint(delta>0?".delay-buttons button:nth-child(2)":".delay-buttons button");
             };
             minus.addEventListener("click",()=>edit(-15));
             plus.addEventListener("click",()=>edit(15));
-            clear.addEventListener("click",()=>{delete adjustments[item.id];paint()});
+            clear.addEventListener("click",()=>{delete adjustments[item.id];repaint(".node-open")});
           }
         });
       };
@@ -257,7 +265,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
         const a=add(c,el("a","查看天气原始来源 ↗","inline-source"));
         a.href=safeUrl(url);a.rel="noopener noreferrer";a.target="_blank";
       });
-    } else paragraph(c,"尚未确定日期，无法给出该日的天气与日落判断。");
+    } else paragraph(c,"尚无已核实的天气快照，请由 Skill 按出行日期查询。");
     if(p.safety?.alerts?.length){
       const risk=card(root,"路线风险与公告");
       p.safety.alerts.forEach(x=>{
@@ -302,7 +310,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
       if(!res.ok)throw new Error("HTTP "+res.status);
       const p=await res.json();
       if(p.id!==id)throw new Error("计划 ID 与数据不匹配");
-      if(p.trip_type && p.trip_type!=="day_trip"){
+      if(p.trip_type!=="day_trip"){
         state.textContent="该计划不是日归类型，当前版本暂不提供多日视图。";
         return;
       }

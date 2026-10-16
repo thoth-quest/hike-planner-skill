@@ -34,11 +34,17 @@ Record what is already known. Ask only the most consequential missing question.
 - Pick a precise plan ID before **every write**.
 - Read existing JSON and its `revision`. Apply only confirmed changes to this one plan; preserve other fields, other plans, and prior evidence.
 - Increment `revision` for confirmed updates and append to `changes`: `revision`, `at`, `field`, `before`, `after`, `reason`.
-- If the date or destination changes, mark prior relevant weather data `stale` until fresh evidence is retrieved. Keep previous weather snapshots.
+- If the date, destination or route changes, set the activity to `needs_review`, mark affected weather `stale`, reset affected transport `schedule_status` to `pending`, and mark affected route/safety evidence for review. Preserve historical snapshots and timetables, but never reuse pending timetables as verified services.
 - Weather checking is an **agent action**. If an actual forecast was checked, add a snapshot with `checked_at`, `valid_for`, `sources`, `values`, `assessment`. Record exact source URLs and do not claim an outdated forecast is current. The user confirms schedule/destination decisions.
 - Check that `id` matches the folder name and the slug appears **once** in `site/plans/index.json`. Do not use the registry as a storage location for full plan data.
 
-## Static preview (NO rendering/build step)
+## Offline-first viewer (NO rendering/build step)
+
+- To display plans without Internet access, run `npm run offline` in the repository and open `http://127.0.0.1:4173/`. The read-only Node server binds only to loopback and serves local HTML, CSS, JavaScript and JSON. No remote requests are needed.
+- In a private local copy, create/register a plan under `site/plans/` and use this viewer. Treat any files in that directory and its manifest as public if committed to a repository that deploys Pages; do not commit personal or sensitive plans.
+- GitHub Pages is an optional public copy, not the required way to view plans.
+
+## Static plan files (NO rendering/build step)
 
 - `site/index.html` loads the registry and each plan JSON in the browser to show a directory.
 - `site/plan.html?id=<slug>` loads **only** `site/plans/<slug>/activity.json` for a stable per-plan URL.
@@ -53,7 +59,7 @@ A plan may contain `route`, `transport`, `safety`, and `pending_decisions` in ad
 
 ## Detail preview and time shifting
 
-The GitHub Pages detail viewer uses four tabs: route (default), overview, weather/safety, history. Route is a timeline with before-hike transit, trail stages, and after-hike transit. Plan data may include `preview_timing` (`anchor_time`, `anchor_label`, `status: illustrative`, `notice`), optional integer `offset_minutes` and `key_point` on trail stops, plus relative times for transit legs. Every timing is **an estimate** until checked and confirmed for a specific date. Node-level ±15-minute scenario controls are temporary UI state and MUST NOT modify plan data or change weather. Rail/bus departures are fixed when sourced. If asked to save a revised schedule, validate the user's intended arrival/departure times against actual public transport, terrain, sunset and participant abilities, then update only that plan's JSON with revision history.
+The GitHub Pages detail viewer uses four tabs: route (default), overview, weather/safety, history. Route is a timeline with before-hike transit, trail stages, and after-hike transit. Plan data may include `preview_timing` (`anchor_time`, `anchor_label`, `status: illustrative`, `notice`), optional integer `offset_minutes` and `key_point` on trail stops, and estimated durations for driving/walking legs. Every timing is **an estimate** until checked and confirmed for a specific date. Node-level ±15-minute scenario controls are temporary UI state and MUST NOT modify plan data or change weather. Rail/bus departures are fixed when sourced. If asked to save a revised schedule, validate the user's intended arrival/departure times against actual public transport, terrain, sunset and participant abilities, then update only that plan's JSON with revision history.
 
 Place links at the item they support, using `source_id` (or `source_ids`) referencing `evidence` on route points, transport legs, risks and weather. Do not show a separate dump of references.
 
@@ -70,3 +76,5 @@ Do not treat browser-adjusted arrival estimates as confirmations of route safety
 Evidence items: `id`, `claim`, `url`, `publisher`, `checked_at`, `valid_for` (when applicable), `status`. Prefer the actual official source. Never invent transit times, fares, alerts, trail conditions or weather. Forecast checks should be revisited near departure **only when the user returns or a scheduled agent explicitly runs**. A risk warning should result in appropriate advice, not a silent change to a confirmed date.
 
 Stage 2 = people coordination, Stage 3 = trails and trains/farepasses, Stage 4 = pre-trip verification, Stage 5 = adaptive trip, Stage 6 = retrospective. Do not claim later stages exist yet.
+
+Read [the timing contract](../../docs/TIMELINE.md) before editing node timing. Require unique stable node IDs and nondecreasing route offsets. Do not add an illustrative anchor unless explicitly intended; missing anchors produce no default times. Run `npm ci && npm test` before committing.

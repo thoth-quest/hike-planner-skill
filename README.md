@@ -2,7 +2,7 @@
 
 [简体中文](./README.zh-CN.md) | [English](./README.md)
 
-A **portable, evidence-first** AI day-hike planner that supports **multiple independent plans**. No user accounts, database, server, or Python HTML renderer.
+A **portable, evidence-first, offline-first** AI day-hike planner that supports **multiple independent plans**. No accounts, database, hosted backend, or Python HTML renderer.
 
 **Status: v0.4 (Stage 1, day-trip only).** A static, read-only catalogue and per-plan preview is ready for GitHub Pages. The AI Skill updates activity JSON; the web page displays stored data only.
 
@@ -13,9 +13,13 @@ A **portable, evidence-first** AI day-hike planner that supports **multiple inde
 - **GitHub Pages only renders stored data in the browser.** No weather APIs, JSON writes, servers or HTML generation.
 - **Privacy stays with users.** Plans placed under `site/plans/` are intended for public display. Keep private plans in personal workspaces.
 
+## Offline preview
+
+Run `npm run offline` from the repository root and open `http://127.0.0.1:4173/`. This serves the static `site/` files from loopback only; it does not contact GitHub Pages or require Internet access. To use another port, run `node scripts/serve.mjs 8080`. Keep plans local by storing them outside public deployment workflows.
+
 ## GitHub Pages preview
 
-Expected URLs **after a successful deployment**:
+Optional public preview URLs **after a successful deployment**:
 
 - Catalogue: `https://thoth-quest.github.io/hike-planner-skill/`
 - Oyama demo: `https://thoth-quest.github.io/hike-planner-skill/plan.html?id=oyama-demo`
@@ -60,7 +64,7 @@ A plan keeps a stable URL: `https://thoth-quest.github.io/hike-planner-skill/pla
 
 The viewer uses a quiet, mobile-first day-hike field-guide design. **Route** is the main tab, alongside **Plan**, **Safety**, and **History**. The Route tab places **transport before the hike**, then the **hiking itinerary**, then **transport after the hike** on one chronological timeline. Switch between key waypoints and all waypoints.
 
-The arrival-time field and **−30 / +30 minute** controls shift the displayed times together, without touching JSON or recording revisions. For the Oyama draft the starting time and stop offsets are explicitly **illustrative estimates**, not a confirmed trip date, bus timetable, pace prediction, or sunset-safe plan. Ask the Skill to research the intended date and write approved times later.
+Time adjustments apply to individual nodes only, as described below. Without an explicit illustrative anchor the viewer shows no default clock time.
 
 Supporting sources are linked directly on the relevant route location, transport step, or risk notice. There is no separate wall of source links.
 
@@ -120,7 +124,10 @@ Weather, transport, trail alerts and ticket information require real, dated sour
 ## Tests and documentation
 
 ```sh
-node --test tests/site.test.mjs
+npm ci
+npm test
+npx playwright install chromium
+npm run test:browser
 node --check site/assets/app.js
 ```
 
@@ -131,3 +138,5 @@ node --check site/assets/app.js
 Keep this English README synchronized with the [Simplified Chinese README](./README.zh-CN.md) when modifying usage, implementation scope or limitations.
 
 MIT: [LICENSE](./LICENSE).
+
+Unknown preceding transport leaves later connections unconfirmed. Negative trail adjustments cannot exceed the next segment duration; final stops and transit delays cannot be negative. Unknown return transport has no trip completion time. See the [timing contract](docs/TIMELINE.md).

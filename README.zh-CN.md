@@ -13,9 +13,13 @@
 - **GitHub Pages 只负责展示**：浏览器使用 JavaScript 读取 JSON，不运行天气查询、不修改数据、不生成新的 HTML。
 - **隐私由用户决定**：放进 `site/plans/` 的计划会随公开 Pages 一起发布。个人计划可以保留在自己的 AI 工作区，不需要上传。
 
+## 离线预览
+
+在仓库根目录运行 `npm run offline`，然后打开 `http://127.0.0.1:4173/`。该只读服务只监听本机回环地址，直接展示静态 `site/` 文件，不访问 GitHub Pages，也不需要互联网。自定义端口可运行 `node scripts/serve.mjs 8080`。
+
 ## 在线预览
 
-当仓库 GitHub Pages 部署成功后，访问：
+线上预览（可选，部署到 GitHub Pages 后访问）：
 
 - 计划目录：`https://thoth-quest.github.io/hike-planner-skill/`
 - 大山演示：`https://thoth-quest.github.io/hike-planner-skill/plan.html?id=oyama-demo`
@@ -70,11 +74,11 @@ node scripts/plans.mjs list
 https://thoth-quest.github.io/hike-planner-skill/plan.html?id=<计划ID>
 ```
 
-## 详情页：Tab 与可偏移时间轴
+## 详情页：Tab 与节点时间轴
 
 详情页已重新设计为移动端日归登山手册，默认打开 **「路线」** Tab；其余为 **「计划」「安全」「记录」**。路线以 **登山前交通 → 登山路线 → 登山后交通** 的顺序展示，支持只看主要节点，或展开全部节点。
 
-输入预计到达大山缆车巴士站的时间，或者点击 **−30 / +30 分钟**，整条时间轴会同步平移。**这是浏览器中的临时模拟，不会修改 JSON、提交 GitHub 或改变天气**。大山计划初始时刻与节点时间均为**未核实的粗略排程估计**，绝不是特定日期的真实巴士班次、保证配速或安全下山时间。确定日期后仍需由 Skill 复查并写入经过用户确认的安排。
+时间调整仅作用于具体节点，规则见下节。未提供明确演示锚点时，页面不生成默认时刻。
 
 来源链接直接加在相应路线地名、交通信息、天气数据或安全公告上，不单独列出冗长的链接模块。
 
@@ -138,7 +142,10 @@ https://thoth-quest.github.io/hike-planner-skill/plan.html?id=<计划ID>
 ## 开发与部署
 
 ```bash
-node --test tests/site.test.mjs
+npm ci
+npm test
+npx playwright install chromium
+npm run test:browser
 node --check site/assets/app.js
 ```
 
@@ -149,3 +156,5 @@ node --check site/assets/app.js
 维护 [中文版](./README.zh-CN.md) 和 [English version](./README.md) 时应同步更新功能范围、安装说明、使用方式和限制，避免文档超前于代码。
 
 许可证：[MIT](./LICENSE)。
+
+未知前序交通会显示「接驳待确认」，不会冒充已赶上后续班次。负向调整最多缩短下一段原始耗时；末节点和交通延误不能为负。返程未知时不推算全程结束时间。数据约定见 [时间模型](docs/TIMELINE.md)。

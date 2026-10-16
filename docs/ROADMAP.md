@@ -25,5 +25,13 @@ Stage 2 group logistics, Stage 3 route/public transport and passes, Stage 4 pre-
 
 - [x] Explicit `day_trip` scope, postpone multi-day model
 - [x] Redesign mobile-first day-hike plan screens with design tokens and accessible tabs
-- [x] Refine timeline, time-shifting controls and inline evidence links
+- [x] Refine timeline, node-level controls and inline evidence links
 - [ ] Plan multi-day itineraries as a separate future experience
+
+## v0.4 quality pass
+
+- [x] Preserve unknown connection state and immutable services
+- [x] Bound negative adjustments; remove implicit 08:00 fallback
+- [x] Validate published JSON against schema and test mobile/desktop interactions
+- [x] Compare deployed content with checkout, detect competing Pages publication
+- New Stage 1 features deferred until this baseline is verified.

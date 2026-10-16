@@ -83,18 +83,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{o
 .caution{color:var(--warm-ink)}
 .notice{background:var(--warm);border:1px solid #eedfc6;border-radius:11px;padding:11px 14px;color:var(--warm-ink);font-size:12px;line-height:1.55}
 /* Time planner */
-.planner-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
-.planner-top h2{font-size:17px}
-.day-clock{font-size:13px;font-weight:730;color:var(--forest)}
-.day-clock span{font-variant-numeric:tabular-nums}
-.time-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:13px;padding:15px 16px;background:#f2f6f1;border:1px solid #e0eae0;border-radius:12px}
-.time-toolbar label{display:block;font-size:11px;font-weight:720;color:var(--muted);margin-bottom:5px}
-.time-toolbar-controls{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
-.time-toolbar input{width:110px;min-height:42px;border:1px solid #c9d8cd;border-radius:9px;background:#fff;color:var(--ink);padding:8px 10px;font-size:15px;font-variant-numeric:tabular-nums}
-.time-toolbar button,.quiet-button{background:#fff;border:1px solid #cbd9ce;color:var(--forest-dark);border-radius:9px;padding:8px 11px;min-height:42px;font-size:13px;font-weight:740}
-.time-toolbar button:hover,.quiet-button:hover{background:#e6f0e8}
-.time-toolbar .sub-text{font-size:11px;max-width:240px;line-height:1.45}
-.time-hint{color:var(--muted);font-size:12px;margin:10px 1px 4px}
+.quiet-button{background:#fff;border:1px solid #cbd9ce;color:var(--forest-dark);border-radius:9px;padding:8px 11px;min-height:44px;font-size:13px;font-weight:740}
 .timeline-day-warning{margin:12px 0;color:var(--red);font-size:13px;font-weight:730}
 .journey{margin-top:12px}
 .journey-block{border-top:1px solid var(--line-soft);padding-top:15px;margin-top:16px}
@@ -149,3 +138,11 @@ details summary{color:var(--forest);font-size:13px;font-weight:730;cursor:pointe
 .timeline-time{font-size:12px}
 .timeline-item h3{font-size:14px}
 @media(max-width:390px){.simulation-bar{align-items:flex-start;flex-direction:column}}
+
+/* Keep fixed timetable labels inside the time column, including narrow screens. */
+.timeline-time{width:72px;overflow-wrap:anywhere;white-space:normal}
+.node-open{min-height:44px;padding:8px 0}
+.delay-buttons button{min-height:44px}
+.timeline-item{overflow-wrap:anywhere}
+.journey-category{flex-shrink:0}
+@media(max-width:480px){.timeline{padding-left:0}.timeline-time{position:static;display:block;width:auto;text-align:left;margin:0 0 6px;color:var(--forest)}.timeline-item{margin-left:5px}.journey-label{flex-wrap:wrap}.panel{padding:16px}.node-editor{padding:10px}.simulation-bar{flex-wrap:wrap}}

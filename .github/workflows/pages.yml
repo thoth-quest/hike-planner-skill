@@ -5,6 +5,9 @@ on:
     paths:
       - "site/**"
       - "tests/**"
+      - "scripts/**"
+      - "schemas/**"
+      - "package*.json"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -30,6 +33,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - run: npm ci
       - name: Validate multi-plan data and browser JS
         run: |
           node --check site/assets/app.js
@@ -37,6 +41,18 @@ jobs:
           node --check site/assets/timeline.mjs
           node --check scripts/plans.mjs
           node --test tests/*.test.mjs
+      - name: Browser regression checks
+        run: |
+          npx playwright install --with-deps chromium
+          npm run test:browser
+      - name: Ensure Actions owns Pages publication
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          build_type=$(gh api "repos/${GITHUB_REPOSITORY}/pages" --jq .build_type)
+          if [ "$build_type" != "workflow" ]; then
+            gh api --method PUT "repos/${GITHUB_REPOSITORY}/pages" -f build_type=workflow
+          fi
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload static site only
@@ -46,26 +62,19 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
-      - name: Verify published content (prevent false green deployments)
+      - name: Verify published content
         env:
           PAGE_URL: ${{ steps.deployment.outputs.page_url }}
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
         run: |
-          set -uo pipefail
-          echo "Published URL reported by GitHub: ${PAGE_URL}"
-          echo "Pages configuration (public fields):"
-          curl -sS --connect-timeout 10 --max-time 20             -H "Authorization: Bearer ${GH_TOKEN}"             -H "Accept: application/vnd.github+json"             "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages"             | node -e 'let text="";process.stdin.on("data",v=>text+=v);process.stdin.on("end",()=>{try{let o=JSON.parse(text);console.log(JSON.stringify({html_url:o.html_url,status:o.status,cname:o.cname,source:o.source,public:o.public,message:o.message}))}catch(e){console.log("Could not inspect Pages settings")}})'
-          for attempt in 1 2 3 4 5 6 7 8; do
-            home=$(curl -L -sS -o /dev/null -w '%{http_code}' --connect-timeout 10 --max-time 20 "${PAGE_URL}" || true)
-            detail=$(curl -L -sS -o /dev/null -w '%{http_code}' --connect-timeout 10 --max-time 20 "${PAGE_URL}plan.html?id=oyama-day-hike" || true)
-            data=$(curl -L -sS -o /dev/null -w '%{http_code}' --connect-timeout 10 --max-time 20 "${PAGE_URL}plans/oyama-day-hike/activity.json" || true)
-            echo "Probe ${attempt}: home=${home} detail=${detail} activity.json=${data}"
-            if [ "${home}" = "200" ] && [ "${detail}" = "200" ] && [ "${data}" = "200" ]; then
-              echo "Pages is externally reachable from GitHub Actions."
-              exit 0
-            fi
+          for attempt in 1 2 3 4 5 6; do
+            if node scripts/verify-pages.mjs; then exit 0; fi
             sleep 10
           done
-          echo "::error::GitHub reported deployment success, but published URLs are unavailable. Check repo Settings > Pages, custom domain and publication status."
+          echo "::error::Published content does not match this commit. Check Pages source and competing deployments."
           exit 1
+      - name: Preserve browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-checks
+          path: test-results/

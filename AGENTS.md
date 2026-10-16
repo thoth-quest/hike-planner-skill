@@ -1,19 +1,19 @@
 # Hike Planner development rules
 
-This is a **portable, multi-plan Agent Skill with an optional public, read-only GitHub Pages viewer**. It is NOT a central multi-user web app.
+This is a **portable, multi-plan Agent Skill with a local offline-first static viewer and an optional public GitHub Pages copy**. It is NOT a central multi-user web app.
 
 ## Architecture
 
 - The source of truth is one `activity.json` per plan. Public plan files: `site/plans/<slug>/activity.json`.
 - Registry `site/plans/index.json` contains only unique slugs; a slug is stable and independent of date or destination.
-- `site/index.html` lists published plans; `site/plan.html?id=<slug>` reads exactly one plan. No HTML generation, no Python rendering, no weather APIs on the page.
+- `site/index.html` lists local plans; `site/plan.html?id=<slug>` reads exactly one plan. `node scripts/serve.mjs` serves the static files on loopback for offline use. No HTML generation, no Python rendering, no weather APIs on the page.
 - Plan creation, revision, evidence checks and weather updates happen in the agent/Skill. Browser code is read-only.
 - Browser code must use textContent/DOM APIs, avoid injecting untrusted plan HTML. Only allow safe http(s) evidence links.
 - The detail view uses accessible tabs and a node-level time simulation: inbound transit → hike → outbound transit. Each delay is local presentation state, not a JSON write. Do not permit global clock shifts.
 - Time offsets without date/route validation are explicitly illustrative; never suggest they are verified services or safe return times.
 - Link evidence inline on the relevant transport, waypoint, weather observation or warning; no standalone reference wall.
 - Published plans are **public information**. Never upload names, phone numbers, exact personal origins or sensitive notes without consent. Private plans remain local/elsewhere.
-- GitHub Pages deploys exactly the `site/` folder, not the whole repository.
+- Local offline use is the primary viewer path. GitHub Pages is optional and deploys exactly the `site/` folder, not the whole repository.
 - No OAuth, accounts, database or hosting backend.
 
 ## Product constraints
@@ -27,7 +27,7 @@ This is a **portable, multi-plan Agent Skill with an optional public, read-only 
 
 ## Done criteria
 
-At least two independent published example plans. Unique safe slugs; stable per-plan links; working directory and detail page; native JS JSON fetch with no HTML generation; automated validation and Pages deploy workflow. Document any remaining one-time GitHub Pages setting.
+At least two independent plans, with private/local plans kept outside public Pages. Unique safe slugs; stable per-plan links; working directory and detail page; native JS JSON fetch with no HTML generation; loopback offline launcher and automated validation. Pages deploy remains optional.
 
 ## Future
 

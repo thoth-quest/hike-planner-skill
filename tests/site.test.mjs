@@ -138,3 +138,38 @@ test("browser loads a pure scenario engine and fixed transit has no invented clo
   assert.equal(p.constraints.date,null);
   assert.equal(p.transport.outbound[0].timetable,null);
 });
+
+test('all published plans validate against JSON Schema and node references',async()=>{
+ const {default:Ajv}=await import('ajv/dist/2020.js');
+ const {default:addFormats}=await import('ajv-formats');
+ const ajv=new Ajv({allErrors:true,strict:false});addFormats(ajv);
+ const validate=ajv.compile(load(path.join(root,'schemas/activity.schema.json')));
+ for(const id of plans){
+  const p=load(path.join(dir,id,'activity.json'));
+  assert.ok(validate(p),id+': '+JSON.stringify(validate.errors));
+  const nodes=[...(p.transport?.inbound||[]),...(p.route?.sections||[]).flatMap(x=>x.stops),...(p.transport?.outbound||[])];
+  const ids=nodes.map(x=>x.node_id).filter(Boolean);
+  assert.equal(new Set(ids).size,ids.length,id+' duplicate node IDs');
+  const sources=new Set(p.evidence.map(x=>x.id));
+  for(const node of nodes) if(node.source_id) assert.ok(sources.has(node.source_id));
+ }
+});
+
+
+test('offline UI fixture is real route data and contains no invented live conditions',async()=>{
+ const {default:Ajv}=await import('ajv/dist/2020.js');const {default:addFormats}=await import('ajv-formats');
+ const ajv=new Ajv({allErrors:true,strict:false});addFormats(ajv);
+ const p=load(path.join(root,'tests','fixtures','offline-oyama-test.json'));
+ assert.ok(ajv.compile(load(path.join(root,'schemas','activity.schema.json')))(p));
+ assert.equal(p.example_only,true);assert.equal(p.trip_type,'day_trip');assert.equal(p.constraints.date,null);
+ assert.equal(p.weather.status,'pending');assert.ok(p.transport.inbound.every(x=>x.timetable===null));
+ assert.ok(p.transport.outbound.every(x=>x.timetable===null));assert.equal(p.preview_timing.status,'illustrative');
+});
+
+
+test('offline launcher is loopback-only and read-only',()=>{
+ const source=readFileSync(path.join(root,'scripts','serve.mjs'),'utf8');
+ assert.match(source,/server\.listen\(port,\s*['"]127\.0\.0\.1['"]/) ;
+ assert.match(source,/\['GET','HEAD'\]/);
+ assert.match(source,/server\.address\(\)\.port/);
+});

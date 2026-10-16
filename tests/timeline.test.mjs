@@ -5,7 +5,7 @@ const known = (service_date,departure_time,arrival_time,id="proof") =>
  ({service_date,departure_time,arrival_time,source_id:id,checked_at:"2026-10-15T08:00:00+09:00",service_id:"X12"});
 function fixture() {
   return {
-    constraints:{date:"2026-10-24"},preview_timing:{anchor_time:"08:00"},
+    constraints:{date:"2026-10-24"},preview_timing:{anchor_time:"08:00",status:"illustrative"},
     evidence:[{id:"proof",url:"https://example.org/schedules",status:"verified"}],
     transport:{
       inbound:[
@@ -92,4 +92,40 @@ test("cross-day results are flagged rather than rolled into a second day",()=>{
  const a=makeTimeline(p);
  assert.equal(a.overDay,true);
  assert.equal(clockText(a.trail[2].arrival),"跨日");
+});
+
+test('unknown inbound leg breaks a previously known arrival chain',()=>{
+ const p=fixture();p.transport.inbound[1].timetable=null;
+ const t=makeTimeline(p);
+ assert.equal(t.linked,false);assert.equal(t.trail[0].status,'illustrative');
+ assert.equal(t.after[0].status,'connection_unknown');assert.equal(t.finish,null);
+});
+test('known service after unknown service keeps timetable but not confirmed connection',()=>{
+ const p=fixture();p.transport.inbound[0].timetable=null;
+ const t=makeTimeline(p);
+ assert.equal(t.before[1].departure,450);assert.equal(t.before[1].status,'connection_unknown');
+ assert.equal(t.linked,false);
+});
+test('no explicit illustrative anchor means no default 08:00',()=>{
+ const p=fixture();p.transport.inbound=[];delete p.preview_timing;
+ const t=makeTimeline(p);assert.equal(t.trail[0].arrival,null);
+ assert.equal(t.after[0].status,'connection_unknown');
+});
+test('pending timetable cannot be reused after route changes',()=>{
+ const p=fixture();p.transport.inbound[0].schedule_status='pending';
+ assert.equal(makeTimeline(p).before[0].status,'pending');
+});
+test('negative deltas cannot move a node before its predecessor or train arrival before schedule',()=>{
+ const t=makeTimeline(fixture(),{train:-90,summit:-90,finish:-90});
+ assert.equal(t.before[0].ready_after,440);
+ assert.equal(t.trail[2].arrival,t.trail[1].arrival);
+ assert.equal(t.trail[2].ready_after,t.trail[2].arrival);
+});
+test('unknown return service never substitutes trail end for trip completion',()=>{
+ const p=fixture();p.transport.outbound[0].timetable=null;
+ assert.equal(makeTimeline(p).finish,null);
+});
+test('overnight timetable is explicitly flagged as unsupported',()=>{
+ const p=fixture();p.transport.inbound[0].timetable=known('2026-10-24','23:50','00:20');
+ const t=makeTimeline(p);assert.equal(t.overDay,true);assert.equal(t.before[0].status,'pending');
 });
