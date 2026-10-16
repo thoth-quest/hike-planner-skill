@@ -74,7 +74,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
     const adjustments={};
     const arrivalAdjustments={};
     const serviceSelections={};
-    let expanded=false;
+    let expanded=p.route?.expanded_by_default===true;
     let opened=null;
     const pane=card(root,"行程时间轴");
     const label=pane.querySelector(".panel-head");
