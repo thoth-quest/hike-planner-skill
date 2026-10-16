@@ -98,6 +98,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
     const serviceSelections={};
     let expanded=p.route?.expanded_by_default===true;
     let opened=null;
+    let paintVersion=0;
     const pane=card(root,"行程时间轴");
     const label=pane.querySelector(".panel-head");
     add(label,el("span","节点级模拟","pill caution"));
@@ -117,6 +118,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
     summary.setAttribute("aria-live","polite");
     if(p.preview_timing?.notice) paragraph(help,p.preview_timing.notice);
     function paint(){
+      const version=++paintVersion;
       const schedule=makeTimeline(p,adjustments,serviceSelections,arrivalAdjustments);
       const count=schedule.changes.length;
       const selectedCount=Object.keys(serviceSelections).length;
@@ -179,8 +181,8 @@ import { makeTimeline, clockText } from "./timeline.mjs";
                 if(shift)arrivalAdjustments[item.id]=shift;else delete arrivalAdjustments[item.id];
                 paint();
               };
-              wheelColumn(wheels,"时",selectedHour,23,n=>pick("hour",n));
-              wheelColumn(wheels,"分",selectedMinute,59,n=>pick("minute",n));
+              wheelColumn(wheels,"时",selectedHour,23,n=>{if(version===paintVersion)pick("hour",n)});
+              wheelColumn(wheels,"分",selectedMinute,59,n=>{if(version===paintVersion)pick("minute",n)});
               paragraph(editor,"滚动时、分设置此节点到达时间；只重算后续节点。","sub-text");
             }
           }else add(li,el("span",stamped,"timeline-time"+(item.arrival===null?" unknown":"")));
