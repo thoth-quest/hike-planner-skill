@@ -1,7 +1,7 @@
 {
   "id": "2026-10-17-kintoki-yokohama",
   "schema_version": 1,
-  "revision": 1,
+  "revision": 2,
   "stage": "goal_definition",
   "status": "draft",
   "title": "横浜発 金時山日帰り（2026-10-17）",
@@ -63,42 +63,83 @@
     }
   },
   "route": {
-    "status": "proposed",
-    "type": "公時神社往復",
-    "duration_reference": "往復約2時間40分（山と溪谷オンラインのコース案内。休憩時間は別途加算）",
-    "duration_source": "kintoki-route",
+    "status": "reviewed",
+    "type": "金時神社入口バス停から公時神社往復（YAMAPモデルコース）",
+    "duration_reference": "YAMAP標準コースタイム 3時間05分（休憩0分のモデル値） · 3.8 km · 登り/下り 516 m · コース定数12（ふつう）。個人差・休憩・当日の路面で変動。",
+    "duration_source": "yamap-route",
     "sections": [
       {
-        "name": "登山",
+        "name": "金時神社入口 → 公時神社往復",
         "stops": [
           {
-            "name": "公時神社・登山口",
-            "note": "バス停から登山口までの徒歩を含まない。時刻は交通接続未確定のため例示のみ。",
+            "name": "金時神社入口バス停",
+            "note": "YAMAPモデルコースの時間起点。ここでの09:00は時刻表未確認のため、登山口までの公共交通とは未接続のデモ時刻。",
             "offset_minutes": 0,
-            "source_id": "kintoki-route",
+            "source_id": "yamap-route",
             "key_point": true,
-            "node_id": "trail-start"
+            "node_id": "trail-bus-stop"
+          },
+          {
+            "name": "公時神社登山口",
+            "note": "YAMAPモデルコースでは起点から約20分。神社境内・登山口の標識を確認して入山。",
+            "offset_minutes": 20,
+            "source_id": "yamap-route",
+            "key_point": true,
+            "node_id": "trailhead"
           },
           {
             "name": "金時宿り石",
-            "note": "分岐・路面状況を確認し、標識に従う。",
-            "offset_minutes": 35,
-            "source_id": "kintoki-route",
-            "node_id": "trail-stone"
+            "note": "環境省案内の目印。公時神社から山道を約30分歩いた地点の目安。YAMAPモデルの個別打刻ではなく、位置と所要時間は参考値。",
+            "offset_minutes": 50,
+            "source_id": "env-route",
+            "key_point": true,
+            "node_id": "yadori-stone"
+          },
+          {
+            "name": "登山道の分岐",
+            "note": "YAMAPモデルコースの通過点。分岐標識を確認し、公時神社分岐・山頂方面へ。",
+            "offset_minutes": 70,
+            "source_id": "yamap-route",
+            "key_point": false,
+            "node_id": "trail-junction"
+          },
+          {
+            "name": "公時神社分岐（山頂側）",
+            "note": "明神ヶ岳方面との分岐。復路もここを通る。道標を確認して金時山へ。",
+            "offset_minutes": 100,
+            "source_id": "yamap-route",
+            "key_point": true,
+            "node_id": "shrine-junction-out"
           },
           {
             "name": "金時山山頂",
-            "note": "休憩時間は別枠。山頂トイレは協力金制のバイオトイレとして案内されているが、当日の利用可否を確認。",
-            "offset_minutes": 80,
-            "source_id": "kintoki-toilet",
+            "note": "YAMAP標準時間では登山口から約1時間45分。茶屋・トイレの営業や利用可否は当日確認。休憩時間は標準時間に含まれない。",
+            "offset_minutes": 125,
+            "source_id": "yamap-route",
             "key_point": true,
-            "node_id": "trail-summit"
+            "node_id": "summit"
           },
           {
-            "name": "公時神社・登山口へ下山",
-            "note": "下りは濡れた岩・木の根で滑りやすい。余裕を持って行動。",
-            "offset_minutes": 160,
-            "source_id": "kintoki-route",
+            "name": "公時神社分岐（下山）",
+            "note": "山頂からYAMAP標準45分。往路の道を戻る。疲労や天候悪化時は無理をせず、安全に引き返せる区間で判断。",
+            "offset_minutes": 170,
+            "source_id": "yamap-route",
+            "key_point": true,
+            "node_id": "shrine-junction-return"
+          },
+          {
+            "name": "登山道分岐（下山）",
+            "note": "YAMAPモデルコースの終盤チェックポイント。道標に従って公時神社登山口へ。",
+            "offset_minutes": 185,
+            "source_id": "yamap-route",
+            "key_point": false,
+            "node_id": "trail-junction-return"
+          },
+          {
+            "name": "公時神社登山口（下山完了）",
+            "note": "YAMAPモデル時刻は終盤分岐と同じ分単位表示。実際の下山・休憩時間には余裕を加える。",
+            "offset_minutes": 185,
+            "source_id": "yamap-route",
             "key_point": true,
             "node_id": "trail-finish"
           }
@@ -111,7 +152,8 @@
         "when": "天候悪化、疲労、体調不良、予定より遅れた場合",
         "action": "無理に山頂を目指さず、安全な既知の登山道から登山口へ戻る。"
       }
-    ]
+    ],
+    "expanded_by_default": true
   },
   "transport": {
     "status": "partially_verified",
@@ -295,9 +337,46 @@
       "valid_for": "2026-10-17",
       "status": "verified",
       "note": "検索結果にJR在来線運賃1,180円の表示を確認。改定や乗車経路による差異があり得るため参考額とし、購入時に再確認。"
+    },
+    {
+      "id": "yamap-route",
+      "claim": "YAMAP 金時神社入口バス停－金時山往復モデルコース：標準3時間05分、3.8km、登り/下り516m、各チェックポイントの区間時間",
+      "url": "https://yamap.com/model-courses/8808",
+      "publisher": "YAMAP",
+      "checked_at": "2026-10-16T13:19:14+09:00",
+      "valid_for": null,
+      "status": "verified",
+      "note": "モデル値で休憩0分。掲載チェックポイントは公時神社登山口20分、分岐50分、公時神社分岐30分、山頂25分、下山分岐45分・15分。個人の実時間を保証しない。"
+    },
+    {
+      "id": "env-route",
+      "claim": "環境省 富士箱根伊豆国立公園 金時山コース：金時宿り石などの通過地点と参考所要時間",
+      "url": "https://www.env.go.jp/nature/nationalparks/list/fuji-hakone-izu/course/06/",
+      "publisher": "環境省",
+      "checked_at": "2026-10-16T13:19:14+09:00",
+      "valid_for": null,
+      "status": "verified",
+      "note": "公時神社から金時宿り石まで約30分と説明。地点別の値は目安。YAMAP往復モデルと組み合わせた石の時間は目安として表示。"
     }
   ],
-  "changes": [],
+  "changes": [
+    {
+      "revision": 2,
+      "at": "2026-10-16T13:19:14+09:00",
+      "field": "route",
+      "before": {
+        "type": "公時神社往復",
+        "stops": 4,
+        "duration_reference": "往復約2時間40分"
+      },
+      "after": {
+        "type": "金時神社入口バス停から公時神社往復（YAMAPモデルコース）",
+        "stops": 9,
+        "duration_reference": "YAMAP標準コースタイム 3時間05分（休憩0分のモデル値） · 3.8 km · 登り/下り 516 m · コース定数12（ふつう）。個人差・休憩・当日の路面で変動。"
+      },
+      "reason": "用户指出路线仅粗略显示上下山、山路时间不清；按YAMAP往复模型补入检查点、区段用时与路线概况，并在详情页默认展开完整山路。"
+    }
+  ],
   "pending_decisions": [
     "确认箱根登山巴士10月17日横滨出发所需的去程班次、接驳与候选备选班次",
     "确认下山后的公交及返回横滨的固定班次，尤其复核末班",
@@ -306,9 +385,9 @@
   ],
   "preview_timing": {
     "anchor_time": "09:00",
-    "anchor_label": "登山口出发演示时间（仅作路线耗时预览；公共交通接驳未确认）",
+    "anchor_label": "金時神社入口バス停での時間軸デモ起点（未与公交班次衔接）",
     "status": "illustrative",
-    "notice": "09:00不是已确认到达登山口的时间。小田原至金时神社入口公交及返程班次尚未核实；不得据此判断交通可接驳或能赶上末班。节点时间调整只影响该节点之后的估算，固定交通班次不会自动移动。"
+    "notice": "各山路节点按YAMAP模型路线相对时间显示，09:00仅用于展示时间轴，不是已核实的巴士到站或实际登山开始时间。YAMAP标准行走时间3小时05分不含休息；巴士去程和返程仍待查。路线时间可在各节点单独调整，调整只影响其后的估算。"
   },
   "trip_type": "day_trip",
   "costs": {
@@ -335,5 +414,6 @@
         "note": "往返票价待官方按实际上下车站核实。总额不完整。"
       }
     ]
-  }
+  },
+  "updated_at": "2026-10-16T13:19:14+09:00"
 }
