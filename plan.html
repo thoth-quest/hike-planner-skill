@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hike Planner · 日归计划</title>
+</head>
+<body>
+<p><a id="plan-link" href="./site/plan.html">打开计划详情</a></p>
+<script>
+const target = "./site/plan.html" + location.search + location.hash;
+document.getElementById("plan-link").href = target;
+location.replace(target);
+</script>
+</body>
+</html>
