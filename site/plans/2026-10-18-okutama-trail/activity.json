@@ -1,0 +1,179 @@
+{
+  "id": "2026-10-18-okutama-trail",
+  "schema_version": 1,
+  "revision": 1,
+  "stage": "goal_definition",
+  "status": "needs_review",
+  "title": "大多摩ウォーキングトレイル｜古里駅から奥多摩駅",
+  "example_only": false,
+  "updated_at": "2026-10-16T16:00:00+09:00",
+  "visibility_note": "线下多人活动计划。未记录参与者姓名、联系方式或个人出发地；仅本机查看。",
+  "destination": {
+    "state": "fixed",
+    "name": "東京都奥多摩町｜大多摩ウォーキングトレイル（古里駅→奥多摩駅）",
+    "source": "yamap-route"
+  },
+  "goals": {
+    "primary": "沿多摩川河谷从古里步行至奥多摩，慢走观景并在奥多摩站附近泡温泉",
+    "secondary": [
+      "沿途视时间在餐馆停留午餐，也可自备食物和至少1升饮水",
+      "结伴步行，预计3至4小时；不把登山GPS记录当作保证用时"
+    ]
+  },
+  "constraints": {
+    "date": "2026-10-18",
+    "date_range": null,
+    "departure_area": "不设共同出发地；古里駅集合，个人自行安排到集合站的交通",
+    "difficulty": "轻至中等徒步；古里至鳩ノ巣有山路及起伏，不建议穿平底鞋",
+    "estimated_participants": 2,
+    "latest_return": "当天从奥多摩站乘青梅线离开；如泡满3小时温泉，优先预留18:19车次",
+    "hard_rules": [
+      "10:30古里駅集合后步行出发，不以10:31开出的青梅线列车作为接驳",
+      "白丸调节池ダム堰堤在2026-09-28至2027-02-24（预计）禁止通行，须按现场/官方路线指引绕行，不得穿越堰堤",
+      "出发前复核白丸ダム施工通行信息、天气、警报与轨道运行情况",
+      "河谷山路有起伏，穿防滑鞋，带水、零食、雨具与离线地图",
+      "温泉为可选安排；以现场营业及入场情况为准"
+    ]
+  },
+  "weather": {
+    "status": "current",
+    "snapshots": [
+      {
+        "checked_at": "2026-10-16T15:45:00+09:00",
+        "valid_for": "2026-10-18",
+        "sources": ["https://weather.yahoo.co.jp/weather/13/4410/13308.html"],
+        "values": {
+          "location": "奥多摩町（山地预报并非路线高处实测）",
+          "forecast": "晴时多云",
+          "temperature_low_c": 12,
+          "temperature_high_c": 21,
+          "precipitation_probability_percent": 10,
+          "issued_at": "2026-10-16 06:00 JST"
+        },
+        "assessment": {
+          "level": "caution",
+          "reason": "目前奥多摩町预报为晴时多云、降水概率10%；这是町域预报，不能代表河谷及山路微气候。",
+          "recommendation": "出发前一天及当天早晨复核预报、警报与降雨；天气转坏时缩短或取消步行。"
+        }
+      }
+    ],
+    "assessment": {
+      "level": "caution",
+      "reason": "町域预报暂时可行，但仅为出发前两天的低海拔预报；路线另有白丸ダム封闭绕行问题。",
+      "recommendation": "10月17日晚再次检查气象厅与奥多摩游客中心公告；勿把当前预报当作山路放行判断。"
+    }
+  },
+  "route": {
+    "status": "proposed",
+    "type": "单程徒步｜古里駅→奥多摩駅",
+    "expanded_by_default": true,
+    "duration_reference": "YAMAP官方模型路线约7.6 km、爬升558 m，标准行走时间3小时25分，来源为YAMAP路线模型；近期个人记录7.4 km/爬升535 m。活动文案的7.4 km/535 m与其中一条近期记录相符。慢走停留计划按3–4小时估算。白丸ダム堰堤在活动日封闭且路线需要绕行，当前总距离与精确路线需按官方现场指引复核。",
+    "duration_source": "yamap-route",
+    "sections": [
+      {
+        "name": "古里出发｜小丹波与松ノ木尾根",
+        "stops": [
+          {"name":"古里駅集合","note":"10:30集合。整理装备、确认人数后出发；各人自行解决抵达古里站的交通。","offset_minutes":0,"source_id":"yamap-route","key_point":true,"node_id":"trail-kori"},
+          {"name":"小丹波観光駐車場・登山口","note":"离开古里站后沿指示进入步道；路线前段有明显起伏。","offset_minutes":20,"source_id":"yamap-route","key_point":true,"node_id":"trail-kotamba"},
+          {"name":"松ノ木尾根展望台","note":"前半段爬升与山路路段；按队伍速度休息补水。","offset_minutes":65,"source_id":"yamap-map","key_point":true,"node_id":"trail-matsunoki"},
+          {"name":"双竜の滝・鳩ノ巣駅方向","note":"接近鳩ノ巣一带，注意湿滑路面和台阶。","offset_minutes":105,"source_id":"yamap-route","key_point":true,"node_id":"trail-hatonosu-approach"}
+        ]
+      },
+      {
+        "name": "鳩ノ巣渓谷｜白丸与奥多摩",
+        "stops": [
+          {"name":"鳩ノ巣渓谷・鳩ノ巣小橋","note":"沿溪谷步道前进；桥面和河边岩石可能湿滑。","offset_minutes":130,"source_id":"yamap-route","key_point":true,"node_id":"trail-hatonosu-gorge"},
+          {"name":"白丸ダム堰堤（活动日封闭）","note":"2026-09-28至2027-02-24（预计）堰堤禁止通行。不得穿越堰堤；按东京交通局和游客中心最新图示选择鳩ノ巣小橋或数馬峡橋方向的通行路线。绕行具体线路/距离尚未能从公告文字确认，因此本计划整体路线待复核。","offset_minutes":165,"source_id":"dam-closure","key_point":true,"node_id":"trail-dam-closure"},
+          {"name":"奥多摩中学校バス停附近","note":"继续按大多摩ウォーキングトレイル路标向氷川、奥多摩站步行；可在沿途餐馆停留用餐。","offset_minutes":190,"source_id":"yamap-route","key_point":false,"node_id":"trail-okutama-school"},
+          {"name":"奥多摩駅到达","note":"预计从集合出发约3–4小时。温泉在车站附近，步行前往后再按实到时间选返程列车。","offset_minutes":210,"source_id":"yamap-route","key_point":true,"node_id":"trail-okutama-station"}
+        ]
+      }
+    ],
+    "alternatives": [
+      {"name":"队伍速度较慢或不适","when":"任何成员明显疲劳、受伤或天气转差","action":"就近在鳩ノ巣駅等青梅线车站结束路线；先核对当日列车，不要求全队继续到奥多摩。"},
+      {"name":"白丸绕行无法确认","when":"出发前仍无法根据官方路线图确认安全绕行","action":"不穿越关闭堰堤；改走游客中心认可的替代步道，或取消白丸以西段并重新核对终点和列车。"}
+    ],
+    "source_ids": ["yamap-route","yamap-map","dam-closure"]
+  },
+  "transport": {
+    "status": "common_segment_only",
+    "inbound": [],
+    "outbound": [
+      {
+        "name": "奥多摩駅 → 青梅方向（JR青梅线）",
+        "note": "以下为2026-10-18星期日的实际周末时刻。17:10、17:44、18:19发车；若在もえぎの湯泡满3小时，建议以18:19为目标。17:34的临时特急只在11月8日运行，不适用于本次日期。各人的离开青梅后的线路与票价不同，本计划不代设共同终点。",
+        "source_id": "jr-okutama-timetable",
+        "reference_time": "17:44",
+        "node_id": "after-okutama-jr",
+        "mode": "scheduled_transit",
+        "schedule_status": "verified",
+        "timetable": {
+          "service_date": "2026-10-18",
+          "departure_time": "17:44",
+          "arrival_time": "17:46",
+          "source_id": "jr-train-1702",
+          "checked_at": "2026-10-16T15:45:00+09:00",
+          "service_id": "JR青梅線 普通1702"
+        },
+        "timetable_options": [
+          {"service_date":"2026-10-18","departure_time":"17:10","arrival_time":"17:46","source_id":"jr-train-1706","checked_at":"2026-10-16T15:45:00+09:00","service_id":"JR青梅線 普通1706"},
+          {"service_date":"2026-10-18","departure_time":"17:44","arrival_time":"18:23","source_id":"jr-train-1702","checked_at":"2026-10-16T15:45:00+09:00","service_id":"JR青梅線 普通1702"},
+          {"service_date":"2026-10-18","departure_time":"18:19","arrival_time":"18:56","source_id":"jr-train-1804","checked_at":"2026-10-16T15:45:00+09:00","service_id":"JR青梅線 普通1804"}
+        ]
+      }
+    ],
+    "pass_note": "本计划只列所有人共同使用的奥多摩站出发青梅线区段；不虚构任何人的始发站或全程票价。各人自行购票至古里、再从奥多摩返回自己的目的地。"
+  },
+  "safety": {
+    "status": "needs_predeparture_review",
+    "alerts": [
+      {"level":"caution","title":"白丸ダム堰堤施工封闭","note":"2026-09-28至2027-02-24（预计）白丸调节池ダム顶部道路关闭，河流两岸不能经堰顶横断；鳩ノ巣小橋和数馬峡橋是邻近横断点，约相距2 km。按最新官方图示绕行，切勿进入封闭区域。","source_id":"dam-closure"},
+      {"level":"caution","title":"路线距离与绕行后的里程需复核","note":"团体活动文案7.4 km/535 m与近期YAMAP记录吻合，但YAMAP模型路线为7.6 km/558 m；堰顶关闭后的绕行距离另计，集合前应确认实际轨迹。","source_id":"yamap-route"},
+      {"level":"caution","title":"温泉周末可能限流","note":"近期YAMAP活动记录提到温泉曾因拥挤限制入场；当日以设施现场信息为准，不把泡汤当作返程列车接驳保证。","source_id":"moegi-info"}
+    ],
+    "checklist": [
+      "10月17日晚复核奥多摩游客中心的最新路线状态和白丸ダム封闭图",
+      "把官方绕行线路载入离线地图；团队一起确认不穿越封闭堰顶",
+      "下载离线地图、穿防滑鞋，至少携带1升水、零食、雨具与手机备用电量",
+      "约定任何人不适即全队就近撤退，并先查询鳩ノ巣等车站的实际班次",
+      "温泉当日确认营业和入场；4–11月官方通常10:00–20:00、19:00停止受理"
+    ]
+  },
+  "candidates": [],
+  "evidence": [
+    {"id":"yamap-route","claim":"YAMAP活动记录：2026-10-11古里駅至奥多摩方向，7.4 km、爬升535 m；路径检查点含小丹波、鳩ノ巣渓谷、白丸ダム、奥多摩中学校バス停。为个人GPS记录，不等于官方通行保证。","url":"https://yamap.com/activities/51843192","publisher":"YAMAP用户活动记录","checked_at":"2026-10-16T15:45:00+09:00","valid_for":"参考轨迹；活动日路线须复核","status":"verified"},
+    {"id":"yamap-map","claim":"YAMAP模型路线：古里駅到奥多摩駅附近，标准3小时25分、7.6 km、爬升558 m，并列出古里、小丹波、白丸、奥多摩中学校等节点。","url":"https://yamap.com/model-courses/70300","publisher":"YAMAP","checked_at":"2026-10-16T15:45:00+09:00","valid_for":null,"status":"verified"},
+    {"id":"official-route","claim":"奥多摩町官方大多摩ウォーキングトレイル（古里～氷川）路线图。","url":"https://www.town.okutama.tokyo.jp/gyosei/6/kankojoho/miru/1728.html","publisher":"奥多摩町","checked_at":"2026-10-16T15:45:00+09:00","valid_for":null,"status":"verified"},
+    {"id":"trail-status","claim":"奥多摩游客中心2026-10-02登山道状态表：大多摩ウォーキングトレイル本身可走，但白丸ダム堰堤施工封闭。","url":"https://okutamavc.ces-net.jp/info/52","publisher":"奥多摩ビジターセンター","checked_at":"2026-10-16T15:45:00+09:00","valid_for":"截至页面下次更新；出发前复核","status":"verified"},
+    {"id":"dam-closure","claim":"東京都交通局公告：白丸调节池ダム堰顶2026-09-28至2027-02-24预计关闭；近邻过河桥为数馬峡橋和鳩ノ巣小橋，约相距2 km。","url":"https://www.kotsu.metro.tokyo.jp/pickup_information/news/others/2026/otr_i_2026090112744_h.html","publisher":"東京都交通局","checked_at":"2026-10-16T15:45:00+09:00","valid_for":"2026-09-28至2027-02-24（预计）","status":"verified"},
+    {"id":"jr-okutama-timetable","claim":"JR东日本奥多摩站周末/节假日青梅线时刻表：10月18日适用周末时刻，含17:10、17:44及18:19班次。","url":"https://timetables.jreast.co.jp/2610/timetable/tt0368/0368011.html","publisher":"JR東日本","checked_at":"2026-10-16T15:45:00+09:00","valid_for":"2026-10-18","status":"verified"},
+    {"id":"jr-train-1706","claim":"JR青梅线普通1706：2026-10-18周末运行，奥多摩17:10发，青梅17:46到。","url":"https://timetables.jreast.co.jp/2610/train/095/095721.html","publisher":"JR東日本","checked_at":"2026-10-16T15:45:00+09:00","valid_for":"2026-10-18","status":"verified"},
+    {"id":"jr-train-1702","claim":"JR青梅线普通1702：2026-10-18周末运行，奥多摩17:44发，青梅18:23到。","url":"https://timetables.jreast.co.jp/2610/train/025/028231.html","publisher":"JR東日本","checked_at":"2026-10-16T15:45:00+09:00","valid_for":"2026-10-18","status":"verified"},
+    {"id":"jr-train-1804","claim":"JR青梅线普通1804：2026-10-18周末运行，奥多摩18:19发，青梅18:56到。","url":"https://timetables.jreast.co.jp/2610/train/040/042731.html","publisher":"JR東日本","checked_at":"2026-10-16T15:45:00+09:00","valid_for":"2026-10-18","status":"verified"},
+    {"id":"moegi-info","claim":"もえぎの湯官方营业时间及价格：4–11月通常10:00–20:00、19:00停止受理；成人3小时1,200日元；周一休息。","url":"https://www.okutamas.co.jp/moegi/price/info/","publisher":"奥多摩温泉 もえぎの湯","checked_at":"2026-10-16T15:45:00+09:00","valid_for":"按季节营业；当天复核","status":"verified"},
+    {"id":"weather-okutama","claim":"奥多摩町10月18日预报，10月16日06:00发布：晴时多云，低温12°C、高温21°C、降水概率10%。","url":"https://weather.yahoo.co.jp/weather/13/4410/13308.html","publisher":"Yahoo!天気・災害","checked_at":"2026-10-16T15:45:00+09:00","valid_for":"2026-10-18；低海拔町域预报","status":"verified"}
+  ],
+  "changes": [
+    {"revision":1,"at":"2026-10-16T16:00:00+09:00","field":"new_plan","before":null,"after":{"date":"2026-10-18","route":"古里駅→奥多摩駅","common_transport":"JR青梅线返程","participants":2},"reason":"依据用户给出的多人活动接龙，通过 Skill 建立离线攻略；不设横滨或其他个人始发地，并省略参与者姓名。"}
+  ],
+  "pending_decisions": [
+    "白丸ダム封闭时官方推荐的具体绕行轨迹及新增里程，需要结合官方封闭图和现场路标最后确认",
+    "同行者各自到达古里駅的线路不纳入共同交通段；10:30前到站的个人行程由各人按始发地安排",
+    "温泉是否入场取决于当日营业、拥挤与队伍实际到达时间",
+    "当天返程车次以JR运行信息和奥多摩站实际时刻为准"
+  ],
+  "preview_timing": {
+    "anchor_time": "10:30",
+    "anchor_label": "古里駅集合并共同出发（用户提供）",
+    "status": "illustrative",
+    "notice": "10:30是活动接龙给出的集合时间，不是公共交通抵达时刻。个人出发地不同，未合并查询个人接驳。山路节点时间为3–4小时慢走的预览估算；白丸ダム施工绕行尚待路线复核。节点调整仅影响本机临时预览。"
+  },
+  "trip_type": "day_trip",
+  "costs": {
+    "currency": "JPY",
+    "items": [
+      {"name":"JR往返个人交通费（因个人始发站不同，未合并计价）","amount_yen":null,"quantity":1,"scope":"per_person","status":"pending","included":true,"source_id":null,"note":"每人自行核对到古里和从奥多摩返回自己的目的地；不是共同团体费用。"},
+      {"name":"もえぎの湯成人入浴（可选，3小时）","amount_yen":1200,"quantity":1,"scope":"per_person","status":"confirmed","included":false,"source_id":"moegi-info","note":"不含超时费；小学生600日元，未就学儿童免费。入场及营业以现场为准。"}
+    ]
+  }
+}
