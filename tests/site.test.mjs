@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { makeTimeline } from "../site/assets/timeline.mjs";
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),"..");
 const site=path.join(root,"site"),dir=path.join(site,"plans");
 const load=(p)=>JSON.parse(readFileSync(p,"utf8"));
@@ -167,6 +168,22 @@ test('all published plans validate against JSON Schema and node references',asyn
   const sources=new Set(p.evidence.map(x=>x.id));
   for(const node of nodes) if(node.source_id) assert.ok(sources.has(node.source_id));
  }
+});
+
+test('Kintoki plan shows the full YAMAP route and derived mountain times',()=>{
+ const p=load(path.join(dir,'2026-10-17-kintoki-yokohama','activity.json'));
+ const stops=p.route.sections.flatMap(section=>section.stops);
+ assert.equal(p.route.expanded_by_default,true);
+ assert.equal(stops.length,9);
+ assert.ok(stops.some(x=>x.name==='金時宿り石'));
+ assert.ok(stops.some(x=>x.name==='公時神社分岐（山頂側）'));
+ assert.match(p.route.duration_reference,/3時間05分.*3\.8 km.*516 m/);
+ const timeline=makeTimeline(p);
+ assert.equal(timeline.trail[0].arrival,540);
+ assert.equal(timeline.trail.find(x=>x.id==='summit')?.arrival,665);
+ assert.equal(timeline.trail.at(-1)?.arrival,725);
+ assert.ok(timeline.trail.every(x=>x.arrival!==null));
+ assert.ok(timeline.trail.every(x=>x.status==='illustrative'),'route times stay clearly illustrative while bus service is unresolved');
 });
 
 
