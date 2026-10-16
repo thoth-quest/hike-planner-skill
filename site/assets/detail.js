@@ -17,6 +17,28 @@ import { makeTimeline, clockText } from "./timeline.mjs";
   const weatherMap = { pending: "天气待核实", unavailable: "天气不可查", current: "已保存预报", stale: "天气已过期" };
   const pathType = { fixed: "目的地已确定", preferred: "目的地待确认", undecided: "目的地待选" };
   const evidenceById = (p, id) => p.evidence?.find((s) => s.id === id && safeUrl(s.url));
+  function wheelColumn(root,label,value,max,onPick){
+    const column=add(root,el("div",null,"time-wheel-column"));
+    add(column,el("span",label,"time-wheel-label"));
+    const wheel=add(column,el("div",null,"time-wheel"));
+    wheel.setAttribute("role","listbox");wheel.setAttribute("aria-label",label);wheel.tabIndex=0;
+    for(let n=0;n<=max;n++){
+      const option=add(wheel,el("button",String(n).padStart(2,"0"),"time-wheel-option"));
+      option.type="button";option.dataset.value=String(n);option.setAttribute("role","option");
+      option.setAttribute("aria-selected",n===value?"true":"false");
+      option.addEventListener("click",()=>wheel.scrollTo({top:n*36,behavior:"smooth"}));
+    }
+    let lastPicked=value;
+    requestAnimationFrame(()=>wheel.scrollTop=value*36);
+    let timer;
+    wheel.addEventListener("scroll",()=>{
+      clearTimeout(timer);
+      timer=setTimeout(()=>{
+        const selected=Math.max(0,Math.min(max,Math.round(wheel.scrollTop/36)));
+        if(selected!==lastPicked){lastPicked=selected;onPick(selected)}
+      },180);
+    },{passive:true});
+  }
   function linkedTitle(parent, title, p, ids) {
     const source = (Array.isArray(ids) ? ids : [ids]).map(id => evidenceById(p,id)).find(Boolean);
     if (!source) return add(parent,el("span",title));
@@ -132,24 +154,35 @@ import { makeTimeline, clockText } from "./timeline.mjs";
             :item.kind==="transit" && item.status==="connection_missed"
               ?(item.departure===null?"接驳中断":clockText(item.departure)+" · 已错过")
               :item.kind==="transit" && item.status==="pending"
-                ?(item.mode==="scheduled_transit"?"班次待查":"时间待定") :item.arrival===null?"—":clockText(item.arrival);
+                ?(item.mode==="scheduled_transit"?"班次未核实":"时间待定") :item.arrival===null?"—":clockText(item.arrival);
           const adjustable=item.arrival!==null&&(item.kind==="trail"||item.kind==="transit"&&(item.mode==="driving"||item.mode==="walking"||item.mode==="flexible"));
           if(adjustable){
-            const control=add(li,el("label",null,"timeline-time-control"));
-            const input=add(control,el("input"));input.type="time";input.step="60";input.value=clockText(item.arrival)==="跨日"?"":clockText(item.arrival);input.setAttribute("aria-label","调整"+item.label+"的到达时间");
-            add(control,el("span",clockText(item.arrival),"timeline-time"));
-            const commitTime=()=>{
-              if(!/^\d{2}:\d{2}$/.test(input.value))return;
-              const [hours,minutes]=input.value.split(":").map(Number);
-              const target=hours*60+minutes;
-              // Set this waypoint's arrival; upstream changes are already
-              // reflected in base_arrival and only later nodes move.
-              const next=Math.max(item.min_arrival_shift??0,target-item.base_arrival);
-              if(next)arrivalAdjustments[item.id]=next;else delete arrivalAdjustments[item.id];
-              paint();
-            };
-            input.addEventListener("input",commitTime);
-            input.addEventListener("change",commitTime);
+            const clockRow=add(li,el("div",null,"timeline-clock-row"));
+            const clock=clockText(item.arrival);
+            const clockButton=add(clockRow,el("button",clock,"timeline-clock-trigger"));
+            clockButton.type="button";clockButton.setAttribute("aria-label","调整"+item.label+"到达时间，当前"+clock);
+            clockButton.setAttribute("aria-expanded",opened===item.id?"true":"false");
+            clockButton.addEventListener("click",()=>{opened=opened===item.id?null:item.id;repaint(".timeline-clock-trigger")});
+            const clearNode=add(clockRow,el("button","重置","node-reset"));clearNode.type="button";
+            clearNode.disabled=!adjustments[item.id]&&!arrivalAdjustments[item.id];
+            clearNode.setAttribute("aria-label","重置"+item.label+"的时间调整");
+            clearNode.addEventListener("click",()=>{delete adjustments[item.id];delete arrivalAdjustments[item.id];repaint(".timeline-clock-trigger")});
+            if(opened===item.id){
+              const editor=add(li,el("div",null,"time-wheel-editor"));
+              const [hourText,minuteText]=clock.split(":");
+              let selectedHour=Number(hourText),selectedMinute=Number(minuteText);
+              const wheels=add(editor,el("div",null,"time-wheels"));
+              const pick=(part,value)=>{
+                if(part==="hour")selectedHour=value;else selectedMinute=value;
+                const target=selectedHour*60+selectedMinute;
+                const shift=Math.max(item.min_arrival_shift??0,target-item.base_arrival);
+                if(shift)arrivalAdjustments[item.id]=shift;else delete arrivalAdjustments[item.id];
+                paint();
+              };
+              wheelColumn(wheels,"时",selectedHour,23,n=>pick("hour",n));
+              wheelColumn(wheels,"分",selectedMinute,59,n=>pick("minute",n));
+              paragraph(editor,"滚动时、分设置此节点到达时间；只重算后续节点。","sub-text");
+            }
           }else add(li,el("span",stamped,"timeline-time"+(item.arrival===null?" unknown":"")));
           const h=add(li,el("h3"));
           linkedTitle(h,item.label,p,item.source_id);
@@ -157,7 +190,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
           if(item.status==="connection_unknown") {
             paragraph(li,"班次已核实 · 前序到达未定，接驳待确认。","issue-text");
           }else if(item.status==="pending" && item.kind==="transit") {
-            paragraph(li,"未核实出发日车次；不使用估算时间替代时刻表。");
+            paragraph(li,"此段尚无已核实的实际班次记录；不使用估算时间替代时刻表。");
           }else if(item.status==="connection_missed"){
             paragraph(li,"前序行程未赶上该班，不能自动顺延固定发车时刻。","issue-text");
           }else if(item.status==="fixed"){
@@ -177,7 +210,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
               choice.addEventListener("click",()=>{serviceSelections[item.id]=service.service_id;repaint(".service-choice")});
             });
           }else if(item.kind==="transit"&&item.mode==="scheduled_transit"&&item.status==="pending"){
-            paragraph(li,"确定日期、出发站和目标时刻后，由 Skill 查询附近实际班次；未查询前不显示推测时刻。","sub-text");
+            paragraph(li,"此段尚无已核实的实际班次记录；Skill 应先查询并记录日期对应的时刻表，再确认接驳，不要求使用者代查。","sub-text");
           }
           const canAdjust=item.arrival!==null && (item.kind==="trail"||
             item.kind==="transit"&&(item.mode==="driving"||item.mode==="walking"||item.mode==="flexible"));
@@ -185,33 +218,6 @@ import { makeTimeline, clockText } from "./timeline.mjs";
           const actions=add(li,el("div",null,"node-actions"));
           const amount=item.delay;
           if(amount) add(actions,el("span","此节点"+(amount>0?" +":" ")+amount+" 分","node-delay"));
-          const modify=add(actions,el("button",opened===item.id?"收起调整":"调整耗时","node-open"));
-          modify.type="button";
-          modify.setAttribute("aria-expanded",opened===item.id?"true":"false");
-          modify.addEventListener("click",()=>{opened=opened===item.id?null:item.id;repaint(".node-open")});
-          if(opened===item.id){
-            const editor=add(li,el("div",null,"node-editor"));
-            const explanation=item.kind==="transit"&&item.mode==="scheduled_transit"?
-              "模拟本班次到站晚点；公开时刻表的发车和计划到达时间保持固定。":
-              item.kind==="transit"?"模拟堵车或途中延误，只影响后续节点。":
-              "调整后续路段耗时；缩短量不能超过下一段原始耗时，末节点只能增加停留。";
-            paragraph(editor,explanation,"sub-text");
-            const buttons=add(editor,el("div",null,"delay-buttons"));
-            const minus=add(buttons,el("button","−15 分"));
-            const plus=add(buttons,el("button","+15 分"));
-            const clear=add(buttons,el("button","恢复","quiet-button"));
-            [minus,plus,clear].forEach(x=>x.type="button");
-            const minimum=item.min_delay??0;
-            minus.disabled=amount<=minimum;plus.disabled=amount>=180;clear.disabled=!amount;
-            const edit=(delta)=>{
-              const next=Math.max(minimum,Math.min(180,amount+delta));
-              if(next)adjustments[item.id]=next;else delete adjustments[item.id];
-              repaint(delta>0?".delay-buttons button:nth-child(2)":".delay-buttons button");
-            };
-            minus.addEventListener("click",()=>edit(-15));
-            plus.addEventListener("click",()=>edit(15));
-            clear.addEventListener("click",()=>{delete adjustments[item.id];repaint(".node-open")});
-          }
         });
       };
       showGroup("登山前 · 交通","01","before",schedule.before);

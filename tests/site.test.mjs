@@ -87,7 +87,11 @@ test("detail view opens Plan first and places Route in the third tab",()=>{
   assert.match(js,/makeTimeline/);
   assert.match(js,/adjustments\[item\.id\]/);
   assert.match(js,/target-item\.base_arrival/);
-  assert.match(js,/if\(!\/\^\\d\{2\}:\\d\{2\}\$\/\.test\(input\.value\)\)return/);
+  assert.match(js,/timeline-clock-trigger/);
+  assert.match(js,/wheelColumn\(wheels,"时"/);
+  assert.match(js,/wheelColumn\(wheels,"分"/);
+  assert.match(js,/node-reset/);
+  assert.doesNotMatch(js,/input\.type="time"|调整耗时|−15 分|\+15 分/);
   assert.doesNotMatch(js,/shift\s*[+\-]=/);
   assert.match(js,/aria-controls/);
   assert.match(js,/linkedTitle/);
@@ -184,6 +188,18 @@ test('Kintoki plan shows the full YAMAP route and derived mountain times',()=>{
  assert.equal(timeline.trail.at(-1)?.arrival,725);
  assert.ok(timeline.trail.every(x=>x.arrival!==null));
  assert.ok(timeline.trail.every(x=>x.status==='illustrative'),'route times stay clearly illustrative while bus service is unresolved');
+});
+
+test('node clocks remain visible and use minute wheels with a node reset',()=>{
+ const js=readFileSync(path.join(site,'assets','detail.js'),'utf8');
+ const css=readFileSync(path.join(site,'assets','site.css'),'utf8');
+ assert.match(js,/timeline-clock-trigger/);
+ assert.match(js,/wheelColumn\(wheels,"时"/);
+ assert.match(js,/wheelColumn\(wheels,"分"/);
+ assert.match(js,/node-reset/);
+ assert.doesNotMatch(js,/调整耗时|−15 分|\+15 分/);
+ assert.match(css,/\.time-wheel\{[^}]*scroll-snap-type:y mandatory/);
+ assert.match(css,/\.timeline-clock-trigger\{[^}]*font-size:18px/);
 });
 
 
