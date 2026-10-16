@@ -86,6 +86,7 @@ test("detail view opens Plan first and places Route in the third tab",()=>{
   assert.match(js,/makeTimeline/);
   assert.match(js,/adjustments\[item\.id\]/);
   assert.match(js,/target-item\.arrival/);
+  assert.match(js,/if\(!\/\^\\d\{2\}:\\d\{2\}\$\/\.test\(input\.value\)\)return/);
   assert.doesNotMatch(js,/shift\s*[+\-]=/);
   assert.match(js,/aria-controls/);
   assert.match(js,/linkedTitle/);

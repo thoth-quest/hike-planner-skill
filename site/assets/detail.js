@@ -138,7 +138,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
             const input=add(control,el("input"));input.type="time";input.step="60";input.value=clockText(item.arrival)==="跨日"?"":clockText(item.arrival);input.setAttribute("aria-label","调整"+item.label+"的到达时间");
             add(control,el("span",clockText(item.arrival),"timeline-time"));
             const commitTime=()=>{
-              if(!/^\\d{2}:\\d{2}$/.test(input.value))return;
+              if(!/^\d{2}:\d{2}$/.test(input.value))return;
               const [hours,minutes]=input.value.split(":").map(Number);
               const target=hours*60+minutes;
               // The selected time is relative to this node's current arrival,
