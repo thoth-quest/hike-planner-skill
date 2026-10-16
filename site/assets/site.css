@@ -147,9 +147,9 @@ details summary{color:var(--forest);font-size:13px;font-weight:730;cursor:pointe
 .time-wheels{display:flex;justify-content:center;gap:18px}
 .time-wheel-column{display:grid;grid-template-columns:auto 68px;align-items:center;gap:7px}
 .time-wheel-label{font-size:13px;font-weight:700;color:var(--muted)}
-.time-wheel{height:108px;width:68px;overflow-y:auto;scroll-snap-type:y mandatory;overscroll-behavior:contain;scrollbar-width:none;padding:36px 0;box-sizing:content-box;position:relative}
+.time-wheel{height:36px;width:68px;overflow-y:auto;scroll-snap-type:y mandatory;overscroll-behavior:contain;scrollbar-width:none;padding:36px 0;box-sizing:content-box;position:relative}
 .time-wheel::-webkit-scrollbar{display:none}
-.time-wheel:before{content:"";position:absolute;left:0;right:0;top:72px;height:36px;border-top:1px solid #aac4b1;border-bottom:1px solid #aac4b1;pointer-events:none}
+.time-wheel:before{content:"";position:absolute;left:0;right:0;top:36px;height:36px;border-top:1px solid #aac4b1;border-bottom:1px solid #aac4b1;pointer-events:none}
 .time-wheel-option{display:block;width:100%;height:36px;min-height:36px;padding:0;border:0;background:transparent;color:var(--muted);font-size:17px;font-variant-numeric:tabular-nums;scroll-snap-align:start}
 .time-wheel-option[aria-selected=true]{color:var(--forest-dark);font-weight:780}
 .time-wheel:focus-visible,.timeline-clock-trigger:focus-visible,.node-reset:focus-visible{outline:2px solid #397b59;outline-offset:2px;border-radius:6px}
