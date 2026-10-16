@@ -1,0 +1,339 @@
+{
+  "id": "2026-10-17-kintoki-yokohama",
+  "schema_version": 1,
+  "revision": 1,
+  "stage": "goal_definition",
+  "status": "draft",
+  "title": "横浜発 金時山日帰り（2026-10-17）",
+  "destination": {
+    "state": "fixed",
+    "name": "金時山・公時神社往復",
+    "source": "kintoki-route"
+  },
+  "goals": {
+    "primary": "2026年10月17日に横浜駅から金時山へ日帰り登山する",
+    "secondary": [
+      "公共交通で往復する",
+      "金時山山頂に立つ"
+    ]
+  },
+  "constraints": {
+    "date": "2026-10-17",
+    "date_range": null,
+    "departure_area": "横浜駅",
+    "difficulty": "初級向けと紹介されるが、山頂直下に急登があるため登山経験・体力に応じて判断",
+    "estimated_participants": null,
+    "latest_return": null,
+    "hard_rules": [
+      "日帰り",
+      "実際に確認できていない公共交通の時刻は表示しない",
+      "山頂天気と当日の運行状況を出発前に再確認する"
+    ]
+  },
+  "weather": {
+    "status": "current",
+    "snapshots": [
+      {
+        "checked_at": "2026-10-16T12:00:00+09:00",
+        "valid_for": "2026-10-17",
+        "sources": [
+          "https://www.yamakei-online.com/yamanavi/yama.php?yama_id=401"
+        ],
+        "values": {
+          "forecast_area": "静岡県御殿場市（山麓の代表地点。山頂の予報ではない）",
+          "summary": "晴れのち曇り",
+          "high_c": 22,
+          "low_c": 11,
+          "precipitation_probability_percent": 40,
+          "summit_wind": null,
+          "summit_visibility": null,
+          "sunset_reference": "17:24（日没参考時刻。短い日照時間を考慮し早出を優先）"
+        },
+        "assessment": {
+          "level": "caution",
+          "reason": "山麓予報は晴れのち曇り・降水確率40%。山頂の風・視程を確認できておらず、山の天候を保証しない。",
+          "recommendation": "出発前に山頂予報、気象警報、雨雲と登山道情報を再確認。強風・雷・視界不良・警報があれば延期する。"
+        }
+      }
+    ],
+    "assessment": {
+      "level": "caution",
+      "reason": "山頂の風・視程と当日朝の警報状況は未確認。",
+      "recommendation": "出発前に再確認し、悪化時は延期。"
+    }
+  },
+  "route": {
+    "status": "proposed",
+    "type": "公時神社往復",
+    "duration_reference": "往復約2時間40分（山と溪谷オンラインのコース案内。休憩時間は別途加算）",
+    "duration_source": "kintoki-route",
+    "sections": [
+      {
+        "name": "登山",
+        "stops": [
+          {
+            "name": "公時神社・登山口",
+            "note": "バス停から登山口までの徒歩を含まない。時刻は交通接続未確定のため例示のみ。",
+            "offset_minutes": 0,
+            "source_id": "kintoki-route",
+            "key_point": true,
+            "node_id": "trail-start"
+          },
+          {
+            "name": "金時宿り石",
+            "note": "分岐・路面状況を確認し、標識に従う。",
+            "offset_minutes": 35,
+            "source_id": "kintoki-route",
+            "node_id": "trail-stone"
+          },
+          {
+            "name": "金時山山頂",
+            "note": "休憩時間は別枠。山頂トイレは協力金制のバイオトイレとして案内されているが、当日の利用可否を確認。",
+            "offset_minutes": 80,
+            "source_id": "kintoki-toilet",
+            "key_point": true,
+            "node_id": "trail-summit"
+          },
+          {
+            "name": "公時神社・登山口へ下山",
+            "note": "下りは濡れた岩・木の根で滑りやすい。余裕を持って行動。",
+            "offset_minutes": 160,
+            "source_id": "kintoki-route",
+            "key_point": true,
+            "node_id": "trail-finish"
+          }
+        ]
+      }
+    ],
+    "alternatives": [
+      {
+        "name": "途中撤退",
+        "when": "天候悪化、疲労、体調不良、予定より遅れた場合",
+        "action": "無理に山頂を目指さず、安全な既知の登山道から登山口へ戻る。"
+      }
+    ]
+  },
+  "transport": {
+    "status": "partially_verified",
+    "inbound": [
+      {
+        "name": "横浜駅 → 小田原駅（JR東海道線・普通）",
+        "note": "JR東日本の2026年10月土休日時刻表で確認。横浜06:20発・小田原07:14着、列車番号727M。小田原から登山口までのバス接続は未確認。",
+        "source_id": "jr-yokohama-odawara",
+        "node_id": "inbound-jr",
+        "mode": "scheduled_transit",
+        "schedule_status": "verified",
+        "timetable": {
+          "service_date": "2026-10-17",
+          "departure_time": "06:20",
+          "arrival_time": "07:14",
+          "source_id": "jr-yokohama-odawara",
+          "checked_at": "2026-10-16T12:00:00+09:00",
+          "service_id": "JR 727M"
+        },
+        "reference_time": "06:20",
+        "timetable_options": [
+          {
+            "service_date": "2026-10-17",
+            "departure_time": "05:48",
+            "arrival_time": "06:42",
+            "source_id": "jr-yokohama-odawara",
+            "checked_at": "2026-10-16T12:00:00+09:00",
+            "service_id": "JR 321M"
+          },
+          {
+            "service_date": "2026-10-17",
+            "departure_time": "06:07",
+            "arrival_time": "07:05",
+            "source_id": "jr-yokohama-odawara",
+            "checked_at": "2026-10-16T12:00:00+09:00",
+            "service_id": "JR 323M"
+          },
+          {
+            "service_date": "2026-10-17",
+            "departure_time": "06:20",
+            "arrival_time": "07:14",
+            "source_id": "jr-yokohama-odawara",
+            "checked_at": "2026-10-16T12:00:00+09:00",
+            "service_id": "JR 727M"
+          },
+          {
+            "service_date": "2026-10-17",
+            "departure_time": "06:37",
+            "arrival_time": "07:35",
+            "source_id": "jr-yokohama-odawara",
+            "checked_at": "2026-10-16T12:00:00+09:00",
+            "service_id": "JR 729M"
+          },
+          {
+            "service_date": "2026-10-17",
+            "departure_time": "06:50",
+            "arrival_time": "07:49",
+            "source_id": "jr-yokohama-odawara",
+            "checked_at": "2026-10-16T12:00:00+09:00",
+            "service_id": "JR 1821E"
+          }
+        ]
+      },
+      {
+        "name": "小田原駅 → 金時神社入口（箱根登山バス）",
+        "note": "時刻・乗り場・所要時間を2026-10-17のダイヤとして確認できていないため、班次を表示しない。2026-10-01にダイヤ改正あり。接続が確定するまで計画全体は未確定。",
+        "source_id": "hakone-bus-timetable",
+        "node_id": "inbound-bus",
+        "mode": "scheduled_transit",
+        "schedule_status": "pending",
+        "timetable": null,
+        "timetable_options": []
+      }
+    ],
+    "outbound": [
+      {
+        "name": "金時神社入口 → 小田原駅（箱根登山バス）",
+        "note": "当日の復路便と最終便を確認できていない。実在確認前の時刻を推測で補わない。",
+        "source_id": "hakone-bus-timetable",
+        "node_id": "outbound-bus",
+        "mode": "scheduled_transit",
+        "schedule_status": "pending",
+        "timetable": null,
+        "timetable_options": []
+      },
+      {
+        "name": "小田原駅 → 横浜駅（JR東海道線）",
+        "note": "復路の具体的な乗車便は未照合。下山後に実際のバス到着を確認してから選択する。",
+        "source_id": "jr-yokohama-odawara",
+        "node_id": "outbound-jr",
+        "mode": "scheduled_transit",
+        "schedule_status": "pending",
+        "timetable": null,
+        "timetable_options": []
+      }
+    ],
+    "date_specific_timetable": "partial; bus links and return connections pending"
+  },
+  "safety": {
+    "status": "predeparture_review_required",
+    "alerts": [
+      {
+        "level": "caution",
+        "title": "未确认山顶风况与登山口公交接驳",
+        "note": "目前无法判断公共交通下是否能按安全余量完成往返；确认公交班次和末班前，不应把此行程视为可执行的定稿。",
+        "source_id": "hakone-bus-timetable"
+      },
+      {
+        "level": "info",
+        "title": "山顶厕所",
+        "note": "山顶设有共同维护的生物厕所信息；携带小额协力金，并出发前复核开放状况。",
+        "source_id": "kintoki-toilet"
+      }
+    ],
+    "checklist": [
+      "出发前查询2026年10月17日箱根登山巴士往返班次、停靠站、运费和末班车",
+      "确认巴士抵达时间足以留出登山与返程缓冲；否则更换交通或取消计划",
+      "复核金时山山顶风、能见度、降雨、雷电、警报和登山道信息",
+      "携带登山鞋、饮水、食物、雨衣、保暖层、头灯与离线地图",
+      "核对山顶厕所开放与协力金信息；不离开标识登山道"
+    ]
+  },
+  "candidates": [],
+  "evidence": [
+    {
+      "id": "jr-yokohama-odawara",
+      "claim": "JR东日本：2026年10月横滨站东海道线土休日时刻及各车次停站时刻；候选车次于2026-10-17有效",
+      "url": "https://timetables.jreast.co.jp/2610/timetable/tt1638/1638011.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-10-16T12:00:00+09:00",
+      "valid_for": "2026-10-17",
+      "status": "verified",
+      "note": "逐一查看JR东日本列车停站页：321M横滨05:48→小田原06:42；323M横滨06:07→小田原07:05；727M横滨06:20→小田原07:14；729M横滨06:37→小田原07:35；1821E横滨06:50→小田原07:49。时刻均按2026-10-17周六实际列车表核对。"
+    },
+    {
+      "id": "hakone-bus-timetable",
+      "claim": "箱根登山巴士官方时刻入口和2026-10-01改表公告；无法从已核验资料确认10月17日金时神社入口对应巴士班次",
+      "url": "https://www.hakonenavi.jp/groupnews/17654/",
+      "publisher": "箱根登山バス／箱根ナビ",
+      "checked_at": "2026-10-16T12:00:00+09:00",
+      "valid_for": "2026-10-17",
+      "status": "pending",
+      "note": "公告称T桃源台线在10月1日改时刻。旧版4月站牌时刻表不用于本计划。需通过官方时刻搜索或站点时刻表复核。"
+    },
+    {
+      "id": "kintoki-route",
+      "claim": "金時山：金時神社入口到金時山往返约2小时40分的日帰り路线参考",
+      "url": "https://www.yamakei-online.com/yamanavi/route_detail.php?id=14879",
+      "publisher": "山と溪谷オンライン",
+      "checked_at": "2026-10-16T12:00:00+09:00",
+      "valid_for": null,
+      "status": "verified",
+      "note": "路线到金时山后原路返回；计划以交通确认后确定的实际登山口到达时刻为准，并留出休息缓冲。"
+    },
+    {
+      "id": "kintoki-toilet",
+      "claim": "环境省关东地方环境事务所：金时山山顶生物厕所的设置与维护说明",
+      "url": "https://kanto.env.go.jp/blog/2022/04/post-1175.html",
+      "publisher": "環境省関東地方環境事務所",
+      "checked_at": "2026-10-16T12:00:00+09:00",
+      "valid_for": null,
+      "status": "verified",
+      "note": "开放状态与协力金信息仍应在出发前复核。"
+    },
+    {
+      "id": "mountain-weather",
+      "claim": "金时山周边天气参考：10月17日御殿场市晴后转阴、最高22°C、最低11°C、降水概率40%；非山顶预报",
+      "url": "https://www.yamakei-online.com/yamanavi/yama.php?yama_id=401",
+      "publisher": "山と溪谷オンライン／日本気象協会",
+      "checked_at": "2026-10-16T12:00:00+09:00",
+      "valid_for": "2026-10-17",
+      "status": "verified",
+      "note": "资料于10月16日0时发布，地点是御殿场市。不能代表1212米山顶风况或能见度。"
+    },
+    {
+      "id": "rail-fare",
+      "claim": "横浜駅から小田原駅のJR在来線普通運賃参考",
+      "url": "https://www.jorudan.co.jp/norikae/route/%E6%A8%AA%E6%B5%9C_%E5%B0%8F%E7%94%B0%E5%8E%9F.html?Ddd=05&Dym=202610",
+      "publisher": "ジョルダン",
+      "checked_at": "2026-10-16T12:00:00+09:00",
+      "valid_for": "2026-10-17",
+      "status": "verified",
+      "note": "検索結果にJR在来線運賃1,180円の表示を確認。改定や乗車経路による差異があり得るため参考額とし、購入時に再確認。"
+    }
+  ],
+  "changes": [],
+  "pending_decisions": [
+    "确认箱根登山巴士10月17日横滨出发所需的去程班次、接驳与候选备选班次",
+    "确认下山后的公交及返回横滨的固定班次，尤其复核末班",
+    "出发前复核山顶风况、能见度、降雨、雷电与路线公告",
+    "同行人数未提供；费用暂按每人估算"
+  ],
+  "preview_timing": {
+    "anchor_time": "09:00",
+    "anchor_label": "登山口出发演示时间（仅作路线耗时预览；公共交通接驳未确认）",
+    "status": "illustrative",
+    "notice": "09:00不是已确认到达登山口的时间。小田原至金时神社入口公交及返程班次尚未核实；不得据此判断交通可接驳或能赶上末班。节点时间调整只影响该节点之后的估算，固定交通班次不会自动移动。"
+  },
+  "trip_type": "day_trip",
+  "costs": {
+    "currency": "JPY",
+    "items": [
+      {
+        "name": "JR横滨 ⇄ 小田原（普通运费参考）",
+        "amount_yen": 1180,
+        "quantity": 2,
+        "scope": "per_person",
+        "status": "estimated",
+        "included": true,
+        "source_id": "rail-fare",
+        "note": "普通列车往返。运费参考据查询结果；购票时复核当前票价。"
+      },
+      {
+        "name": "箱根登山巴士 小田原 ⇄ 金时神社入口",
+        "amount_yen": null,
+        "quantity": 2,
+        "scope": "per_person",
+        "status": "pending",
+        "included": true,
+        "source_id": "hakone-bus-timetable",
+        "note": "往返票价待官方按实际上下车站核实。总额不完整。"
+      }
+    ]
+  }
+}
