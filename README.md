@@ -62,11 +62,11 @@ A plan keeps a stable URL: `https://thoth-quest.github.io/hike-planner-skill/pla
 
 ## Detail page (tabs + relative timeline)
 
-The viewer uses a quiet, mobile-first day-hike field-guide design. **Plan** is the first tab, followed by **Safety**, **Route**, **Fees**, and **History**. The Route tab places **transport before the hike**, then the **hiking itinerary**, then **transport after the hike** on one chronological timeline. Switch between key waypoints and all waypoints.
+The viewer uses a quiet, mobile-first day-hike field-guide design with four tabs: **Route** (default), **Plan**, **Safety**, and **Record**. The Route tab places **transport before the hike**, then the **hiking itinerary**, then **transport after the hike** on one chronological timeline. Switch between key waypoints and all waypoints.
 
 Tap a timeline time to open the hour/minute wheel and adjust that node. For public transit, select from the full date-specific service list; the nearest two before and after the target are also shown as shortcuts. Without an explicit illustrative anchor the viewer shows no default clock time.
 
-The Fees tab includes a per-person subtotal, sourced line items, optional costs, and an incomplete-total notice while fares are unknown. Supporting sources are linked directly on the relevant route location, transport step, cost or risk notice. There is no separate wall of source links.
+The Plan tab includes sourced cost line items, optional costs, a per-person subtotal, and an incomplete-total notice while fares are unknown. Supporting sources are linked directly on the relevant route location, transport step, cost or risk notice. There is no separate wall of source links.
 
 ## Node-by-node time simulation (v0.4)
 
@@ -74,7 +74,7 @@ Every timeline node can be adjusted with the hour/minute wheel. Changes stay loc
 
 **Rail and bus:** the Skill queries and stores every actual service for each route segment on the trip date, with source URLs and check times. The timeline shows the closest two services before and after the target for quick selection, and can expand to the full day's list. A selected transit node can be simulated earlier or later; this temporary offset never rewrites the published timetable. If a connection is missed, choose another actually queried service from that day's list; the viewer never invents one.
 
-**Driving** uses approximate travel durations and may be simulated early or late for traffic. **Hiking** uses estimated waypoints, rests and unexpected setbacks. All scenarios stay in browser memory and cannot change plan JSON, sourced timetables or weather. The current Oyama plan has **no verified service times** because its trip date is unknown; these correctly appear as *timetable pending*. Its 08:00 hiking anchor remains a clearly labeled illustrative assumption, not a claimed bus arrival. The Fees tab calculates a sourced subtotal and marks the full cost incomplete while the departure-station fare is unknown. Multi-day travel remains out of scope.
+**Driving** uses approximate travel durations and may be simulated early or late for traffic. **Hiking** uses estimated waypoints, rests and unexpected setbacks. All scenarios stay in browser memory and cannot change plan JSON, sourced timetables or weather. The current Oyama plan has **no verified service times** because its trip date is unknown; these correctly appear as *timetable pending*. Its 08:00 hiking anchor remains a clearly labeled illustrative assumption, not a claimed bus arrival. The Plan tab calculates a sourced subtotal and marks the full cost incomplete while the departure-station fare is unknown. Multi-day travel remains out of scope.
 
 ## Weather updates belong to the Skill
 

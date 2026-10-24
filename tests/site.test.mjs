@@ -69,21 +69,23 @@ test("Oyama reference plan includes grounded route and safety information",()=>{
   for(const a of p.safety.alerts) assert.ok(ids.has(a.source_id),"alerts must link to evidence");
 });
 
-test("detail view opens Plan first and places Route in the third tab",()=>{
+test("detail view opens Route first and has four product tabs",()=>{
   const page=readFileSync(path.join(site,"plan.html"),"utf8");
   assert.match(page,/role="tablist"/);
-  for(const name of ["route","overview","weather","costs","history"]){
+  for(const name of ["route","overview","weather","history"]){
     assert.match(page,new RegExp('id="tab-'+name+'"'));
     assert.match(page,new RegExp('id="panel-'+name+'"'));
   }
-  assert.match(page,/id="tab-overview"[^>]+aria-selected="true"/);
-  assert.doesNotMatch(page,/id="panel-overview"[^>]*hidden/);
-  assert.match(page,/id="tab-route"[^>]+aria-controls="panel-route"[^>]*>路线 <span class="tab-count">03/);
-  assert.match(page,/id="tab-costs"[^>]+aria-controls="panel-costs"[^>]*>费用 <span class="tab-count">04/);
+  assert.match(page,/id="tab-route"[^>]+aria-selected="true"/);
+  assert.doesNotMatch(page,/id="panel-route"[^>]*hidden/);
+  assert.match(page,/id="tab-overview"[^>]+aria-controls="panel-overview"[^>]*>计划 <span class="tab-count">02/);
+  assert.match(page,/id="tab-weather"[^>]+aria-controls="panel-weather"[^>]*>安全 <span class="tab-count">03/);
+  assert.match(page,/id="tab-history"[^>]+aria-controls="panel-history"[^>]*>记录 <span class="tab-count">04/);
+  assert.doesNotMatch(page,/id="tab-costs"|id="panel-costs"/);
   assert.match(page,/assets\/detail\.js/);
   assert.ok(existsSync(path.join(site,"assets","detail.js")));
   const js=readFileSync(path.join(site,"assets","detail.js"),"utf8");
-  assert.match(js,/makeTimeline/);
+  assert.match(js,/renderCostItems\(root,p\)/);
   assert.match(js,/makeTimeline/);
   assert.match(js,/adjustments\[item\.id\]/);
   assert.match(js,/target-item\.base_arrival/);

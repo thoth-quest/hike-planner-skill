@@ -297,6 +297,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
         paragraph(row,text(x.reason));
       });
     }
+    renderCostItems(root,p);
   }
   function yen(value){return "¥"+Number(value).toLocaleString("ja-JP");}
   function renderCostItems(root,p){
@@ -386,10 +387,6 @@ import { makeTimeline, clockText } from "./timeline.mjs";
     add(infoCard,el("div","数据与页面的边界","quiet-card-title"));
     paragraph(infoCard,"网页中的时间偏移仅用于预览，不会写回 JSON。确认日期、更新天气及交通后，由 Skill 修改对应计划并保留记录。");
   }
-  function renderCosts(p) {
-    const root=$("panel-costs");
-    renderCostItems(root,p);
-  }
   async function main() {
     tabs();
     const state=$("detail-status");
@@ -425,7 +422,6 @@ import { makeTimeline, clockText } from "./timeline.mjs";
       renderRoute(p);
       renderOverview(p);
       renderWeather(p);
-      renderCosts(p);
       renderHistory(p);
     } catch(error){
       state.textContent="加载失败："+error.message;

@@ -44,16 +44,18 @@ try {
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base+'plan.html?id=offline-oyama-test');
   await page.locator('#detail-status').filter({hasText:'已读取当前计划'}).waitFor();
-  await page.locator('#tab-costs').click();
+  assert.equal(await page.locator('[role="tab"]').count(),4,'the field guide has four main tabs');
+  assert.equal(await page.locator('#panel-route').isVisible(),true,'the route is the default landing tab');
+  await page.locator('#tab-overview').click();
   assert.match(await page.locator('.cost-summary').innerText(),/¥820/);
   assert.match(await page.locator('.cost-pending').innerText(),/往返电车/);
   if(process.env.CJK_FONT_PATH){const font=(await readFile(process.env.CJK_FONT_PATH)).toString('base64');await page.addStyleTag({content:`@font-face{font-family:'Noto Sans SC';font-style:normal;font-weight:100 900;src:url(data:font/woff2;base64,${font}) format('woff2')} :root{font-family:'Noto Sans SC',sans-serif}`});}
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'no horizontal overflow');
-  for(const name of ['overview','weather','route','costs','history']){
+  for(const name of ['overview','weather','route','history']){
    await page.locator('#tab-'+name).click();assert.equal(await page.locator('#panel-'+name).isVisible(),true);
   }
-  await page.locator('#tab-route').press('ArrowRight');assert.equal(await page.locator('#panel-costs').isVisible(),true);
-  await page.locator('#tab-overview').press('Home');assert.equal(await page.locator('#panel-overview').isVisible(),true);
+  await page.locator('#tab-route').press('ArrowRight');assert.equal(await page.locator('#panel-overview').isVisible(),true);
+  await page.locator('#tab-overview').press('Home');assert.equal(await page.locator('#panel-route').isVisible(),true);
   await page.locator('#tab-route').click();
   const firstTransit=page.locator('.timeline-item').filter({has:page.getByRole('heading',{name:/铁路到伊势原/})});
   assert.equal(await firstTransit.locator('.service-options > .service-choice').count(),4,'two actual options before and after the requested time');
