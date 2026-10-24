@@ -1,12 +1,12 @@
 {
   "id": "nenogongen-relaxed-day-hike",
   "schema_version": 1,
-  "revision": 1,
+  "revision": 2,
   "stage": "goal_definition",
   "status": "needs_review",
   "title": "子ノ権現 休闲慢走｜西吾野駅集合",
   "example_only": false,
-  "updated_at": "2026-10-24T00:00:00+09:00",
+  "updated_at": "2026-10-24T00:17:00+09:00",
   "visibility_note": "公开路线草案；不含参与者姓名、联系方式或个人出发地。",
   "destination": {
     "state": "fixed",
@@ -64,9 +64,17 @@
             "node_id": "meet-nishi-agano"
           },
           {
+            "name": "等待／出发判断（最晚10:38）",
+            "note": "单独的弹性等待节点，不代表列车班次。若有人乘坐的列车延误，可等至10:38；若全员提前到齐并决定出发，可在此节点把时间前调，之后路线节点会随之重算。",
+            "offset_minutes": 38,
+            "source_id": "seibu-timetable",
+            "key_point": true,
+            "node_id": "departure-cutoff"
+          },
+          {
             "name": "西吾野桥与小床桥方向入口",
-            "note": "按现场道标前往小床桥方向。此时间是演示估算，不是官方分段用时；留意道路与登山道交界。",
-            "offset_minutes": 25,
+            "note": "从出发判断节点起按慢走演示估算约25分钟；不是官方分段用时。按现场道标前往小床桥方向，留意道路与登山道交界。",
+            "offset_minutes": 63,
             "source_id": "nenogongen-route",
             "key_point": true,
             "node_id": "koika-bridge"
@@ -74,7 +82,7 @@
           {
             "name": "小床地区登山道",
             "note": "从小床地区进入登山道后持续上行。相对时间按慢走节奏作展示估算，可在页面按实际情况调整。",
-            "offset_minutes": 65,
+            "offset_minutes": 103,
             "source_id": "nenogongen-route",
             "key_point": true,
             "node_id": "koika-trail"
@@ -82,7 +90,7 @@
           {
             "name": "柿ノ木峠附近分岔",
             "note": "留意现场道标并沿子ノ権現方向行进。分段时间为演示估算；休息时间和个人差异未包含。",
-            "offset_minutes": 100,
+            "offset_minutes": 138,
             "source_id": "nenogongen-route",
             "key_point": true,
             "node_id": "kakinoki-pass"
@@ -90,7 +98,7 @@
           {
             "name": "子ノ権現（天龍寺）",
             "note": "日本山岳会资料记载入口道标到子ノ権現约90分钟。本时间轴按慢走节奏示意约2小时，不含停留；是否继续下山及路线应在此结合人数、体力和时间决定。",
-            "offset_minutes": 120,
+            "offset_minutes": 158,
             "source_id": "nenogongen-route",
             "key_point": true,
             "node_id": "nenogongen"
@@ -244,13 +252,21 @@
       "before": null,
       "after": "子ノ権現日归慢走计划草案；10:00集合及10:38等待上限，两条下山路线待选。",
       "reason": "根据用户提供的活动目标建立独立计划，并记录交通、天气和路线复核项。"
+    },
+    {
+      "revision": 2,
+      "at": "2026-10-24T00:17:00+09:00",
+      "field": "route.wait_node",
+      "before": "集合节点后的路线估时从10:00起算，未体现最晚等待窗口。",
+      "after": "增加单独可调整的等待／出发判断节点，默认10:38；其后路线节点按此起算。",
+      "reason": "避免将列车延误等待与步行时间混为一谈，并允许队伍提前到齐时只调整该节点。"
     }
   ],
   "preview_timing": {
     "anchor_time": "10:00",
     "anchor_label": "西吾野駅集合时间（非列车时刻；10:38为最晚等待上限）",
     "status": "illustrative",
-    "notice": "路线节点以集合时间为起点展示慢走节奏估时；日本山岳会资料所记西吾野至子ノ権現路标约90分钟，页面节点估时仅作讨论和本地模拟，不含休息、参拜及延误等待。10:00–10:38是可能的集合等待窗口，不自动平移其后的路线节点。两种下山方式尚未选择，交通时刻均待按2026-11-03实际查询。"
+    "notice": "10:00为集合时间；时间轴将等待／出发判断单列为10:38的最晚等待节点，后续慢走估时从该节点起算。若全员提前到齐，可在该节点自行前调，后续路线随之重算。该节点不是列车时刻。日本山岳会资料所记西吾野至子ノ権現路标约90分钟；本页慢走节点估时仅供讨论和本地模拟，不含参拜与休息。两种下山方式尚未选择，交通时刻均待按2026-11-03实际查询。"
   },
   "trip_type": "day_trip",
   "costs": {

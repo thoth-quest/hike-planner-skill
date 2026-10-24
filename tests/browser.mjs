@@ -124,6 +124,16 @@ try {
   assert.equal(await page.locator('[role="tab"]').count(),4,'Nenogongen uses the same four field-guide tabs');
   assert.equal(await page.locator('#panel-route').isVisible(),true,'Nenogongen opens on its route');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'Nenogongen fits the narrow and desktop viewports');
+  const cutoff=page.locator('.timeline-item[data-node-id="departure-cutoff"]');
+  const bridge=page.locator('.timeline-item[data-node-id="koika-bridge"]');
+  const originalCutoff=await cutoff.locator('.timeline-clock-trigger').innerText();
+  const originalBridge=await bridge.locator('.timeline-clock-trigger').innerText();
+  await cutoff.locator('.timeline-clock-trigger').click();
+  await cutoff.locator('.time-wheel').nth(1).hover();await page.mouse.wheel(0,72);
+  await page.waitForFunction(([id,old])=>{const row=document.querySelector(`[data-node-id="${id}"] .timeline-clock-trigger`);return row&&row.textContent!==old},["departure-cutoff",originalCutoff]);
+  assert.notEqual(await bridge.locator('.timeline-clock-trigger').innerText(),originalBridge,'changing the departure wait node moves later hiking estimates');
+  await cutoff.locator('.node-reset').click();
+  assert.equal(await bridge.locator('.timeline-clock-trigger').innerText(),originalBridge,'resetting the wait node restores later hiking estimates');
   const koika=page.locator('.timeline-item[data-node-id="koika-trail"]');
   const nenogongen=page.locator('.timeline-item[data-node-id="nenogongen"]');
   const initialKoika=await koika.locator('.timeline-clock-trigger').innerText();

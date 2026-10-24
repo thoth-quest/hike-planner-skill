@@ -211,6 +211,9 @@ test('Nenogongen draft preserves the meeting cutoff and leaves both descent bran
  assert.equal(p.preview_timing.anchor_time,'10:00');
  assert.match(p.preview_timing.notice,/10:38.*不是列车时刻|10:00–10:38.*等待窗口/);
  assert.equal(p.route.alternatives.length,2);
+ const stops=p.route.sections.flatMap(s=>s.stops);
+ assert.equal(stops.find(s=>s.node_id==='departure-cutoff')?.offset_minutes,38,'the delay buffer is represented as its own adjustable node');
+ assert.ok(stops.find(s=>s.node_id==='nenogongen').offset_minutes>stops.find(s=>s.node_id==='departure-cutoff').offset_minutes,'hike estimates begin after the departure decision');
  assert.ok(p.transport.inbound.every(x=>x.timetable===null&&x.schedule_status==='pending'));
  assert.ok(p.transport.outbound.every(x=>x.timetable===null&&x.schedule_status==='pending'));
  assert.equal(p.weather.status,'pending');
