@@ -1,0 +1,260 @@
+{
+  "id": "nenogongen-relaxed-day-hike",
+  "schema_version": 1,
+  "revision": 1,
+  "stage": "goal_definition",
+  "status": "needs_review",
+  "title": "子ノ権現 休闲慢走｜西吾野駅集合",
+  "example_only": false,
+  "updated_at": "2026-10-24T00:00:00+09:00",
+  "visibility_note": "公开路线草案；不含参与者姓名、联系方式或个人出发地。",
+  "destination": {
+    "state": "fixed",
+    "name": "埼玉县饭能市｜子ノ権現（天龍寺）",
+    "source": "nenogongen-route"
+  },
+  "goals": {
+    "primary": "从西吾野駅慢走上行至子ノ権現，留出休息和参拜时间；下山方向按实际人数及队伍状态决定。",
+    "secondary": [
+      "10:00在西吾野駅集合；预留列车延误等待时间，最晚等至10:38后再按到场情况决定是否出发。",
+      "下山候选：直接步行至吾野駅，或经竹寺到小殿巴士站；人数和当日交通核实后择一。"
+    ]
+  },
+  "constraints": {
+    "date": "2026-11-03",
+    "date_range": null,
+    "departure_area": "不设共同出发地；西吾野駅集合，各人自行安排抵达集合站的交通。",
+    "difficulty": "上行有持续爬升及登山道；按慢走和休息安排，但不应视为平路或无体力要求。下雨后路段可能湿滑。",
+    "estimated_participants": null,
+    "latest_return": null,
+    "hard_rules": [
+      "10:00西吾野駅集合；列车延误时最多等待至10:38。10:38是集合等待上限，不是经查询的列车时刻。",
+      "集合后确认队伍状况再出发；如果超过等待上限仍有人未到，不自动延长等待或假设其已赶上。",
+      "活动仅按当天往返规划；下山分支、返程交通和末班车仍须确认后才能定稿。",
+      "电车和巴士只能使用活动日期实际查询的班次；当前不显示未经核实的发车时刻。",
+      "出发前复核天气、警报、登山道及寺院开放信息；降雨后注意湿滑陡坡和岩石。"
+    ]
+  },
+  "weather": {
+    "status": "pending",
+    "snapshots": [],
+    "assessment": {
+      "level": "unknown",
+      "recommendation": "临近出发时查询并记录天气来源与查询时间；目前不提供天气预报。",
+      "reason": "日期较远，当前没有可用于活动日的有效预报。"
+    }
+  },
+  "candidates": [],
+  "route": {
+    "status": "proposed",
+    "type": "日归徒步｜西吾野駅→子ノ権現；下山方向待定",
+    "duration_reference": "日本山岳会整理的登山道资料记载，西吾野駅至子ノ権現的路标约90分钟；这是参考步行时间，不含集合等待、参拜和休息。休闲节奏演示按约2小时到达寺院，非保证用时；现场路况和队伍速度可能使时间更长。西武铁道曾列出西吾野駅经子ノ権現、竹寺至小殿巴士站全程8.2km、3小时的路线参考，该值并非本次两种下山选项的分段计时。",
+    "duration_source": "nenogongen-route",
+    "expanded_by_default": true,
+    "sections": [
+      {
+        "name": "西吾野駅 → 子ノ権現（慢走参考）",
+        "stops": [
+          {
+            "name": "西吾野駅集合",
+            "note": "10:00集合。延误等待上限10:38；等待窗口来自活动安排，不是列车时刻。下方相对时间仅为休闲节奏模拟。",
+            "offset_minutes": 0,
+            "source_id": "nenogongen-route",
+            "key_point": true,
+            "node_id": "meet-nishi-agano"
+          },
+          {
+            "name": "西吾野桥与小床桥方向入口",
+            "note": "按现场道标前往小床桥方向。此时间是演示估算，不是官方分段用时；留意道路与登山道交界。",
+            "offset_minutes": 25,
+            "source_id": "nenogongen-route",
+            "key_point": true,
+            "node_id": "koika-bridge"
+          },
+          {
+            "name": "小床地区登山道",
+            "note": "从小床地区进入登山道后持续上行。相对时间按慢走节奏作展示估算，可在页面按实际情况调整。",
+            "offset_minutes": 65,
+            "source_id": "nenogongen-route",
+            "key_point": true,
+            "node_id": "koika-trail"
+          },
+          {
+            "name": "柿ノ木峠附近分岔",
+            "note": "留意现场道标并沿子ノ権現方向行进。分段时间为演示估算；休息时间和个人差异未包含。",
+            "offset_minutes": 100,
+            "source_id": "nenogongen-route",
+            "key_point": true,
+            "node_id": "kakinoki-pass"
+          },
+          {
+            "name": "子ノ権現（天龍寺）",
+            "note": "日本山岳会资料记载入口道标到子ノ権現约90分钟。本时间轴按慢走节奏示意约2小时，不含停留；是否继续下山及路线应在此结合人数、体力和时间决定。",
+            "offset_minutes": 120,
+            "source_id": "nenogongen-route",
+            "key_point": true,
+            "node_id": "nenogongen"
+          }
+        ]
+      }
+    ],
+    "alternatives": [
+      {
+        "name": "子ノ権現 → 吾野駅",
+        "when": "人数较少或希望直接结束行程时；出发前结合队伍体力和实际时间确认。",
+        "action": "日本山岳会资料的指示牌记载吾野駅约4.5–4.6km。下行有湿滑、陡降和散落岩石路段；需按当天状态评估，不能只凭距离判断轻松程度。该方向的完整时间和返程列车待核实。"
+      },
+      {
+        "name": "子ノ権現 → 竹寺 → 小殿巴士站",
+        "when": "实际人数、队伍速度和巴士接驳适合时。",
+        "action": "饭能市观光协会路线资料列出子ノ権現至豆口峠1.8km、豆口峠至竹寺1.1km、竹寺至小殿1.6km。小殿至饭能的活动日巴士班次及末班尚待核实；下雨后小殿至竹寺一带需特别注意湿滑。"
+      }
+    ],
+    "source_ids": [
+      "nenogongen-route",
+      "seibu-course",
+      "hanno-course",
+      "saitama-trail"
+    ]
+  },
+  "transport": {
+    "status": "pending",
+    "inbound": [
+      {
+        "name": "各地 → 西吾野駅",
+        "note": "不设共同出发地；各人自行查询并预留延误余量。10:00集合、最晚等待至10:38为活动安排。出行日期的具体列车班次未录入。",
+        "source_id": "seibu-timetable",
+        "node_id": "inbound-to-meeting",
+        "mode": "scheduled_transit",
+        "schedule_status": "pending",
+        "timetable": null,
+        "timetable_options": []
+      }
+    ],
+    "outbound": [
+      {
+        "name": "吾野駅 → 各自返程方向（仅直下路线）",
+        "note": "只在选定吾野駅下山路线后查询；活动日实际列车班次和末班待核实。",
+        "source_id": "seibu-timetable",
+        "node_id": "outbound-agano",
+        "mode": "scheduled_transit",
+        "schedule_status": "pending",
+        "timetable": null,
+        "timetable_options": []
+      },
+      {
+        "name": "小殿巴士站 → 饭能方向（仅竹寺路线）",
+        "note": "只在选定竹寺路线后查询；小殿站的活动日发车时刻、末班及步行抵站缓冲待核实。不可用猜测班次安排接驳。",
+        "source_id": "hanno-course",
+        "node_id": "outbound-kodono",
+        "mode": "scheduled_transit",
+        "schedule_status": "pending",
+        "timetable": null,
+        "timetable_options": []
+      }
+    ],
+    "date_specific_timetable": "pending; exact services require route choice and date-specific verification"
+  },
+  "safety": {
+    "status": "predeparture_review_required",
+    "alerts": [
+      {
+        "level": "caution",
+        "title": "休闲节奏不代表平缓路线",
+        "note": "西吾野至子ノ権現持续爬升；吾野方向下山有湿滑陡降和散落岩石。雨后或队伍中有人不适时重新评估路线。",
+        "source_id": "nenogongen-route"
+      },
+      {
+        "level": "info",
+        "title": "竹寺路线遇雨需谨慎",
+        "note": "埼玉县提示，小殿巴士站至竹寺附近的步道在降雨时可能成为雨水通道，足下条件变差。",
+        "source_id": "saitama-trail"
+      }
+    ],
+    "checklist": [
+      "集合后确认实际人数、全队体力和下山分支；不要为了赶巴士强行加速。",
+      "出发前复核天气、警报、登山道和寺院开放情况；雨后谨慎通过陡坡及岩石路段。",
+      "选定吾野駅路线后核实返程列车；选定竹寺路线后核实小殿巴士全部可用班次和末班。",
+      "携带防滑鞋、饮水、食物、雨具、保暖层及离线地图；按当日温度调整装备。"
+    ]
+  },
+  "pending_decisions": [
+    "按人数、队伍状态和实际时间，在子ノ権現确认直接下山至吾野駅，或经竹寺前往小殿巴士站。",
+    "路线分支确定后，查询并记录2026-11-03对应的返程电车或巴士时刻、末班、来源与查询时间。",
+    "查询2026-11-03到西吾野駅的实际列车安排；10:38只是等待上限，不是列车时刻。",
+    "出发前查询活动日天气、警报、步道状况和寺院开放信息，并更新本计划。"
+  ],
+  "evidence": [
+    {
+      "id": "nenogongen-route",
+      "claim": "日本山岳会子ノ権現古道资料：西吾野至子ノ権現路标约90分钟；吾野駅方向约4.5–4.6km，描述下山路段有陡降、滑坡土路和散落岩石。",
+      "url": "https://kodo.jac1.or.jp/kodo120_detail/052_nenogongen/",
+      "publisher": "日本山岳会",
+      "checked_at": "2026-10-24T00:00:00+09:00",
+      "valid_for": null,
+      "status": "verified",
+      "note": "路标与登山道说明为参考；不代表活动日步道实时状况或个人行走时间。"
+    },
+    {
+      "id": "seibu-course",
+      "claim": "西武铁道路线资料：西吾野駅出发，经子ノ権現和竹寺到小殿巴士站，约8.2km、标准3小时。",
+      "url": "https://www.seiburailway.jp/news/news-release/2020/20200729_rintei_hiking.pdf",
+      "publisher": "西武鉄道",
+      "checked_at": "2026-10-24T00:00:00+09:00",
+      "valid_for": null,
+      "status": "verified",
+      "note": "发布于2020年的路线参考，包含沿线两寺；不用于推出本活动的日期特定交通时刻或精确分段用时。"
+    },
+    {
+      "id": "hanno-course",
+      "claim": "饭能市观光协会路线分段资料：小殿至竹寺1.6km、竹寺至豆口峠1.1km、豆口峠至子ノ権現1.8km。",
+      "url": "https://hanno-tourism.com/2-aruku/2-aruku-ippan-01.html",
+      "publisher": "奥むさし飯能観光協会",
+      "checked_at": "2026-10-24T00:00:00+09:00",
+      "valid_for": null,
+      "status": "verified",
+      "note": "资料描述吾野駅至小殿的整段古寺路线；用于识别线路及分段距离，不作为本次分支的完整累计距离。"
+    },
+    {
+      "id": "saitama-trail",
+      "claim": "埼玉县提示小殿巴士站至竹寺附近步道在降雨时足下条件变差，须注意。",
+      "url": "https://www.pref.saitama.lg.jp/a0508/shisetsu/kanfure2okumusashi.html",
+      "publisher": "埼玉県",
+      "checked_at": "2026-10-24T00:00:00+09:00",
+      "valid_for": null,
+      "status": "verified",
+      "note": "出发前仍须确认近期路线公告和现场通行情况。"
+    },
+    {
+      "id": "seibu-timetable",
+      "claim": "西武铁道官方时刻表入口；本草案未核实2026-11-03活动日的具体去返程车次。",
+      "url": "https://seibu.ekitan.com/norikae/timetable/station/235-31/d1",
+      "publisher": "西武鉄道",
+      "checked_at": "2026-10-24T00:00:00+09:00",
+      "valid_for": "2026-11-03",
+      "status": "pending",
+      "note": "等待日期接近且下山路线确定后，再检索实际运行班次并记录查询时间。"
+    }
+  ],
+  "changes": [
+    {
+      "revision": 1,
+      "at": "2026-10-24T00:00:00+09:00",
+      "field": "plan",
+      "before": null,
+      "after": "子ノ権現日归慢走计划草案；10:00集合及10:38等待上限，两条下山路线待选。",
+      "reason": "根据用户提供的活动目标建立独立计划，并记录交通、天气和路线复核项。"
+    }
+  ],
+  "preview_timing": {
+    "anchor_time": "10:00",
+    "anchor_label": "西吾野駅集合时间（非列车时刻；10:38为最晚等待上限）",
+    "status": "illustrative",
+    "notice": "路线节点以集合时间为起点展示慢走节奏估时；日本山岳会资料所记西吾野至子ノ権現路标约90分钟，页面节点估时仅作讨论和本地模拟，不含休息、参拜及延误等待。10:00–10:38是可能的集合等待窗口，不自动平移其后的路线节点。两种下山方式尚未选择，交通时刻均待按2026-11-03实际查询。"
+  },
+  "trip_type": "day_trip",
+  "costs": {
+    "currency": "JPY",
+    "items": []
+  }
+}

@@ -204,6 +204,18 @@ test('Kintoki plan shows the full YAMAP route and derived mountain times',()=>{
  assert.ok(timeline.trail.every(x=>x.status==='illustrative'),'route times stay clearly illustrative while bus service is unresolved');
 });
 
+test('Nenogongen draft preserves the meeting cutoff and leaves both descent branches unresolved',()=>{
+ const p=JSON.parse(readFileSync(path.join(root,'site/plans/nenogongen-relaxed-day-hike/activity.json'),'utf8'));
+ assert.equal(p.constraints.date,'2026-11-03');
+ assert.match(p.constraints.hard_rules.join(' '),/10:00.*10:38/);
+ assert.equal(p.preview_timing.anchor_time,'10:00');
+ assert.match(p.preview_timing.notice,/10:38.*不是列车时刻|10:00–10:38.*等待窗口/);
+ assert.equal(p.route.alternatives.length,2);
+ assert.ok(p.transport.inbound.every(x=>x.timetable===null&&x.schedule_status==='pending'));
+ assert.ok(p.transport.outbound.every(x=>x.timetable===null&&x.schedule_status==='pending'));
+ assert.equal(p.weather.status,'pending');
+});
+
 test('node clocks remain visible and use minute wheels with a node reset',()=>{
  const js=readFileSync(path.join(site,'assets','detail.js'),'utf8');
  const css=readFileSync(path.join(site,'assets','site.css'),'utf8');
