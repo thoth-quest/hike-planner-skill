@@ -145,7 +145,7 @@ try {
   await koika.locator('.node-reset').click();
   assert.equal(await koika.locator('.timeline-clock-trigger').innerText(),initialKoika,'reset restores the edited Nenogongen waypoint');
   assert.equal(await nenogongen.locator('.timeline-clock-trigger').innerText(),initialNeno,'reset restores downstream Nenogongen times');
-  await page.getByRole('button',{name:/查看备用与撤退方案/}).click();
+  await page.locator('summary').filter({hasText:'查看备用与撤退方案'}).click();
   assert.match(await page.locator('#panel-route').innerText(),/子ノ権現 → 吾野駅/);
   assert.match(await page.locator('#panel-route').innerText(),/子ノ権現 → 竹寺 → 小殿巴士站/);
   await page.reload();await page.locator('#detail-status').filter({hasText:'已读取当前计划'}).waitFor();
