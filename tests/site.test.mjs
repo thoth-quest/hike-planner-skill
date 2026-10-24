@@ -160,7 +160,7 @@ test("day trip is explicit in schema and UI",()=>{
 
 test("browser loads a pure scenario engine and fixed transit has no invented clock",()=>{
   const html=readFileSync(path.join(site,"plan.html"),"utf8");
-  assert.match(html,/type="module" src="\.\/assets\/detail\.js"/);
+  assert.match(html,/type="module" src="\.\/assets\/detail\.js\?v=/);
   const js=readFileSync(path.join(site,"assets","detail.js"),"utf8");
   const model=readFileSync(path.join(site,"assets","timeline.mjs"),"utf8");
   assert.match(js,/from "\.\/timeline\.mjs"/);
