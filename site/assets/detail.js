@@ -165,7 +165,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
       const bad=variant.id==="primary" && p.route?.feasibility?.status==="unsuitable";
       feasibilityNote.className="route-feasibility "+(bad?"route-feasibility-danger":"route-feasibility-conditional");
       feasibilityNote.textContent=bad
-        ? "主目标完整展示，但本周六不建议按此执行：理论16:40到鴨沢，晚于约16:33日落；18:04虽有巴士，并不能消除天黑下山的风险。"
+        ? (p.route?.feasibility?.warning||"主目标已完整规划，但按当前日期和接驳条件不能安全日归。")
         : (variant.duration_note||"此路线仍需结合实际体力、路况与当天日落重新核实。");
       const schedule=makeTimeline(viewedPlan,adjustments,serviceSelections,arrivalAdjustments,transitOffsets);
       const count=schedule.changes.length;
