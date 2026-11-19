@@ -71,6 +71,12 @@ Public transit MUST use a verified `timetable` object for that exact `constraint
 
 Do not treat browser-adjusted arrival estimates as confirmations of route safety, last bus, sunset or weather. Multi-day behavior is explicitly deferred.
 
+## Goal-first routes with fallbacks
+
+When a user chooses a high summit as their **primary target**, keep the entire ascent and descent in `route.sections` (all nodes, source-backed cumulative `offset_minutes`, and the real outbound timetable), even if the route is judged infeasible on this date. Never silently shorten the primary plan to an earlier turnaround point. Attach `route.feasibility` (status, assessment date, estimated finish and risk) and set activity `status: needs_review` when the date-specific safety window is incompatible.
+
+Represent each shorter turnaround in `route.scenarios` as `{id,label,goal,status,duration_note,sections,estimated_trail_end,suggested_bus_departure}`; these are distinct read-only timetable scenarios, **not different plans**. The detail viewer shows a route selector with the main summit selected by default. Changing the route locally recomputes nodes and may temporarily select an actual stored bus service. It must never overwrite the user's primary goal or the source JSON. In a short-daylight season a later bus can exist even when the main hiking route is unsafe: say both facts separately.
+
 ## Source quality and boundaries
 
 Costs are stored in `costs.items` as source-backed per-person or group line items with amount, quantity, inclusion flag and pending/estimated/confirmed status. The viewer sums available prices, separates optional items, and marks the total incomplete while included fares remain unresolved. Evidence items: `id`, `claim`, `url`, `publisher`, `checked_at`, `valid_for` (when applicable), `status`. Prefer the actual official source. Never invent transit times, fares, alerts, trail conditions or weather. Forecast checks should be revisited near departure **only when the user returns or a scheduled agent explicitly runs**. A risk warning should result in appropriate advice, not a silent change to a confirmed date.

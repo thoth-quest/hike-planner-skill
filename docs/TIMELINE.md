@@ -14,3 +14,6 @@
 - `costs.items` holds source-backed yen line items with quantity, per-person/group scope, whether included in the default estimate, and pending/estimated/confirmed status. The viewer sums entered prices, separates optional items, and indicates when included fares are unresolved. Do not present a partial subtotal as the trip's final total.
 
 Run `npm test` for schema/data/engine checks and `npm run test:browser` for mobile and desktop UI checks. Browser tests use a temporary static HTTP server, never a production backend.
+
+- Primary target is always `route.sections`, even if it is assessed `route.feasibility.status: "unsuitable"`. Optional turnaround variants are in `route.scenarios[].sections`, not in competing plan IDs. The UI switches only the viewed scenario and recomputes the same saved transit options; the base plan remains unmodified.
+- A valid late bus departure does not mean the preceding descent is daylight-safe. Show source timetable and separate daylight feasibility status. `route.feasibility` records an explicit unsafe main itinerary instead of deleting the target.

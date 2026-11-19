@@ -170,3 +170,15 @@ details summary{color:var(--forest);font-size:13px;font-weight:730;cursor:pointe
 .cost-pending p{flex-basis:100%;font-size:12px}
 .cost-summary{display:grid;grid-template-columns:1fr auto;gap:5px 16px;border-top:1px solid var(--line);padding-top:12px;margin-top:4px;font-size:13px}
 .cost-summary strong{font-variant-numeric:tabular-nums}
+
+/* Route-level goal vs turnaround branches. Read-only scenario switcher. */
+.route-scenario-picker{display:grid;gap:9px;margin:2px 0 14px}
+.route-scenario-label{font-size:12px;font-weight:750;color:var(--muted)}
+.route-scenario-options{display:flex;align-items:stretch;gap:7px;flex-wrap:wrap}
+.route-scenario-button{min-height:42px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--muted);font-size:12px;font-weight:760;padding:9px 13px;flex:1 1 auto}
+.route-scenario-button[aria-pressed=true]{border-color:var(--forest);background:var(--forest-soft);color:var(--forest-dark)}
+.route-scenario-button:hover{border-color:#7da894}
+.route-feasibility{font-size:12px;line-height:1.65;border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin:0 0 12px}
+.route-feasibility-danger{background:#fff0eb;border-color:#e8c2b6;color:#8b3e30;font-weight:680}
+.route-feasibility-conditional{background:#f3f7f1;border-color:#d4e4d7;color:#325d43}
+@media(max-width:480px){.route-scenario-options{display:grid;grid-template-columns:1fr 1fr}.route-scenario-button{font-size:12px;padding:8px 7px}.route-scenario-button:first-child{grid-column:span 2}}

@@ -1,41 +1,43 @@
 {
   "id": "2026-11-21-kumotori-direction",
   "schema_version": 1,
-  "revision": 2,
+  "revision": 3,
   "stage": "goal_definition",
-  "status": "draft",
-  "title": "11月21日｜云取山方向·七ツ石山优先折返",
+  "status": "needs_review",
+  "title": "11月21日｜雲取山完整目标·七ツ石山/小屋折返备选",
   "trip_type": "day_trip",
   "example_only": false,
-  "updated_at": "2026-11-19T06:39:54.117Z",
+  "updated_at": "2026-11-19T06:55:17.038Z",
   "visibility_note": "依用户要求公开发布的日归登山草案；只含公共路线、交通、天气及安全资料，不包含参与者私人信息。",
   "destination": {
-    "state": "preferred",
-    "name": "雲取山（2,017m）为目标方向；11月21日执行目标优先七ツ石山（1,757m）",
-    "source": "access"
+    "state": "fixed",
+    "name": "雲取山（2,017m）为主目标；七ツ石山（1,757m）及七ツ石小屋为可切换折返点",
+    "source": "hiketime"
   },
   "goals": {
-    "primary": "以云取山为长期目标，2026年11月21日走鴨沢→七ツ石山折返的保守日归路线；不把云取山登顶列入当天确认行程",
+    "primary": "完整规划鴨沢往返雲取山的全部路段、参考到达时间与固定返程班次；按实际体力、短日照、交通衔接决定在七ツ石山或七ツ石小屋折返",
     "secondary": [
-      "争取秋末山林景色",
-      "避开过分拥挤的主景区",
-      "保持公共交通可接驳并在天黑前离开山路",
-      "若体力或时间不足，在七ツ石小屋或更早位置折返"
+      "覆盖云取山全程路线节点，以便后续改线或改期",
+      "以七ツ石山与七ツ石小屋作为分级退路，并可查看各退路时间轴",
+      "公共交通时刻独立固定，节点偏移不能改变来源班次",
+      "先安全评估再执行，绝不将登顶目标当作必须完成的命令"
     ]
   },
   "constraints": {
     "date": "2026-11-21",
     "date_range": null,
     "departure_area": "奥多摩站2号巴士站（其他始发地未指定，需自行确认能否在06:20之前抵达）",
-    "difficulty": "中高强度；七ツ石山从鴨沢往返参考纯步行约6小时10分钟，休息后约6.5～7.5小时，超出最初的5～6小时目标",
+    "difficulty": "主目标鴨沢往返雲取山约21.6～23.2km、纯步行9小时20～30分钟，不含休息；超过原先5～6小时目标，且不适合在11月下旬用已核实的公共交通按标准步速安全日归",
     "estimated_participants": null,
-    "latest_return": "争取14:30前回到鴨沢，主返程15:02（候选14:31／备用16:08）；绝不为赶车冒险",
+    "latest_return": "主路线按参考步速约16:40返鴨沢，16:08已错过，虽可乘18:04→18:40，但接近日落16:33才结束山路，日归安全性不满足；本周六优先采用提前折返",
     "hard_rules": [
-      "不要在11月21日以云取山登顶为默认目标；除非重新规划并确认时间、日照、体力、安全",
-      "11:15前做出折返判断；进度不足在七ツ石小屋或更早处折返",
-      "不迟于15:00～15:30结束山路，日落约16:33；应预留缓冲",
-      "公共交通车次固定，节点延误只重新检查后续是否能赶上，不能平移班次",
-      "山上霜冻和低温需准备保暖、头灯、必要时链式冰爪，入山前复核结冰情况"
+      "雲取山是主目标，七ツ石山和七ツ石小屋是先后两级折返点；不能将后者替代为主目标",
+      "主路线保留全节点但标明11月21日标准步速情况下日归不安全，不应按此草案盲目冲顶",
+      "若预计赶不上白天安全下山窗口，须在七ツ石山、七ツ石小屋或更早处折返",
+      "不因存在18:04末班车而接受天黑仍在山路的风险；日落约16:33，尽量15:00前离开山路",
+      "登山实际时间以现场步速、天气和状况为准，所有路线时间为参考模型",
+      "电车巴士按查询到的固定班次运行，时间节点模拟不改写来源班次",
+      "携带头灯、保暖及防滑装备，出发前重新核查山区结霜、天气、封闭步道与熊活动"
     ]
   },
   "preview_timing": {
@@ -44,18 +46,20 @@
   },
   "route": {
     "status": "proposed",
-    "type": "单日往返：鴨沢→小袖乗越→堂所→七ツ石小屋→七ツ石山→原路返回",
-    "duration_reference": "按山と溪谷的鴨沢至七ツ石山上行3小时40分钟、下行2小时30分钟参考，加约20分钟山顶停留和11分钟入山准备，预计07:09到达后13:50返鴨沢；实际走速可能不同。",
+    "type": "主目标：鴨沢→七ツ石小屋→七ツ石山→ブナ坂→小雲取山→雲取山→原路返回鴨沢",
+    "expanded_by_default": true,
+    "primary_goal": "kumotori-summit",
+    "duration_reference": "山と溪谷鴨沢08:00—雲取山13:25—鴨沢17:20，步行约9小时20分钟；山と高原地圖给出约9小时30分钟、23.2km。以07:20徒步起点平移，主目标12:45登顶、16:40回鴨沢，不含额外休息。16:40晚于约16:33日落及16:08返程巴士，因此只作为完整目标规划，不视为11月21日可安全执行的日归方案。",
     "duration_source": "hiketime",
     "sections": [
       {
-        "name": "去程徒歩｜鴨沢～七ツ石小屋",
+        "name": "主目标 · 鴨沢登雲取山",
         "stops": [
           {
             "node_id": "trail-kamosawa-arrival",
             "name": "鴨沢巴士站到达・整备",
             "offset_minutes": 0,
-            "note": "巴士07:09到达；整理装备，勿把抵达直接当步行出发",
+            "note": "06:35 奥多摩駅发车→07:09 鴨沢到站，预留11分钟整理装备",
             "key_point": true,
             "source_id": "hiketime"
           },
@@ -63,7 +67,7 @@
             "node_id": "trail-kamosawa-start",
             "name": "鴨沢徒步出发",
             "offset_minutes": 11,
-            "note": "计划07:20出发；时间按巴士到站的11分钟准备计算",
+            "note": "07:20开始步行（计划预留11分钟），不是固定发车时刻",
             "key_point": true,
             "source_id": "hiketime"
           },
@@ -71,7 +75,7 @@
             "node_id": "trail-kosode-up",
             "name": "小袖乗越",
             "offset_minutes": 41,
-            "note": "山と溪谷示例上行约30分钟；估算07:50",
+            "note": "07:50参考抵达，鴨沢起步约30分钟",
             "key_point": true,
             "source_id": "hiketime"
           },
@@ -79,7 +83,7 @@
             "node_id": "trail-dokoro-up",
             "name": "堂所",
             "offset_minutes": 146,
-            "note": "山と溪谷示例上行累计约2小时15分钟；估算09:35",
+            "note": "09:35参考抵达，核对实际步速与脚下结霜情况",
             "key_point": true,
             "source_id": "hiketime"
           },
@@ -87,81 +91,349 @@
             "node_id": "trail-hut-up",
             "name": "七ツ石小屋",
             "offset_minutes": 196,
-            "note": "估算10:25；重要决策点：若此时已超时或步道结冰，直接在小屋附近折返",
+            "note": "10:25参考抵达，第一处关键折返点；此时需严肃评估是否继续",
             "key_point": true,
             "source_id": "hiketime"
           },
           {
             "node_id": "trail-nanatsuishi",
-            "name": "七ツ石山 1,757m",
+            "name": "七ツ石山（1,757m）",
             "offset_minutes": 231,
-            "note": "估算11:00抵达。不是保证到达；若速度偏慢应提前折返",
+            "note": "11:00参考抵达，第二处关键折返点；11月21日不建议继续挑战云取山",
+            "key_point": true,
+            "source_id": "hiketime"
+          },
+          {
+            "node_id": "trail-bunazaka-up",
+            "name": "ブナ坂",
+            "offset_minutes": 241,
+            "note": "11:10参考抵达，进入石尾根山脊路段",
+            "key_point": true,
+            "source_id": "hiketime"
+          },
+          {
+            "node_id": "trail-okutama-hut-up",
+            "name": "奥多摩小屋跡（五十人平）",
+            "offset_minutes": 281,
+            "note": "11:50参考抵达，旧小屋跡非住宿点",
+            "key_point": true,
+            "source_id": "hiketime"
+          },
+          {
+            "node_id": "trail-kokumotori-up",
+            "name": "小雲取山",
+            "offset_minutes": 306,
+            "note": "12:15参考抵达，继续留意山脊气温和风",
+            "key_point": true,
+            "source_id": "hiketime"
+          },
+          {
+            "node_id": "trail-kumotori-summit",
+            "name": "雲取山山顶（2,017m）",
+            "offset_minutes": 336,
+            "note": "12:45参考抵达；即使不停留按标准步速下山，鴨沢约16:40到达，存在明显天黑风险",
             "key_point": true,
             "source_id": "hiketime"
           }
         ]
       },
       {
-        "name": "折返｜七ツ石山～鴨沢",
+        "name": "主目标 · 雲取山返鴨沢",
         "stops": [
           {
-            "node_id": "trail-turnaround",
-            "name": "七ツ石山离开／最晚折返点",
-            "offset_minutes": 251,
-            "note": "计划11:20开始返程；保守控制11:15左右前做出折返决定。不继续云取山",
+            "node_id": "trail-kokumotori-down",
+            "name": "小雲取山（返程）",
+            "offset_minutes": 356,
+            "note": "13:05参考抵达；只含标准行走时间，不含山顶休息",
+            "key_point": true,
+            "source_id": "hiketime"
+          },
+          {
+            "node_id": "trail-okutama-hut-down",
+            "name": "奥多摩小屋跡（返程）",
+            "offset_minutes": 376,
+            "note": "13:25参考抵达",
+            "key_point": true,
+            "source_id": "hiketime"
+          },
+          {
+            "node_id": "trail-bunazaka-down",
+            "name": "ブナ坂（返程）",
+            "offset_minutes": 406,
+            "note": "13:55参考抵达",
+            "key_point": true,
+            "source_id": "hiketime"
+          },
+          {
+            "node_id": "trail-nanatsuishi-down",
+            "name": "七ツ石山（返程）",
+            "offset_minutes": 421,
+            "note": "14:10参考抵达，离计划要求的安全下山时间已经很紧",
             "key_point": true,
             "source_id": "hiketime"
           },
           {
             "node_id": "trail-hut-down",
             "name": "七ツ石小屋（返程）",
-            "offset_minutes": 276,
-            "note": "预计11:45；注意阴影、结霜、滑倒",
-            "key_point": false,
+            "offset_minutes": 446,
+            "note": "14:35参考抵达",
+            "key_point": true,
             "source_id": "hiketime"
           },
           {
             "node_id": "trail-dokoro-down",
             "name": "堂所（返程）",
-            "offset_minutes": 306,
-            "note": "预计12:15；按实时步速确认剩余下山时间",
+            "offset_minutes": 476,
+            "note": "15:05参考抵达",
             "key_point": true,
             "source_id": "hiketime"
           },
           {
             "node_id": "trail-kosode-down",
             "name": "小袖乗越（返程）",
-            "offset_minutes": 381,
-            "note": "预计13:30；继续下行至鴨沢",
-            "key_point": false,
+            "offset_minutes": 551,
+            "note": "16:20参考抵达，山路可能已进入黄昏",
+            "key_point": true,
             "source_id": "hiketime"
           },
           {
             "node_id": "trail-kamosawa-end",
             "name": "鴨沢巴士站返回",
-            "offset_minutes": 401,
-            "note": "预计13:50；目标14:30前完成山路，以便应对晚点和14:31/15:02班次",
+            "offset_minutes": 571,
+            "note": "16:40参考抵达；错过15:02和16:08巴士，还可搭18:04→18:40，但可能在日落后才结束山路",
             "key_point": true,
             "source_id": "hiketime"
           }
         ]
       }
     ],
+    "feasibility": {
+      "status": "unsuitable",
+      "assessed_for": "2026-11-21",
+      "estimated_trail_end": "16:40",
+      "sunset_reference": "16:33",
+      "next_bus": "18:04→18:40",
+      "reason": "标准步速返鴨沢约16:40，已接近日落/可能天黑，超过本次日归建议行走时长；虽然18:04还有巴士，交通存在不代表山路安全。"
+    },
+    "scenarios": [
+      {
+        "id": "nanatsuishi",
+        "label": "七ツ石山折返",
+        "goal": "七ツ石山（1,757m）",
+        "status": "conditional",
+        "duration_note": "鴨沢07:20出发→七ツ石山11:00→鴨沢13:50（包含山顶20分钟停留，估算）",
+        "sections": [
+          {
+            "name": "七ツ石山 · 上山",
+            "stops": [
+              {
+                "node_id": "trail-kamosawa-arrival",
+                "name": "鴨沢巴士站到达・整备",
+                "offset_minutes": 0,
+                "note": "06:35 奥多摩駅发车→07:09 鴨沢到站，预留11分钟整理装备",
+                "key_point": true,
+                "source_id": "hiketime"
+              },
+              {
+                "node_id": "trail-kamosawa-start",
+                "name": "鴨沢徒步出发",
+                "offset_minutes": 11,
+                "note": "07:20开始步行（计划预留11分钟），不是固定发车时刻",
+                "key_point": true,
+                "source_id": "hiketime"
+              },
+              {
+                "node_id": "trail-kosode-up",
+                "name": "小袖乗越",
+                "offset_minutes": 41,
+                "note": "07:50参考抵达，鴨沢起步约30分钟",
+                "key_point": true,
+                "source_id": "hiketime"
+              },
+              {
+                "node_id": "trail-dokoro-up",
+                "name": "堂所",
+                "offset_minutes": 146,
+                "note": "09:35参考抵达，核对实际步速与脚下结霜情况",
+                "key_point": true,
+                "source_id": "hiketime"
+              },
+              {
+                "node_id": "trail-hut-up",
+                "name": "七ツ石小屋",
+                "offset_minutes": 196,
+                "note": "10:25参考抵达，第一处关键折返点；此时需严肃评估是否继续",
+                "key_point": true,
+                "source_id": "hiketime"
+              },
+              {
+                "node_id": "trail-nanatsuishi",
+                "name": "七ツ石山（1,757m）",
+                "offset_minutes": 231,
+                "note": "11:00参考抵达，第二处关键折返点；11月21日不建议继续挑战云取山",
+                "key_point": true,
+                "source_id": "hiketime"
+              }
+            ]
+          },
+          {
+            "name": "七ツ石山 · 折返下山",
+            "stops": [
+              {
+                "node_id": "trail-nanatsuishi-rest",
+                "name": "七ツ石山休息后折返",
+                "offset_minutes": 251,
+                "note": "11:20出发，示例停留20分钟；随实际情况调整",
+                "key_point": true,
+                "source_id": "hiketime"
+              },
+              {
+                "node_id": "trail-seven-hut-down",
+                "name": "七ツ石小屋（返程）",
+                "offset_minutes": 276,
+                "note": "11:45参考抵达",
+                "key_point": true,
+                "source_id": "hiketime"
+              },
+              {
+                "node_id": "trail-seven-dokoro-down",
+                "name": "堂所（返程）",
+                "offset_minutes": 306,
+                "note": "12:15参考抵达",
+                "key_point": true,
+                "source_id": "hiketime"
+              },
+              {
+                "node_id": "trail-seven-kosode-down",
+                "name": "小袖乗越（返程）",
+                "offset_minutes": 381,
+                "note": "13:30参考抵达",
+                "key_point": true,
+                "source_id": "hiketime"
+              },
+              {
+                "node_id": "trail-seven-kamosawa-end",
+                "name": "鴨沢巴士站返回",
+                "offset_minutes": 401,
+                "note": "13:50参考抵达；15:02返程可留72分钟缓冲",
+                "key_point": true,
+                "source_id": "hiketime"
+              }
+            ]
+          }
+        ],
+        "estimated_trail_end": "13:50",
+        "suggested_bus_departure": "15:02"
+      },
+      {
+        "id": "hut",
+        "label": "七ツ石小屋折返",
+        "goal": "七ツ石小屋",
+        "status": "conditional",
+        "duration_note": "鴨沢07:20出发→七ツ石小屋10:25→鴨沢12:45（包含小屋15分钟停留，估算）",
+        "sections": [
+          {
+            "name": "七ツ石小屋 · 上山",
+            "stops": [
+              {
+                "node_id": "trail-kamosawa-arrival",
+                "name": "鴨沢巴士站到达・整备",
+                "offset_minutes": 0,
+                "note": "06:35 奥多摩駅发车→07:09 鴨沢到站，预留11分钟整理装备",
+                "key_point": true,
+                "source_id": "hiketime"
+              },
+              {
+                "node_id": "trail-kamosawa-start",
+                "name": "鴨沢徒步出发",
+                "offset_minutes": 11,
+                "note": "07:20开始步行（计划预留11分钟），不是固定发车时刻",
+                "key_point": true,
+                "source_id": "hiketime"
+              },
+              {
+                "node_id": "trail-kosode-up",
+                "name": "小袖乗越",
+                "offset_minutes": 41,
+                "note": "07:50参考抵达，鴨沢起步约30分钟",
+                "key_point": true,
+                "source_id": "hiketime"
+              },
+              {
+                "node_id": "trail-dokoro-up",
+                "name": "堂所",
+                "offset_minutes": 146,
+                "note": "09:35参考抵达，核对实际步速与脚下结霜情况",
+                "key_point": true,
+                "source_id": "hiketime"
+              },
+              {
+                "node_id": "trail-hut-up",
+                "name": "七ツ石小屋",
+                "offset_minutes": 196,
+                "note": "10:25参考抵达，第一处关键折返点；此时需严肃评估是否继续",
+                "key_point": true,
+                "source_id": "hiketime"
+              }
+            ]
+          },
+          {
+            "name": "七ツ石小屋 · 折返下山",
+            "stops": [
+              {
+                "node_id": "trail-hut-rest",
+                "name": "七ツ石小屋休息后折返",
+                "offset_minutes": 211,
+                "note": "10:40折返，包含15分钟示例休息",
+                "key_point": true,
+                "source_id": "hiketime"
+              },
+              {
+                "node_id": "trail-hut-dokoro-down",
+                "name": "堂所（返程）",
+                "offset_minutes": 241,
+                "note": "11:10参考抵达",
+                "key_point": true,
+                "source_id": "hiketime"
+              },
+              {
+                "node_id": "trail-hut-kosode-down",
+                "name": "小袖乗越（返程）",
+                "offset_minutes": 316,
+                "note": "12:25参考抵达",
+                "key_point": true,
+                "source_id": "hiketime"
+              },
+              {
+                "node_id": "trail-hut-kamosawa-end",
+                "name": "鴨沢巴士站返回",
+                "offset_minutes": 336,
+                "note": "12:45参考抵达；可衔接13:26巴士，候车约41分钟",
+                "key_point": true,
+                "source_id": "hiketime"
+              }
+            ]
+          }
+        ],
+        "estimated_trail_end": "12:45",
+        "suggested_bus_departure": "13:26"
+      }
+    ],
     "alternatives": [
       {
-        "name": "提前在七ツ石小屋折返",
-        "when": "若仍严格维持5～6小时徒步，或10:30前后到小屋已明显疲劳",
-        "action": "舍弃七ツ石山登顶。小屋折返按参考下行约2小时05分，若10:40离开则约12:45到鴨沢，可考虑13:26→14:03巴士；时间均为估算。"
+        "name": "七ツ石山折返（备选 A）",
+        "when": "云取山完整登顶方案明显超过可用日照和安全步速；山上无结冰或强风等问题且体力允许",
+        "action": "走至七ツ石山约11:00，休息后11:20返程，预计13:50回鴨沢，接15:02巴士；该段亦为6小时以上高强度路线。"
       },
       {
-        "name": "七ツ石山不登顶，途中提前折返",
-        "when": "天气恶化、结冰、任何不适、11:15仍未达到预计进度",
-        "action": "选择安全位置折返，优先保证15:02或16:08巴士及15:00前走完山路。"
+        "name": "七ツ石小屋折返（备选 B）",
+        "when": "到达小屋约10:25时已感疲劳、步速落后或遇天气/结冰风险",
+        "action": "从小屋10:40返程，预计12:45回鴨沢，接13:26及以后实际班次；仍需按现场状况评估。"
       },
       {
-        "name": "云取山登顶推迟以后",
-        "when": "若未来希望冲顶雲取山",
-        "action": "保留同一计划ID进行路线版本调整，重新检查 9～10 小时参考用时、天气、交通与日落；建议改为一泊两日，不在本周六临时冒进。"
+        "name": "更早折返",
+        "when": "天气、路况、身体状况或进度比预期差",
+        "action": "在堂所或更早安全路段折返，不为赶车或登顶冒险；使用实际班次候选重新选择。"
       }
     ],
     "source_ids": [
@@ -307,7 +579,7 @@
       {
         "node_id": "after-kamosawa-okutama",
         "name": "鴨沢→奥多摩駅",
-        "note": "主选奥10 15:02→15:38；可提前选14:31→15:08，延误备用奥10 16:08→16:44。18:04为运营末班参考，因天黑风险不可把它当计划下山依据。",
+        "note": "默认选15:02→15:38，七ツ石山折返可用；主目标云取山按标准步速16:40回鴨沢则错过16:08，仍有18:04→18:40最后一班，但因日落风险不能把其视为安全下山保证。当天全部已核查班次均可在时间轴选择。",
         "source_id": "bus-outbound-schedule",
         "mode": "scheduled_transit",
         "schedule_status": "verified",
@@ -464,8 +736,8 @@
     ],
     "assessment": {
       "level": "caution",
-      "reason": "周六奥多摩町晴时多云，降水10%。但11月13日当地报告提及云取山周边霜冻、最低温与链式冰爪需求；高海拔未有可核实的点位预报。",
-      "recommendation": "以七ツ石山折返为上限；夜间/早晨结冰严重或高山大风时改为七ツ石小屋或更低处折返。"
+      "reason": "町域11月21日预报总体有利，但高海拔结霜、强风和短日照均存在风险；即使18:04有末班巴士，云取山全程按标准步速会在16:40才返鴨沢。",
+      "recommendation": "把云取山作为完整规划主目标，不将其标为11月21日可安全日归执行；当天应按实际步速优先切换七ツ石山/小屋折返方案。"
     }
   },
   "safety": {
@@ -488,14 +760,20 @@
         "title": "短日照与返程缓冲",
         "note": "11月21日参考日落16:33，游客中心建议15时台结束登山；本计划尽量14:30前完成山路。",
         "source_id": "sunset"
+      },
+      {
+        "level": "caution",
+        "title": "云取山完整日归路线与日落冲突",
+        "note": "参考步行约9小时20分钟，07:20上山后约16:40才回鴨沢；虽有18:04返程巴士，但11月21日日落约16:33，需提前折返或改期／调整住宿。",
+        "source_id": "hiketime"
       }
     ],
     "checklist": [
       "最晚06:20到达奥多摩站，提前找到2号巴士站并排队；若赶不上06:35须重新核算折返目标",
       "在手机上离线保存登山地图与回程时刻表，携带头灯、保暖、防滑装备及备用电量",
       "11月20日晚检查天气、山区气温/风速/警报、熊出没与登山道",
-      "11:15前决定折返；若速度慢，直接在七ツ石小屋或更早折返",
-      "尽量14:30前回到鴨沢，务必以实际到站时间挑选已验证班次"
+      "尽量14:30前回到鴨沢，务必以实际到站时间挑选已验证班次",
+      "主目标云取山仅作完整规划与后续改期参考；现场按时间与条件执行七ツ石山、小屋或更早折返"
     ]
   },
   "candidates": [
@@ -626,6 +904,188 @@
       "before": "仅含公开路线与时刻表，无参与者信息；当前作为私有草案，不自动发布到公开GitHub Pages",
       "after": "依用户要求公开发布的日归登山草案；只含公共路线、交通、天气及安全资料，不包含参与者私人信息。",
       "reason": "用户明确要求将本次云取山方向草案上传 GitHub Pages 并提供公开预览链接"
+    },
+    {
+      "revision": 3,
+      "at": "2026-11-19T06:55:17.038Z",
+      "field": "destination/route",
+      "before": {
+        "title": "11月21日｜云取山方向·七ツ石山优先折返",
+        "destination": {
+          "state": "preferred",
+          "name": "雲取山（2,017m）为目标方向；11月21日执行目标优先七ツ石山（1,757m）",
+          "source": "access"
+        },
+        "goals": {
+          "primary": "完整规划鴨沢往返雲取山的全部路段、参考到达时间与固定返程班次；按实际体力、短日照、交通衔接决定在七ツ石山或七ツ石小屋折返",
+          "secondary": [
+            "覆盖云取山全程路线节点，以便后续改线或改期",
+            "以七ツ石山与七ツ石小屋作为分级退路，并可查看各退路时间轴",
+            "公共交通时刻独立固定，节点偏移不能改变来源班次",
+            "先安全评估再执行，绝不将登顶目标当作必须完成的命令"
+          ]
+        },
+        "route": {
+          "status": "proposed",
+          "type": "单日往返：鴨沢→小袖乗越→堂所→七ツ石小屋→七ツ石山→原路返回",
+          "duration_reference": "按山と溪谷的鴨沢至七ツ石山上行3小时40分钟、下行2小时30分钟参考，加约20分钟山顶停留和11分钟入山准备，预计07:09到达后13:50返鴨沢；实际走速可能不同。",
+          "duration_source": "hiketime",
+          "sections": [
+            {
+              "name": "去程徒歩｜鴨沢～七ツ石小屋",
+              "stops": [
+                {
+                  "node_id": "trail-kamosawa-arrival",
+                  "name": "鴨沢巴士站到达・整备",
+                  "offset_minutes": 0,
+                  "note": "巴士07:09到达；整理装备，勿把抵达直接当步行出发",
+                  "key_point": true,
+                  "source_id": "hiketime"
+                },
+                {
+                  "node_id": "trail-kamosawa-start",
+                  "name": "鴨沢徒步出发",
+                  "offset_minutes": 11,
+                  "note": "计划07:20出发；时间按巴士到站的11分钟准备计算",
+                  "key_point": true,
+                  "source_id": "hiketime"
+                },
+                {
+                  "node_id": "trail-kosode-up",
+                  "name": "小袖乗越",
+                  "offset_minutes": 41,
+                  "note": "山と溪谷示例上行约30分钟；估算07:50",
+                  "key_point": true,
+                  "source_id": "hiketime"
+                },
+                {
+                  "node_id": "trail-dokoro-up",
+                  "name": "堂所",
+                  "offset_minutes": 146,
+                  "note": "山と溪谷示例上行累计约2小时15分钟；估算09:35",
+                  "key_point": true,
+                  "source_id": "hiketime"
+                },
+                {
+                  "node_id": "trail-hut-up",
+                  "name": "七ツ石小屋",
+                  "offset_minutes": 196,
+                  "note": "估算10:25；重要决策点：若此时已超时或步道结冰，直接在小屋附近折返",
+                  "key_point": true,
+                  "source_id": "hiketime"
+                },
+                {
+                  "node_id": "trail-nanatsuishi",
+                  "name": "七ツ石山 1,757m",
+                  "offset_minutes": 231,
+                  "note": "估算11:00抵达。不是保证到达；若速度偏慢应提前折返",
+                  "key_point": true,
+                  "source_id": "hiketime"
+                }
+              ]
+            },
+            {
+              "name": "折返｜七ツ石山～鴨沢",
+              "stops": [
+                {
+                  "node_id": "trail-turnaround",
+                  "name": "七ツ石山离开／最晚折返点",
+                  "offset_minutes": 251,
+                  "note": "计划11:20开始返程；保守控制11:15左右前做出折返决定。不继续云取山",
+                  "key_point": true,
+                  "source_id": "hiketime"
+                },
+                {
+                  "node_id": "trail-hut-down",
+                  "name": "七ツ石小屋（返程）",
+                  "offset_minutes": 276,
+                  "note": "预计11:45；注意阴影、结霜、滑倒",
+                  "key_point": false,
+                  "source_id": "hiketime"
+                },
+                {
+                  "node_id": "trail-dokoro-down",
+                  "name": "堂所（返程）",
+                  "offset_minutes": 306,
+                  "note": "预计12:15；按实时步速确认剩余下山时间",
+                  "key_point": true,
+                  "source_id": "hiketime"
+                },
+                {
+                  "node_id": "trail-kosode-down",
+                  "name": "小袖乗越（返程）",
+                  "offset_minutes": 381,
+                  "note": "预计13:30；继续下行至鴨沢",
+                  "key_point": false,
+                  "source_id": "hiketime"
+                },
+                {
+                  "node_id": "trail-kamosawa-end",
+                  "name": "鴨沢巴士站返回",
+                  "offset_minutes": 401,
+                  "note": "预计13:50；目标14:30前完成山路，以便应对晚点和14:31/15:02班次",
+                  "key_point": true,
+                  "source_id": "hiketime"
+                }
+              ]
+            }
+          ],
+          "alternatives": [
+            {
+              "name": "提前在七ツ石小屋折返",
+              "when": "若仍严格维持5～6小时徒步，或10:30前后到小屋已明显疲劳",
+              "action": "舍弃七ツ石山登顶。小屋折返按参考下行约2小时05分，若10:40离开则约12:45到鴨沢，可考虑13:26→14:03巴士；时间均为估算。"
+            },
+            {
+              "name": "七ツ石山不登顶，途中提前折返",
+              "when": "天气恶化、结冰、任何不适、11:15仍未达到预计进度",
+              "action": "选择安全位置折返，优先保证15:02或16:08巴士及15:00前走完山路。"
+            },
+            {
+              "name": "云取山登顶推迟以后",
+              "when": "若未来希望冲顶雲取山",
+              "action": "保留同一计划ID进行路线版本调整，重新检查 9～10 小时参考用时、天气、交通与日落；建议改为一泊两日，不在本周六临时冒进。"
+            }
+          ],
+          "source_ids": [
+            "hiketime",
+            "trail-info"
+          ]
+        },
+        "hard_rules": [
+          "不要在11月21日以云取山登顶为默认目标；除非重新规划并确认时间、日照、体力、安全",
+          "11:15前做出折返判断；进度不足在七ツ石小屋或更早处折返",
+          "不迟于15:00～15:30结束山路，日落约16:33；应预留缓冲",
+          "公共交通车次固定，节点延误只重新检查后续是否能赶上，不能平移班次",
+          "山上霜冻和低温需准备保暖、头灯、必要时链式冰爪，入山前复核结冰情况"
+        ],
+        "latest_return": "争取14:30前回到鴨沢，主返程15:02（候选14:31／备用16:08）；绝不为赶车冒险",
+        "weather_assessment": {
+          "level": "caution",
+          "reason": "周六奥多摩町晴时多云，降水10%。但11月13日当地报告提及云取山周边霜冻、最低温与链式冰爪需求；高海拔未有可核实的点位预报。",
+          "recommendation": "以七ツ石山折返为上限；夜间/早晨结冰严重或高山大风时改为七ツ石小屋或更低处折返。"
+        }
+      },
+      "after": {
+        "title": "11月21日｜雲取山完整目标·七ツ石山/小屋折返备选",
+        "primary_goal": "kumotori-summit",
+        "route_type": "主目标：鴨沢→七ツ石小屋→七ツ石山→ブナ坂→小雲取山→雲取山→原路返回鴨沢",
+        "main_trail_end": "16:40",
+        "scenarios": [
+          {
+            "id": "nanatsuishi",
+            "goal": "七ツ石山（1,757m）",
+            "trail_end": "13:50"
+          },
+          {
+            "id": "hut",
+            "goal": "七ツ石小屋",
+            "trail_end": "12:45"
+          }
+        ],
+        "last_return_bus": "18:04→18:40"
+      },
+      "reason": "用户要求雲取山作为主目标、七ツ石山及小屋作为退路，显示完整往返时间轴并明确18:04末班公交与天黑风险"
     }
   ],
   "bus_connection_calculation": {

@@ -97,12 +97,46 @@ import { makeTimeline, clockText } from "./timeline.mjs";
     const arrivalAdjustments={};
     const transitOffsets={};
     const serviceSelections={};
+    const scenarioOptions=[
+      {id:"primary",label:"雲取山 · 主目标",sections:p.route?.sections||[],status:p.route?.feasibility?.status||"proposed"},
+      ...(p.route?.scenarios||[])
+    ];
+    let selectedScenario="primary";
     let expanded=p.route?.expanded_by_default===true;
     let opened=null;
     let paintVersion=0;
     const pane=card(root,"行程时间轴");
     const label=pane.querySelector(".panel-head");
     add(label,el("span","节点级模拟","pill caution"));
+    let routeSelector=null;
+    if(scenarioOptions.length>1){
+      const picker=add(pane,el("div",null,"route-scenario-picker"));
+      add(picker,el("span","查看目标与折返路线","route-scenario-label"));
+      routeSelector=add(picker,el("div",null,"route-scenario-options"));
+      scenarioOptions.forEach(variant=>{
+        const btn=add(routeSelector,el("button",variant.label,"route-scenario-button"));
+        btn.type="button";
+        btn.dataset.scenario=variant.id;
+        btn.addEventListener("click",()=>{
+          selectedScenario=variant.id;
+          for(const key of Object.keys(adjustments))delete adjustments[key];
+          for(const key of Object.keys(arrivalAdjustments))delete arrivalAdjustments[key];
+          for(const key of Object.keys(transitOffsets))delete transitOffsets[key];
+          for(const key of Object.keys(serviceSelections))delete serviceSelections[key];
+          // Select a sourced return service suitable for the chosen fallback, in preview state only.
+          const desired=variant.suggested_bus_departure;
+          if(desired){
+            const leg=p.transport?.outbound?.[0];
+            const service=leg?.timetable_options?.find(s=>s.departure_time===desired);
+            if(service?.service_id)serviceSelections[leg.node_id||"after-0"]=service.service_id;
+          }
+          opened=null;
+          paint();
+        });
+      });
+    }
+    const feasibilityNote=add(pane,el("div",null,"route-feasibility"));
+    feasibilityNote.setAttribute("role","status");
     const help=add(pane,el("div",null,"notice"));
     add(help,el("strong","全日班次 · 节点时间可模拟偏移"));
     paragraph(help,"Skill 查询并保存出行日该线路的全部实际班次。可选择任一班次，再在时间节点滚动设置临时提前或延误；原始时刻表保留，变化只影响本节点及后续接驳。步行、自驾也可逐点调整，页面不会编造班次。");
@@ -120,7 +154,20 @@ import { makeTimeline, clockText } from "./timeline.mjs";
     if(p.preview_timing?.notice) paragraph(help,p.preview_timing.notice);
     function paint(){
       const version=++paintVersion;
-      const schedule=makeTimeline(p,adjustments,serviceSelections,arrivalAdjustments,transitOffsets);
+      const variant=scenarioOptions.find(s=>s.id===selectedScenario)||scenarioOptions[0];
+      const viewedPlan=variant.id==="primary"?p:{...p,route:{...p.route,sections:variant.sections}};
+      if(routeSelector){
+        for(const btn of routeSelector.querySelectorAll("button")){
+          const chosen=btn.dataset.scenario===selectedScenario;
+          btn.setAttribute("aria-pressed",chosen?"true":"false");
+        }
+      }
+      const bad=variant.id==="primary" && p.route?.feasibility?.status==="unsuitable";
+      feasibilityNote.className="route-feasibility "+(bad?"route-feasibility-danger":"route-feasibility-conditional");
+      feasibilityNote.textContent=bad
+        ? "主目标完整展示，但本周六不建议按此执行：理论16:40到鴨沢，晚于约16:33日落；18:04虽有巴士，并不能消除天黑下山的风险。"
+        : (variant.duration_note||"此路线仍需结合实际体力、路况与当天日落重新核实。");
+      const schedule=makeTimeline(viewedPlan,adjustments,serviceSelections,arrivalAdjustments,transitOffsets);
       const count=schedule.changes.length;
       const selectedCount=Object.keys(serviceSelections).length;
       summary.textContent=selectedCount?selectedCount+" 个班次选择"+(count?" · "+count+" 处时间调整":" · 仅供本次预览"):count?count+" 处时间调整 · 仅供本次预览":"无时间模拟 · 按原计划估算";

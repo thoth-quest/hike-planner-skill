@@ -249,3 +249,38 @@ test('offline launcher is loopback-only and read-only',()=>{
  assert.match(source,/\['GET','HEAD'\]/);
  assert.match(source,/server\.address\(\)\.port/);
 });
+
+test('Kumotori is the primary complete route, with real last return bus and separate fallbacks',()=>{
+ const p=load(path.join(dir,'2026-11-21-kumotori-direction','activity.json'));
+ assert.equal(p.destination.state,'fixed');
+ assert.equal(p.route.primary_goal,'kumotori-summit');
+ assert.match(p.title,/雲取山/);
+ assert.equal(p.status,'needs_review');
+ const stops=p.route.sections.flatMap(x=>x.stops);
+ assert.equal(stops.length,18);
+ assert.equal(stops.at(-1).offset_minutes,571);
+ assert.equal(stops.find(x=>x.node_id==='trail-kumotori-summit')?.offset_minutes,336);
+ assert.ok(stops.some(x=>x.name.includes('雲取山')));
+ const keys=new Set(stops.map(x=>x.node_id));assert.equal(keys.size,stops.length);
+ assert.deepEqual(p.route.scenarios.map(x=>x.id),['nanatsuishi','hut']);
+ assert.equal(p.route.scenarios[0].sections.at(-1).stops.at(-1).offset_minutes,401);
+ assert.equal(p.route.scenarios[1].sections.at(-1).stops.at(-1).offset_minutes,336);
+ const services=p.transport.outbound[0].timetable_options;
+ assert.ok(services.some(x=>x.departure_time==='18:04'&&x.arrival_time==='18:40'));
+ const main=makeTimeline(p);
+ assert.equal(main.trail.at(-1).arrival,1000);
+ assert.equal(main.after[0].status,'connection_missed','main route misses selected 15:02 return bus');
+ const finalService=services.find(x=>x.departure_time==='18:04');
+ const late=makeTimeline(p,{}, {'after-kamosawa-okutama':finalService.service_id});
+ assert.equal(late.after[0].departure,18*60+4);
+ assert.equal(late.after[0].status,'fixed','last bus is a valid timetable service, but not a safety guarantee');
+ const seven={...p,route:{...p.route,sections:p.route.scenarios[0].sections}};
+ assert.equal(makeTimeline(seven).trail.at(-1).arrival,13*60+50);
+ assert.equal(makeTimeline(seven).after[0].status,'fixed');
+ const hut={...p,route:{...p.route,sections:p.route.scenarios[1].sections}};
+ assert.equal(makeTimeline(hut).trail.at(-1).arrival,12*60+45);
+ const js=readFileSync(path.join(site,'assets/detail.js'),'utf8');
+ assert.match(js,/route-scenario-picker/);
+ assert.match(js,/selectedScenario/);
+ assert.match(js,/makeTimeline\(viewedPlan/);
+});
