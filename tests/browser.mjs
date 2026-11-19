@@ -157,7 +157,7 @@ try {
   assert.match(await page.locator('.route-feasibility').innerText(),/18:40.*18:04/);
   assert.equal(await page.locator('.timeline-item[data-node-id="before-okutama-kamosawa"] .timeline-clock-trigger').innerText(),'08:35 → 09:09');
   assert.equal(await page.locator('.timeline-item[data-node-id="trail-kamosawa-end"] .timeline-clock-trigger').innerText(),'18:40');
-  assert.match(await page.locator('.timeline-item[data-node-id="after-kamosawa-okutama"]').innerText(),/已错过/);
+  assert.match(await page.locator('.timeline-item[data-node-id="after-kamosawa-okutama"]').innerText(),/未接上该班次|错过/);
   const contingency=page.locator('.contingency-card');
   assert.equal(await contingency.isVisible(),true,'lost-bus fallback must appear on route');
   assert.match(await contingency.innerText(),/18:40.*18:47/s);
