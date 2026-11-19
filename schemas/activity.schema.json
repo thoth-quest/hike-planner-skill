@@ -507,13 +507,32 @@
               "timetable_coverage": {
                 "type": "object",
                 "description": "Evidence that timetable_options contains every service for this route segment on the trip date.",
-                "required": ["service_date", "scope", "service_count", "source_id", "checked_at"],
+                "required": [
+                  "service_date",
+                  "scope",
+                  "service_count",
+                  "source_id",
+                  "checked_at"
+                ],
                 "properties": {
-                  "service_date": {"type": "string", "format": "date"},
-                  "scope": {"const": "full_day"},
-                  "service_count": {"type": "integer", "minimum": 1},
-                  "source_id": {"type": "string"},
-                  "checked_at": {"type": "string", "format": "date-time"}
+                  "service_date": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "scope": {
+                    "const": "full_day"
+                  },
+                  "service_count": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "source_id": {
+                    "type": "string"
+                  },
+                  "checked_at": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
                 }
               },
               "timetable_options": {
@@ -645,13 +664,32 @@
               "timetable_coverage": {
                 "type": "object",
                 "description": "Evidence that timetable_options contains every service for this route segment on the trip date.",
-                "required": ["service_date", "scope", "service_count", "source_id", "checked_at"],
+                "required": [
+                  "service_date",
+                  "scope",
+                  "service_count",
+                  "source_id",
+                  "checked_at"
+                ],
                 "properties": {
-                  "service_date": {"type": "string", "format": "date"},
-                  "scope": {"const": "full_day"},
-                  "service_count": {"type": "integer", "minimum": 1},
-                  "source_id": {"type": "string"},
-                  "checked_at": {"type": "string", "format": "date-time"}
+                  "service_date": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "scope": {
+                    "const": "full_day"
+                  },
+                  "service_count": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "source_id": {
+                    "type": "string"
+                  },
+                  "checked_at": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
                 }
               },
               "timetable_options": {
@@ -743,9 +781,8 @@
     },
     "preview_timing": {
       "type": "object",
+      "description": "Optional illustrative anchor OR an actual public-transit-linked timeline without any fictitious anchor.",
       "required": [
-        "anchor_time",
-        "anchor_label",
         "status",
         "notice"
       ],
@@ -758,12 +795,35 @@
           "type": "string"
         },
         "status": {
-          "const": "illustrative"
+          "enum": [
+            "illustrative",
+            "not_applicable"
+          ]
         },
         "notice": {
           "type": "string"
         }
       },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "illustrative"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "anchor_time",
+              "anchor_label"
+            ]
+          }
+        }
+      ],
       "additionalProperties": true
     },
     "trip_type": {
