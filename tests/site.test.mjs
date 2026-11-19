@@ -297,3 +297,39 @@ test('Kumotori is the primary complete route, with real last return bus and sepa
  assert.match(js,/selectedScenario/);
  assert.match(js,/makeTimeline\(viewedPlan/);
 });
+
+test('Kumotori contingency has evidence, actionable recovery and conditional boarding window',()=>{
+ const p=load(path.join(dir,'2026-11-21-kumotori-direction','activity.json'));
+ assert.equal(p.contingency.scope,'return_transport_failure');
+ assert.equal(p.contingency.applies_to_date,p.constraints.date);
+ assert.ok(p.contingency.checked_at);
+ const evidence=new Set(p.evidence.map(x=>x.id));
+ const fallback=p.contingency.options.find(x=>x.id==='tozura_bus');
+ assert.equal(fallback.departure_stop.startsWith('留浦'),true);
+ assert.equal(fallback.departure_time,'18:47');
+ assert.equal(fallback.arrival_time,'19:22');
+ assert.equal(fallback.walk_minutes_estimate,10);
+ assert.equal(fallback.preboarding_buffer_minutes,10);
+ assert.equal(fallback.recommended_kamosawa_cutoff,'18:27');
+ assert.ok(p.contingency.options.every(x=>x.source_ids.length&&x.source_ids.every(id=>evidence.has(id))),"every contingency must have evidence");
+ assert.equal(p.contingency.options.filter(x=>x.kind==='taxi').length,2);
+ assert.ok(p.contingency.options.some(x=>x.kind==='lodging'));
+ assert.ok(p.contingency.options.some(x=>x.kind==='rescue'&&x.status==='emergency_only'));
+ assert.ok(p.contingency.options.filter(x=>['taxi','lodging'].includes(x.kind))
+   .every(x=>x.status==='requires_advance_confirmation'),"contacts are not reservations");
+ const main=makeTimeline(p);
+ assert.equal(main.trailEnd,18*60+40);
+ const cutoff=18*60+47-fallback.walk_minutes_estimate-fallback.preboarding_buffer_minutes;
+ assert.ok(main.trailEnd>cutoff,"main route cannot reliably reach Tozura");
+ const seven={...p,route:{...p.route,sections:p.route.scenarios[0].sections}};
+ assert.equal(makeTimeline(seven).trailEnd,15*60+50);
+ assert.ok(makeTimeline(seven).trailEnd<cutoff);
+ const js=readFileSync(path.join(site,'assets','detail.js'),'utf8');
+ assert.match(js,/renderReturnContingency\(p,contingencyBox,schedule\)/);
+ assert.match(js,/schedule\.trailEnd/);
+ assert.match(js,/walk_minutes_estimate/);
+ assert.match(js,/preboarding_buffer_minutes/);
+ const skill=readFileSync(path.join(root,'skills','hike-planner','SKILL.md'),'utf8');
+ assert.match(skill,/Missed transport, no-service and rescue contingencies \(MANDATORY\)/);
+ assert.match(skill,/do it before marking the route travel-ready|Do it before marking the route travel-ready/);
+});

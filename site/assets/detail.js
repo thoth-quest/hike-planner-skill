@@ -1,4 +1,4 @@
-import { makeTimeline, clockText } from "./timeline.mjs";
+import { makeTimeline, clockText, parseClock } from "./timeline.mjs";
 "use strict";
 // Day-trip plan viewer. Browses only local JSON; never writes data or calls weather services.
 (() => {
@@ -87,6 +87,73 @@ import { makeTimeline, clockText } from "./timeline.mjs";
       });
     });
   }
+
+  function renderReturnContingency(p,root,schedule){
+    const cfg=p.contingency;
+    root.replaceChildren();
+    if(!cfg || !Array.isArray(cfg.options) || cfg.options.length===0){
+      root.hidden=true;return;
+    }
+    root.hidden=false;
+    const top=add(root,el("div",null,"contingency-heading"));
+    const head=add(top,el("div"));
+    add(head,el("div","PLAN B / 交通中断应对","section-overline"));
+    add(head,el("h3","错过返程巴士怎么办？"));
+    const badge=add(top,el("span","事先核实 · 并非保证","pill caution"));
+    const last=cfg.options.find(x=>x.kind==="alternate_bus_stop");
+    const end=schedule.trailEnd;
+    const arrival=end===null?"待确认":clockText(end);
+    if(last){
+      const foot=add(root,el("div",null,"contingency-result"));
+      const dep=parseClock(last.departure_time);
+      const minutes=Number.isInteger(last.walk_minutes_estimate)?last.walk_minutes_estimate:0;
+      const margin=Number.isInteger(last.preboarding_buffer_minutes)?last.preboarding_buffer_minutes:0;
+      const cut=dep===null?null:dep-minutes-margin;
+      const gap=end===null||dep===null?null:dep-end;
+      const works=gap!==null&&gap>=minutes+margin;
+      const label=add(foot,el("strong",null,"contingency-result-title"));
+      const body=add(foot,el("p",null,"inline-note"));
+      if(gap===null){
+        label.textContent="鴨沢抵达时刻未确定";
+        body.textContent="留浦替代巴士不能视为已经接上，先核实实际完成时间。";
+      }else if(works){
+        label.textContent="留浦替代巴士：时间上可能衔接（仍需实地确认）";
+        body.textContent="预计"+arrival+"抵达鴨沢，距留浦"+last.departure_time+"发车有"+gap+"分钟；已预留约"+minutes+"分钟步行和"+margin+"分钟候车余量。但夜间道路及实际车况仍未确认。";
+      }else{
+        foot.classList.add("contingency-impossible");
+        label.textContent="留浦替代巴士：按当前时间无法可靠衔接";
+        body.textContent="预计"+arrival+"抵达鴨沢，距留浦"+last.departure_time+"发车仅"+gap+"分钟。计划需预留"+minutes+"分钟道路步行及"+margin+"分钟候车缓冲；建议最晚约"+(cut===null?"待定":clockText(cut))+"从鴨沢出发前往留浦。不能为赶车奔跑或冒险。";
+      }
+    }
+    const first=cfg.options.filter(x=>x.kind==="alternate_bus_stop");
+    const rest=cfg.options.filter(x=>x.kind!=="alternate_bus_stop");
+    const renderOption=(parent,item)=>{
+      const card=add(parent,el("div",null,"contingency-option"));
+      const h=add(card,el("div",null,"contingency-option-head"));
+      const title=add(h,el("strong"));
+      linkedTitle(title,item.title,p,item.source_ids);
+      if(item.kind==="alternate_bus_stop"){
+        const schedule=add(card,el("div",null,"contingency-schedule"));
+        add(schedule,el("strong",item.departure_time+" → "+item.arrival_time));
+        add(schedule,el("span",item.departure_stop+" → "+item.arrival_stop,"sub-text"));
+      } else if(item.phone){
+        const phone=String(item.phone);
+        if(/^[+0-9 ()-]{5,30}$/.test(phone)){
+          const tel=add(card,el("a",phone,"contingency-phone"));
+          tel.href="tel:"+phone.replace(/[^+0-9]/g,"");
+          tel.setAttribute("aria-label","拨打"+item.title+"电话 "+phone);
+        }else paragraph(card,phone);
+      }
+      paragraph(card,item.note||"","inline-note");
+    };
+    first.forEach(x=>renderOption(root,x));
+    if(rest.length){
+      const more=add(root,el("details",null,"contingency-more"));
+      add(more,el("summary","出租车、住宿与紧急联系（"+rest.length+"项）"));
+      rest.sort((a,b)=>a.priority-b.priority).forEach(x=>renderOption(more,x));
+    }
+    add(root,el("div","注意：班车候选与联系号码不是预约成功；已经进入黑暗山路、受伤或迷路时优先保证人身安全。","contingency-footnote"));
+  }
   function renderRoute(p) {
     const root = $("panel-route");
     if (!p.route?.sections?.length && !p.transport?.inbound?.length) {
@@ -152,6 +219,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
     warning.setAttribute("role","status");
     summary.setAttribute("aria-live","polite");
     if(p.preview_timing?.notice) paragraph(help,p.preview_timing.notice);
+    const contingencyBox=add(root,el("section",null,"quiet-card contingency-card"));
     function paint(){
       const version=++paintVersion;
       const variant=scenarioOptions.find(s=>s.id===selectedScenario)||scenarioOptions[0];
@@ -284,6 +352,7 @@ import { makeTimeline, clockText } from "./timeline.mjs";
       showGroup("登山后 · 交通","03","after",schedule.after);
       toggle.hidden=schedule.trail.length<5;
       toggle.textContent=expanded?"收起次要节点":"展开全部 "+schedule.trail.length+" 个登山节点";
+      renderReturnContingency(p,contingencyBox,schedule);
     }
     reset.addEventListener("click",()=>{for(const key of Object.keys(adjustments))delete adjustments[key];for(const key of Object.keys(arrivalAdjustments))delete arrivalAdjustments[key];for(const key of Object.keys(transitOffsets))delete transitOffsets[key];for(const key of Object.keys(serviceSelections))delete serviceSelections[key];opened=null;paint()});
     toggle.addEventListener("click",()=>{expanded=!expanded;paint()});

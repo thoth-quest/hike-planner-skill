@@ -158,6 +158,17 @@ try {
   assert.equal(await page.locator('.timeline-item[data-node-id="before-okutama-kamosawa"] .timeline-clock-trigger').innerText(),'08:35 → 09:09');
   assert.equal(await page.locator('.timeline-item[data-node-id="trail-kamosawa-end"] .timeline-clock-trigger').innerText(),'18:40');
   assert.match(await page.locator('.timeline-item[data-node-id="after-kamosawa-okutama"]').innerText(),/已错过/);
+  const contingency=page.locator('.contingency-card');
+  assert.equal(await contingency.isVisible(),true,'lost-bus fallback must appear on route');
+  assert.match(await contingency.innerText(),/18:40.*18:47/s);
+  assert.match(await contingency.innerText(),/无法可靠衔接/);
+  assert.equal(await contingency.locator('.contingency-impossible').count(),1);
+  await contingency.locator('.contingency-more summary').click();
+  assert.match(await contingency.innerText(),/070-3168-6256/);
+  assert.match(await contingency.innerText(),/0428-86-2182/);
+  assert.match(await contingency.innerText(),/110 \/ 119/);
+  assert.equal(await contingency.locator('a[href^="tel:"]').count(),3);
+
   assert.equal(await page.locator('.timeline-item[data-node-id="trail-kumotori-summit"]').count(),1);
   assert.equal(await page.locator('.timeline-item').count(),20,'main route shows inbound, 18 trail nodes and outbound');
   await routeChoices.filter({hasText:'七ツ石山折返'}).click();
@@ -165,6 +176,8 @@ try {
   assert.equal(await page.locator('.timeline-item[data-node-id="trail-seven-kamosawa-end"]').count(),1);
   assert.equal(await page.locator('.timeline-item[data-node-id="trail-seven-kamosawa-end"] .timeline-clock-trigger').innerText(),'15:50');
   assert.match(await page.locator('.timeline-item[data-node-id="after-kamosawa-okutama"]').innerText(),/16:08/);
+  assert.equal(await page.locator('.contingency-impossible').count(),0,'earlier turnaround can precede Tozura cutoff');
+
   await routeChoices.filter({hasText:'七ツ石小屋折返'}).click();
   assert.equal(await page.locator('.timeline-item[data-node-id="trail-hut-kamosawa-end"]').count(),1);
   assert.equal(await page.locator('.timeline-item[data-node-id="trail-hut-kamosawa-end"] .timeline-clock-trigger').innerText(),'14:45');

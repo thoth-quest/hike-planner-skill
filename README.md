@@ -76,6 +76,13 @@ Every timeline node can be adjusted with the hour/minute wheel. Changes stay loc
 
 **Driving** uses approximate travel durations and may be simulated early or late for traffic. **Hiking** uses estimated waypoints, rests and unexpected setbacks. All scenarios stay in browser memory and cannot change plan JSON, sourced timetables or weather. The current Oyama plan has **no verified service times** because its trip date is unknown; these correctly appear as *timetable pending*. Its 08:00 hiking anchor remains a clearly labeled illustrative assumption, not a claimed bus arrival. The Plan tab calculates a sourced subtotal and marks the full cost incomplete while the departure-station fare is unknown. Multi-day travel remains out of scope.
 
+
+## Missed-bus fallback built into the plan
+
+The planner must research **return-trip failure scenarios proactively**: nearby alternate stops with a separately verified timetable, road walking time and boarding buffer, advance taxi dispatch, lodging contacts and actual emergencies. A route that misses the bus or sunset cannot be marked travel-ready merely because another bus exists somewhere nearby.
+
+The Kumotori 2026-11-21 activity now stores a separate `contingency` section, rendered immediately after its route timeline. The displayed result recalculates from each route variant's projected trail finish and keeps the operator's timetable unchanged. The 18:47 Saturday bus from Tozura is a conditional possibility, not an assurance that arriving Kamosawa at 18:40 will make it. Taxi and room availability remain unconfirmed.
+
 ## Weather updates belong to the Skill
 
 1. User asks to recheck weather for a particular plan.

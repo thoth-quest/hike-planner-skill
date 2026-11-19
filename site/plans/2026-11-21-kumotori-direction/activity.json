@@ -1,13 +1,13 @@
 {
   "id": "2026-11-21-kumotori-direction",
   "schema_version": 1,
-  "revision": 4,
+  "revision": 5,
   "stage": "goal_definition",
   "status": "needs_review",
   "title": "11月21日｜雲取山主目标（08:35出发）·七ツ石山／小屋折返备选",
   "trip_type": "day_trip",
   "example_only": false,
-  "updated_at": "2026-11-19T09:36:45.597Z",
+  "updated_at": "2026-11-19T10:09:05.401Z",
   "visibility_note": "依用户要求公开发布的日归登山草案；只含公共路线、交通、天气及安全资料，不包含参与者私人信息。",
   "destination": {
     "state": "fixed",
@@ -769,6 +769,12 @@
         "title": "云取山完整日归路线与日落冲突",
         "note": "08:35巴士09:09到鴨沢后，09:20开始步行，完整云取山往返参考约18:40回鴨沢；比18:04末班车晚36分钟，也超过约16:33日落，不能将此方案视为可行日归。",
         "source_id": "hiketime"
+      },
+      {
+        "level": "caution",
+        "title": "鴨沢 18:04 末班错过后的备用方案",
+        "note": "留浦周六 18:47 → 奥多摩站 19:22 为另外站点的备用巴士，但需从鴨沢沿道路步行，按暂定步行 10 分钟加候车 10 分钟倒推，建议最晚约 18:27 出发。若 18:40 才下山，无法可靠赶上；出租车与住宿均未预约，须提前确认。",
+        "source_id": "tozura-last-saturday-bus"
       }
     ],
     "checklist": [
@@ -776,7 +782,8 @@
       "在手机上离线保存登山地图与回程时刻表，携带头灯、保暖、防滑装备及备用电量",
       "11月20日晚检查天气、山区气温/风速/警报、熊出没与登山道",
       "选择七ツ石山折返预计15:50到鴨沢、接16:08巴士；如明显落后参考进度，提前于小屋或更早折返",
-      "主目标云取山仅作完整规划与后续改期参考；现场按时间与条件执行七ツ石山、小屋或更早折返"
+      "主目标云取山仅作完整规划与后续改期参考；现场按时间与条件执行七ツ石山、小屋或更早折返",
+      "山中进度落后时及时折返；出发前核查留浦18:47、出租车与住宿的联系方式和条件，不把任何未确认服务当作确定退路"
     ]
   },
   "candidates": [
@@ -796,7 +803,8 @@
   "pending_decisions": [
     "出发前确认能否赶上奥多摩站06:35的巴士；如果只能坐07:25需重新收紧折返时间。",
     "11月20日晚再次核对海拔1757米附近的风、寒冷与结冰风险。",
-    "若坚持5～6小时纯徒步，则将执行目标改为七ツ石小屋或中途折返，不追求七ツ石山顶。"
+    "若坚持5～6小时纯徒步，则将执行目标改为七ツ石小屋或中途折返，不追求七ツ石山顶。",
+    "尚未确认夜间出租车是否能接车、住宿是否能晚到入住，以及鴨沢至留浦夜间道路的实际步行可行性"
   ],
   "evidence": [
     {
@@ -896,6 +904,74 @@
       "publisher": "アウトドア天気.jp",
       "checked_at": "2026-11-19T14:46:00+09:00",
       "valid_for": "2026-11-21",
+      "status": "verified"
+    },
+    {
+      "id": "tozura-last-saturday-bus",
+      "claim": "西東京バス留浦（奥多摩駅方面）土曜18:47発 奥11；留浦10番のりば。日付別時刻は11/21出発前にも再確認",
+      "url": "https://transfer.navitime.biz/bus-navi/pc/diagram/BusDiagram?course=0000430301&orvCode=00042444&stopNo=1",
+      "publisher": "西東京バス バスナビ",
+      "checked_at": "2026-11-19T10:09:05.401Z",
+      "valid_for": "2026-11-21",
+      "status": "verified",
+      "note": "公開済みの週末列から18:47を確認。運休/臨時変更は別途確認必要"
+    },
+    {
+      "id": "tozura-last-arrival",
+      "claim": "奥11 留浦18:47発 奥多摩駅19:22着の土休日便；到着時刻は第三者乗換案内の参考値",
+      "url": "https://moovitapp.com/index/ja/%E5%85%AC%E5%85%B1%E4%BA%A4%E9%80%9A%E6%A9%9F%E9%96%A2-time-%E5%A5%A511-Tokyo-5615-3775164-258154795-8794321-0",
+      "publisher": "Moovit（第三方资料）",
+      "checked_at": "2026-11-19T10:09:05.401Z",
+      "valid_for": "2026-11-21",
+      "status": "verified",
+      "note": "到着19:22は運行事業者のページ単独では再現できなかったため第三者参考値"
+    },
+    {
+      "id": "tozura-distance",
+      "claim": "鴨沢バス停と留浦バス停は近隣（地図上直線約0.4km）。実際の道路歩行距離・夜間安全性は未確認",
+      "url": "https://arealog.net/379512/",
+      "publisher": "AreaNote GO（地点位置資料）",
+      "checked_at": "2026-11-19T10:09:05.401Z",
+      "valid_for": null,
+      "status": "verified",
+      "note": "駅間道路の歩行距離や時間を確定する資料ではない"
+    },
+    {
+      "id": "okutama-taxi-contact",
+      "claim": "奥多摩観光協会掲載の奥多摩タクシー連絡先 070-3168-6256。夜間の配車・待機保証なし",
+      "url": "https://www.okutama.gr.jp/site/climbing/",
+      "publisher": "奥多摩観光協会",
+      "checked_at": "2026-11-19T10:09:05.401Z",
+      "valid_for": null,
+      "status": "verified"
+    },
+    {
+      "id": "tabayama-taxi-contact",
+      "claim": "丹波山村村民タクシー受付 0428-88-0611、9:00～17:00（途中休憩時間が設定される資料あり）。夜間配車は要事前確認",
+      "url": "https://note.com/taba_katsu/n/n681cee987189",
+      "publisher": "丹波山村 関係人口コミュニティ たばのね（2024年資料）",
+      "checked_at": "2026-11-19T10:09:05.401Z",
+      "valid_for": null,
+      "status": "verified",
+      "note": "受付時間と電話の公表情報であり、11/21夜間運行を意味しない"
+    },
+    {
+      "id": "kamosawa-overnight",
+      "claim": "鴨沢 山の家 0428-86-2182 通年と記載。現在の空室、最終チェックイン、料金は不明",
+      "url": "https://tabayama.info/stay/lodging/%E9%B4%A8%E6%B2%A2-%E5%B1%B1%E3%81%AE%E5%AE%B6/",
+      "publisher": "たばやま観光Navi（2020年掲載）",
+      "checked_at": "2026-11-19T10:09:05.401Z",
+      "valid_for": null,
+      "status": "verified",
+      "note": "掲載価格は2020年当時のため現行料金として扱わない"
+    },
+    {
+      "id": "mountain-emergency-government",
+      "claim": "政府広報：山岳遭難で救助が必要なら110番または119番。単なる交通乗り遅れと区別する",
+      "url": "https://www.gov-online.go.jp/article/201407/entry-9829.html",
+      "publisher": "日本政府広報オンライン",
+      "checked_at": "2026-11-19T10:09:05.401Z",
+      "valid_for": null,
       "status": "verified"
     }
   ],
@@ -1165,6 +1241,38 @@
         ]
       },
       "reason": "用户将08:35从奥多摩站出发巴士设为主要时间基准；所有路线节点较原06:35方案延后两小时，保持云取山为主目标，明确18:04末班无法衔接，更新折返点及候车缓冲"
+    },
+    {
+      "revision": 5,
+      "at": "2026-11-19T10:09:05.401Z",
+      "field": "contingency",
+      "before": null,
+      "after": {
+        "scope": "return_transport_failure",
+        "options": [
+          {
+            "id": "tozura_bus",
+            "status": "verified_departure_conditions_unverified"
+          },
+          {
+            "id": "okutama_taxi",
+            "status": "requires_advance_confirmation"
+          },
+          {
+            "id": "tabayama_taxi",
+            "status": "requires_advance_confirmation"
+          },
+          {
+            "id": "kamosawa_lodging",
+            "status": "requires_advance_confirmation"
+          },
+          {
+            "id": "rescue",
+            "status": "emergency_only"
+          }
+        ]
+      },
+      "reason": "用户要求把错过末班后的替代巴士、出租车、住宿、紧急求援及适用限制完整写入网页与 Skill；仅把核查到的资料记录为证据，未预订的服务继续标记待确认。"
     }
   ],
   "bus_connection_calculation": {
@@ -1193,5 +1301,101 @@
       "bus_outbound": "16:08→16:44",
       "note": "15:02 仅22分钟机动不足；更高安全边际应缩短至七ツ石小屋折返。"
     }
+  },
+  "contingency": {
+    "version": 1,
+    "scope": "return_transport_failure",
+    "checked_at": "2026-11-19T10:09:05.401Z",
+    "applies_to_date": "2026-11-21",
+    "status": "partial_verified",
+    "summary": "鴨沢 18:04 末班已错过时，首先判断能否安全步行至留浦赶 18:47 奥11；另有提前联系的出租车、附近住宿和真正紧急情况下的求援渠道。当前云取山主路线预计 18:40 才回鴨沢，无法可靠赶上留浦班次，出租车与住宿也尚未确认，不能当作已经解决返程问题。",
+    "predeparture_actions": [
+      "出发前再次核对鴨沢 18:04 和留浦 18:47 是否按 11 月 21 日周六班次运行，并确认留浦往奥多摩站方向的乘车位置",
+      "事先联系出租车，确认是否允许夜间到鴨沢迎车、能否预约、费用、集合位置及人数",
+      "提前确认鴨沢附近住宿是否有房、是否接受晚到、最新价格；未确认不得当作一定能入住",
+      "核对鴨沢至留浦沿道路的实际步行路线、照明和交通情况；不得尝试未经确认的山中近道",
+      "一旦山中进度落后，优先在七ツ石山、七ツ石小屋或更早的位置折返，不要等到末班车开走才开始应对"
+    ],
+    "options": [
+      {
+        "id": "tozura_bus",
+        "priority": 1,
+        "kind": "alternate_bus_stop",
+        "title": "留浦 18:47 · 奥11 最后返程巴士",
+        "status": "verified_departure_conditions_unverified",
+        "departure_stop": "留浦（奥多摩站方向／10号乘车位置）",
+        "departure_time": "18:47",
+        "arrival_stop": "奥多摩站",
+        "arrival_time": "19:22",
+        "service_date": "2026-11-21",
+        "service_id": "奥11",
+        "from_stop": "鴨沢バス停",
+        "access_mode": "walking",
+        "walk_minutes_estimate": 10,
+        "preboarding_buffer_minutes": 10,
+        "recommended_kamosawa_cutoff": "18:27",
+        "note": "留浦周六 18:47 发车来自运营商时刻表；19:22 到达奥多摩站参考第三方时刻资料。鴨沢至留浦虽相邻，但夜间道路是否适合步行尚未实地核实。预留 10 分钟步行、10 分钟候车仅是规划用的保守假设，非实测。如果 18:40 才到鴨沢，距离发车仅 7 分钟，不应把它作为可执行的备用接驳。",
+        "source_ids": [
+          "tozura-last-saturday-bus",
+          "tozura-last-arrival",
+          "tozura-distance"
+        ]
+      },
+      {
+        "id": "okutama_taxi",
+        "priority": 2,
+        "kind": "taxi",
+        "title": "奥多摩出租车 · 提前询问夜间接送",
+        "status": "requires_advance_confirmation",
+        "phone": "070-3168-6256",
+        "note": "奥多摩观光协会公布了电话号码，但这不代表车辆已预订或提供夜间服务。必须提前确认能否到鴨沢接人、夜间时段、预计费用、人数和具体接车位置。",
+        "source_ids": [
+          "okutama-taxi-contact"
+        ]
+      },
+      {
+        "id": "tabayama_taxi",
+        "priority": 3,
+        "kind": "taxi",
+        "title": "丹波山村民出租车 · 营业时间内联系",
+        "status": "requires_advance_confirmation",
+        "phone": "0428-88-0611",
+        "booking_hours_note": "资料公布的接待时段约为 09:00～12:00／13:00～17:00；以电话确认实际受理为准",
+        "note": "只有电话和受理时间得到公开资料支持；不保证 17:00 后能联络、夜间一定有车或能够承接鴨沢至奥多摩的行程。应提前联系确认。",
+        "source_ids": [
+          "tabayama-taxi-contact"
+        ]
+      },
+      {
+        "id": "kamosawa_lodging",
+        "priority": 4,
+        "kind": "lodging",
+        "title": "鴨沢 山の家 · 提前确认是否能过夜",
+        "status": "requires_advance_confirmation",
+        "phone": "0428-86-2182",
+        "note": "当地观光网站有全年营业的历史介绍，但当天房间、最晚入住时间及最新房价均未核实。2020 年公布的价格不能当作现价；未得到住宿方回复时不得假定可以入住。",
+        "source_ids": [
+          "kamosawa-overnight"
+        ]
+      },
+      {
+        "id": "rescue",
+        "priority": 5,
+        "kind": "rescue",
+        "title": "受伤、迷路或无法安全撤离时求援",
+        "status": "emergency_only",
+        "phone": "110 / 119",
+        "note": "如发生受伤、失温、迷路或无法安全下山等需要救助的情况，拨打日本 110（警察）或 119（消防、救急），说明 GPS 位置、人员状况、装备和登山道信息。单纯错过巴士不应以救援代替交通安排。",
+        "source_ids": [
+          "mountain-emergency-government"
+        ]
+      }
+    ],
+    "limits": [
+      "留浦 18:47 是另一站点的班次，需要额外走道路；如果 18:40 才到鴨沢，只剩 7 分钟，不能依赖赶上。",
+      "出租车和住宿目前只是联系方式及候选，不代表夜间营业、已预约、确认有房或价格确定。",
+      "已经受伤、迷路或出现失温风险时，先确保人身安全和及时救援，而非为了赶巴士继续冒险。",
+      "不要在天黑后为赶车跑山路、脱离正规登山道，或走未核实的道路捷径。"
+    ]
   }
 }

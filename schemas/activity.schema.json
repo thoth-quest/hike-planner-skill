@@ -897,6 +897,138 @@
         }
       },
       "additionalProperties": true
+    },
+    "contingency": {
+      "type": "object",
+      "required": [
+        "version",
+        "scope",
+        "checked_at",
+        "applies_to_date",
+        "status",
+        "summary",
+        "predeparture_actions",
+        "options",
+        "limits"
+      ],
+      "properties": {
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "scope": {
+          "type": "string"
+        },
+        "checked_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "applies_to_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "status": {
+          "enum": [
+            "partial_verified",
+            "verified",
+            "pending",
+            "stale"
+          ]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "predeparture_actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "options": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "priority",
+              "kind",
+              "title",
+              "status",
+              "note",
+              "source_ids"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "priority": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "kind": {
+                "enum": [
+                  "alternate_bus_stop",
+                  "taxi",
+                  "lodging",
+                  "rescue",
+                  "other"
+                ]
+              },
+              "title": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              },
+              "source_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "departure_time": {
+                "type": "string",
+                "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+              },
+              "arrival_time": {
+                "type": "string",
+                "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+              },
+              "walk_minutes_estimate": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "preboarding_buffer_minutes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "recommended_kamosawa_cutoff": {
+                "type": "string",
+                "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+              },
+              "service_date": {
+                "type": "string",
+                "format": "date"
+              },
+              "phone": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": true
+          }
+        },
+        "limits": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
     }
   },
   "additionalProperties": true

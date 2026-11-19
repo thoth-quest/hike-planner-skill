@@ -182,3 +182,23 @@ details summary{color:var(--forest);font-size:13px;font-weight:730;cursor:pointe
 .route-feasibility-danger{background:#fff0eb;border-color:#e8c2b6;color:#8b3e30;font-weight:680}
 .route-feasibility-conditional{background:#f3f7f1;border-color:#d4e4d7;color:#325d43}
 @media(max-width:480px){.route-scenario-options{display:grid;grid-template-columns:1fr 1fr}.route-scenario-button{font-size:12px;padding:8px 7px}.route-scenario-button:first-child{grid-column:span 2}}
+
+/* Last-bus failure fallback integrated below the route timeline. */
+.contingency-card{margin-top:14px;border-left:3px solid var(--forest);padding:19px 20px}
+.contingency-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.contingency-heading h3{font-size:17px;letter-spacing:-.02em;margin:4px 0 0}
+.contingency-result{border-radius:10px;background:var(--forest-soft);padding:12px 13px;margin:8px 0 10px}
+.contingency-result p{font-size:12px;line-height:1.6;margin:6px 0 0}
+.contingency-result-title{font-size:13px;color:var(--forest-dark)}
+.contingency-impossible{background:#fff0e8;border:1px solid #e8c7b9}
+.contingency-impossible .contingency-result-title{color:#8a3928}
+.contingency-option{padding:12px 0;border-top:1px solid var(--line-soft)}
+.contingency-option-head strong{font-size:14px;line-height:1.45}
+.contingency-option .inline-note{font-size:12px;line-height:1.65;margin:5px 0 0}
+.contingency-schedule{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;margin-top:6px}
+.contingency-schedule strong{font-size:17px;color:var(--forest-dark);font-variant-numeric:tabular-nums}
+.contingency-phone{display:inline-flex;align-items:center;min-height:38px;padding:6px 11px;margin-top:6px;background:var(--forest-soft);color:var(--forest-dark);border-radius:9px;font-size:16px;font-weight:750;text-decoration:none;letter-spacing:.01em}
+.contingency-more{margin-top:9px}
+.contingency-more summary{font-weight:720;cursor:pointer;min-height:42px}
+.contingency-footnote{color:var(--muted);font-size:11px;line-height:1.6;border-top:1px solid var(--line-soft);padding-top:9px}
+@media(max-width:450px){.contingency-card{padding:15px}.contingency-heading h3{font-size:16px}}
