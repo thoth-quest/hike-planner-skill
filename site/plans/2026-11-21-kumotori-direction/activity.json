@@ -1,0 +1,658 @@
+{
+  "id": "2026-11-21-kumotori-direction",
+  "schema_version": 1,
+  "revision": 2,
+  "stage": "goal_definition",
+  "status": "draft",
+  "title": "11月21日｜云取山方向·七ツ石山优先折返",
+  "trip_type": "day_trip",
+  "example_only": false,
+  "updated_at": "2026-11-19T06:39:54.117Z",
+  "visibility_note": "依用户要求公开发布的日归登山草案；只含公共路线、交通、天气及安全资料，不包含参与者私人信息。",
+  "destination": {
+    "state": "preferred",
+    "name": "雲取山（2,017m）为目标方向；11月21日执行目标优先七ツ石山（1,757m）",
+    "source": "access"
+  },
+  "goals": {
+    "primary": "以云取山为长期目标，2026年11月21日走鴨沢→七ツ石山折返的保守日归路线；不把云取山登顶列入当天确认行程",
+    "secondary": [
+      "争取秋末山林景色",
+      "避开过分拥挤的主景区",
+      "保持公共交通可接驳并在天黑前离开山路",
+      "若体力或时间不足，在七ツ石小屋或更早位置折返"
+    ]
+  },
+  "constraints": {
+    "date": "2026-11-21",
+    "date_range": null,
+    "departure_area": "奥多摩站2号巴士站（其他始发地未指定，需自行确认能否在06:20之前抵达）",
+    "difficulty": "中高强度；七ツ石山从鴨沢往返参考纯步行约6小时10分钟，休息后约6.5～7.5小时，超出最初的5～6小时目标",
+    "estimated_participants": null,
+    "latest_return": "争取14:30前回到鴨沢，主返程15:02（候选14:31／备用16:08）；绝不为赶车冒险",
+    "hard_rules": [
+      "不要在11月21日以云取山登顶为默认目标；除非重新规划并确认时间、日照、体力、安全",
+      "11:15前做出折返判断；进度不足在七ツ石小屋或更早处折返",
+      "不迟于15:00～15:30结束山路，日落约16:33；应预留缓冲",
+      "公共交通车次固定，节点延误只重新检查后续是否能赶上，不能平移班次",
+      "山上霜冻和低温需准备保暖、头灯、必要时链式冰爪，入山前复核结冰情况"
+    ]
+  },
+  "preview_timing": {
+    "status": "not_applicable",
+    "notice": "山路节点偏移从07:09鴨沢巴士固定到站时刻计算；不设虚构的全局锚点。每节点时间为常见参考行程估算，交通班次为按土曜现行表核对的真实时刻，操作不会修改来源车次。"
+  },
+  "route": {
+    "status": "proposed",
+    "type": "单日往返：鴨沢→小袖乗越→堂所→七ツ石小屋→七ツ石山→原路返回",
+    "duration_reference": "按山と溪谷的鴨沢至七ツ石山上行3小时40分钟、下行2小时30分钟参考，加约20分钟山顶停留和11分钟入山准备，预计07:09到达后13:50返鴨沢；实际走速可能不同。",
+    "duration_source": "hiketime",
+    "sections": [
+      {
+        "name": "去程徒歩｜鴨沢～七ツ石小屋",
+        "stops": [
+          {
+            "node_id": "trail-kamosawa-arrival",
+            "name": "鴨沢巴士站到达・整备",
+            "offset_minutes": 0,
+            "note": "巴士07:09到达；整理装备，勿把抵达直接当步行出发",
+            "key_point": true,
+            "source_id": "hiketime"
+          },
+          {
+            "node_id": "trail-kamosawa-start",
+            "name": "鴨沢徒步出发",
+            "offset_minutes": 11,
+            "note": "计划07:20出发；时间按巴士到站的11分钟准备计算",
+            "key_point": true,
+            "source_id": "hiketime"
+          },
+          {
+            "node_id": "trail-kosode-up",
+            "name": "小袖乗越",
+            "offset_minutes": 41,
+            "note": "山と溪谷示例上行约30分钟；估算07:50",
+            "key_point": true,
+            "source_id": "hiketime"
+          },
+          {
+            "node_id": "trail-dokoro-up",
+            "name": "堂所",
+            "offset_minutes": 146,
+            "note": "山と溪谷示例上行累计约2小时15分钟；估算09:35",
+            "key_point": true,
+            "source_id": "hiketime"
+          },
+          {
+            "node_id": "trail-hut-up",
+            "name": "七ツ石小屋",
+            "offset_minutes": 196,
+            "note": "估算10:25；重要决策点：若此时已超时或步道结冰，直接在小屋附近折返",
+            "key_point": true,
+            "source_id": "hiketime"
+          },
+          {
+            "node_id": "trail-nanatsuishi",
+            "name": "七ツ石山 1,757m",
+            "offset_minutes": 231,
+            "note": "估算11:00抵达。不是保证到达；若速度偏慢应提前折返",
+            "key_point": true,
+            "source_id": "hiketime"
+          }
+        ]
+      },
+      {
+        "name": "折返｜七ツ石山～鴨沢",
+        "stops": [
+          {
+            "node_id": "trail-turnaround",
+            "name": "七ツ石山离开／最晚折返点",
+            "offset_minutes": 251,
+            "note": "计划11:20开始返程；保守控制11:15左右前做出折返决定。不继续云取山",
+            "key_point": true,
+            "source_id": "hiketime"
+          },
+          {
+            "node_id": "trail-hut-down",
+            "name": "七ツ石小屋（返程）",
+            "offset_minutes": 276,
+            "note": "预计11:45；注意阴影、结霜、滑倒",
+            "key_point": false,
+            "source_id": "hiketime"
+          },
+          {
+            "node_id": "trail-dokoro-down",
+            "name": "堂所（返程）",
+            "offset_minutes": 306,
+            "note": "预计12:15；按实时步速确认剩余下山时间",
+            "key_point": true,
+            "source_id": "hiketime"
+          },
+          {
+            "node_id": "trail-kosode-down",
+            "name": "小袖乗越（返程）",
+            "offset_minutes": 381,
+            "note": "预计13:30；继续下行至鴨沢",
+            "key_point": false,
+            "source_id": "hiketime"
+          },
+          {
+            "node_id": "trail-kamosawa-end",
+            "name": "鴨沢巴士站返回",
+            "offset_minutes": 401,
+            "note": "预计13:50；目标14:30前完成山路，以便应对晚点和14:31/15:02班次",
+            "key_point": true,
+            "source_id": "hiketime"
+          }
+        ]
+      }
+    ],
+    "alternatives": [
+      {
+        "name": "提前在七ツ石小屋折返",
+        "when": "若仍严格维持5～6小时徒步，或10:30前后到小屋已明显疲劳",
+        "action": "舍弃七ツ石山登顶。小屋折返按参考下行约2小时05分，若10:40离开则约12:45到鴨沢，可考虑13:26→14:03巴士；时间均为估算。"
+      },
+      {
+        "name": "七ツ石山不登顶，途中提前折返",
+        "when": "天气恶化、结冰、任何不适、11:15仍未达到预计进度",
+        "action": "选择安全位置折返，优先保证15:02或16:08巴士及15:00前走完山路。"
+      },
+      {
+        "name": "云取山登顶推迟以后",
+        "when": "若未来希望冲顶雲取山",
+        "action": "保留同一计划ID进行路线版本调整，重新检查 9～10 小时参考用时、天气、交通与日落；建议改为一泊两日，不在本周六临时冒进。"
+      }
+    ],
+    "source_ids": [
+      "hiketime",
+      "trail-info"
+    ]
+  },
+  "transport": {
+    "status": "verified_operator_weekend_schedule",
+    "inbound": [
+      {
+        "node_id": "before-okutama-kamosawa",
+        "name": "奥多摩駅（2番）→鴨沢",
+        "note": "奥09往鴨沢西，06:35→07:09。进山时间以实到为准。提前在奥多摩站确认排队及发车站台。",
+        "source_id": "bus-inbound-schedule",
+        "mode": "scheduled_transit",
+        "schedule_status": "verified",
+        "reference_time": "06:35",
+        "timetable": {
+          "service_date": "2026-11-21",
+          "departure_time": "06:35",
+          "arrival_time": "07:09",
+          "service_id": "奥09-inbound-0635",
+          "source_id": "bus-inbound-schedule",
+          "checked_at": "2026-11-19T14:46:00+09:00"
+        },
+        "timetable_options": [
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "06:35",
+            "arrival_time": "07:09",
+            "service_id": "奥09-inbound-0635",
+            "source_id": "bus-inbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "07:25",
+            "arrival_time": "07:59",
+            "service_id": "奥09-inbound-0725",
+            "source_id": "bus-inbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "08:35",
+            "arrival_time": "09:09",
+            "service_id": "奥10-inbound-0835",
+            "source_id": "bus-inbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "09:00",
+            "arrival_time": "09:34",
+            "service_id": "奥09-inbound-0900",
+            "source_id": "bus-inbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "09:30",
+            "arrival_time": "10:04",
+            "service_id": "奥09-inbound-0930",
+            "source_id": "bus-inbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "10:35",
+            "arrival_time": "11:09",
+            "service_id": "奥09-inbound-1035",
+            "source_id": "bus-inbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "11:30",
+            "arrival_time": "12:04",
+            "service_id": "奥10-inbound-1130",
+            "source_id": "bus-inbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "12:34",
+            "arrival_time": "13:08",
+            "service_id": "奥09-inbound-1234",
+            "source_id": "bus-inbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "13:10",
+            "arrival_time": "13:44",
+            "service_id": "奥09-inbound-1310",
+            "source_id": "bus-inbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "13:32",
+            "arrival_time": "14:06",
+            "service_id": "奥10-inbound-1332",
+            "source_id": "bus-inbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "13:45",
+            "arrival_time": "14:19",
+            "service_id": "奥09-inbound-1345",
+            "source_id": "bus-inbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "14:45",
+            "arrival_time": "15:19",
+            "service_id": "奥10-inbound-1445",
+            "source_id": "bus-inbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "16:35",
+            "arrival_time": "17:09",
+            "service_id": "奥10-inbound-1635",
+            "source_id": "bus-inbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          }
+        ],
+        "timetable_coverage": {
+          "service_date": "2026-11-21",
+          "scope": "full_day",
+          "service_count": 13,
+          "source_id": "bus-inbound-schedule",
+          "checked_at": "2026-11-19T14:46:00+09:00"
+        }
+      }
+    ],
+    "outbound": [
+      {
+        "node_id": "after-kamosawa-okutama",
+        "name": "鴨沢→奥多摩駅",
+        "note": "主选奥10 15:02→15:38；可提前选14:31→15:08，延误备用奥10 16:08→16:44。18:04为运营末班参考，因天黑风险不可把它当计划下山依据。",
+        "source_id": "bus-outbound-schedule",
+        "mode": "scheduled_transit",
+        "schedule_status": "verified",
+        "reference_time": "15:02",
+        "timetable": {
+          "service_date": "2026-11-21",
+          "departure_time": "15:02",
+          "arrival_time": "15:38",
+          "service_id": "奥10-outbound-1502",
+          "source_id": "bus-outbound-schedule",
+          "checked_at": "2026-11-19T14:46:00+09:00"
+        },
+        "timetable_options": [
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "07:21",
+            "arrival_time": "07:58",
+            "service_id": "奥09-outbound-0721",
+            "source_id": "bus-outbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "08:11",
+            "arrival_time": "08:48",
+            "service_id": "奥09-outbound-0811",
+            "source_id": "bus-outbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "09:48",
+            "arrival_time": "10:25",
+            "service_id": "奥09-outbound-0948",
+            "source_id": "bus-outbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "10:03",
+            "arrival_time": "10:39",
+            "service_id": "奥10-outbound-1003",
+            "source_id": "bus-outbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "10:18",
+            "arrival_time": "10:55",
+            "service_id": "奥09-outbound-1018",
+            "source_id": "bus-outbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "11:21",
+            "arrival_time": "11:58",
+            "service_id": "奥09-outbound-1121",
+            "source_id": "bus-outbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "13:00",
+            "arrival_time": "13:36",
+            "service_id": "奥10-outbound-1300",
+            "source_id": "bus-outbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "13:26",
+            "arrival_time": "14:03",
+            "service_id": "奥09-outbound-1326",
+            "source_id": "bus-outbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "14:01",
+            "arrival_time": "14:38",
+            "service_id": "奥09-outbound-1401",
+            "source_id": "bus-outbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "14:31",
+            "arrival_time": "15:08",
+            "service_id": "奥09-outbound-1431",
+            "source_id": "bus-outbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "15:02",
+            "arrival_time": "15:38",
+            "service_id": "奥10-outbound-1502",
+            "source_id": "bus-outbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "16:08",
+            "arrival_time": "16:44",
+            "service_id": "奥10-outbound-1608",
+            "source_id": "bus-outbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          },
+          {
+            "service_date": "2026-11-21",
+            "departure_time": "18:04",
+            "arrival_time": "18:40",
+            "service_id": "奥10-outbound-1804",
+            "source_id": "bus-outbound-schedule",
+            "checked_at": "2026-11-19T14:46:00+09:00"
+          }
+        ],
+        "timetable_coverage": {
+          "service_date": "2026-11-21",
+          "scope": "full_day",
+          "service_count": 13,
+          "source_id": "bus-outbound-schedule",
+          "checked_at": "2026-11-19T14:46:00+09:00"
+        }
+      }
+    ],
+    "rail_connection_note": "JR青梅線土曜普通509 青梅05:19→奥多摩05:59，距巴士06:35有36分钟；普通507 青梅05:46→奥多摩06:28，仅7分钟换乘，风险较高。不指定用户始发站。",
+    "pass_note": "未核实个人全程车票和票价，不填估算金额。运营商巴士可能因道路交通延误。"
+  },
+  "weather": {
+    "status": "current",
+    "snapshots": [
+      {
+        "checked_at": "2026-11-19T14:46:00+09:00",
+        "valid_for": "2026-11-21",
+        "sources": [
+          "https://weather.yahoo.co.jp/weather/13/4410/13308.html"
+        ],
+        "values": {
+          "forecast_area": "奥多摩町（山下町域预报，非七ツ石山顶）",
+          "condition": "晴时多云",
+          "max_c": 13,
+          "min_c": 1,
+          "precipitation_probability_percent": 10,
+          "issued": "2026-11-19 08:00 JST"
+        },
+        "assessment": {
+          "level": "caution",
+          "reason": "町域预报总体较好，但七ツ石山高约1757米，高处温度和风速、阴影结冰风险不能据町域预报推定安全。",
+          "recommendation": "11月20日晚重新核查高海拔风、低温、结冰、官方警报和路线，装备按冬季前期准备。"
+        }
+      }
+    ],
+    "assessment": {
+      "level": "caution",
+      "reason": "周六奥多摩町晴时多云，降水10%。但11月13日当地报告提及云取山周边霜冻、最低温与链式冰爪需求；高海拔未有可核实的点位预报。",
+      "recommendation": "以七ツ石山折返为上限；夜间/早晨结冰严重或高山大风时改为七ツ石小屋或更低处折返。"
+    }
+  },
+  "safety": {
+    "status": "needs_predeparture_review",
+    "alerts": [
+      {
+        "level": "caution",
+        "title": "高海拔低温与可能结冰",
+        "note": "奥多摩游客中心11月13日提醒雲取山周边霜、低温与チェーンスパイク需要；七ツ石山也不可忽视。",
+        "source_id": "cold"
+      },
+      {
+        "level": "caution",
+        "title": "部分雲取山支线关闭",
+        "note": "11月6日登山道公告显示唐松谷林道、三条ダルミ西侧绕行等支线仍封闭。主路线需按当日告示核对，不偏离已确认路径。",
+        "source_id": "trail-info"
+      },
+      {
+        "level": "caution",
+        "title": "短日照与返程缓冲",
+        "note": "11月21日参考日落16:33，游客中心建议15时台结束登山；本计划尽量14:30前完成山路。",
+        "source_id": "sunset"
+      }
+    ],
+    "checklist": [
+      "最晚06:20到达奥多摩站，提前找到2号巴士站并排队；若赶不上06:35须重新核算折返目标",
+      "在手机上离线保存登山地图与回程时刻表，携带头灯、保暖、防滑装备及备用电量",
+      "11月20日晚检查天气、山区气温/风速/警报、熊出没与登山道",
+      "11:15前决定折返；若速度慢，直接在七ツ石小屋或更早折返",
+      "尽量14:30前回到鴨沢，务必以实际到站时间挑选已验证班次"
+    ]
+  },
+  "candidates": [
+    {
+      "name": "七ツ石山折返（主要执行方案）",
+      "reason": "在6～7小时步行与公交衔接之间的折中，仍然需要强度余量。"
+    },
+    {
+      "name": "七ツ石小屋折返（低风险备选）",
+      "reason": "更接近原先5～6小时徒步要求，公共交通衔接更宽裕。"
+    },
+    {
+      "name": "雲取山登顶（仅未来目标）",
+      "reason": "11月下旬参考9～10小时日归难度高，当前方案不安排冲顶。"
+    }
+  ],
+  "pending_decisions": [
+    "出发前确认能否赶上奥多摩站06:35的巴士；如果只能坐07:25需重新收紧折返时间。",
+    "11月20日晚再次核对海拔1757米附近的风、寒冷与结冰风险。",
+    "若坚持5～6小时纯徒步，则将执行目标改为七ツ石小屋或中途折返，不追求七ツ石山顶。"
+  ],
+  "evidence": [
+    {
+      "id": "bus-inbound-schedule",
+      "claim": "西東京バス2026-04-01改正の奥多摩駅から鴨沢方面の土曜日ダイヤ（奥09/奥10）",
+      "url": "https://transfer.navitime.biz/bus-navi/pc/diagram/BusDiagram?course=0000430502&date=2026-11-14&orvCode=00042103&stopNo=1",
+      "publisher": "西東京バス・バスナビ",
+      "checked_at": "2026-11-19T14:46:00+09:00",
+      "valid_for": "2026-11-21",
+      "status": "verified"
+    },
+    {
+      "id": "bus-outbound-schedule",
+      "claim": "西東京バス鴨沢から奥多摩駅方面の土曜日ダイヤ（奥09/奥10）",
+      "url": "https://transfer.navitime.biz/bus-navi/pc/diagram/BusDiagram?course=0000430501&orvCode=00042172&stopNo=3",
+      "publisher": "西東京バス・バスナビ",
+      "checked_at": "2026-11-19T14:46:00+09:00",
+      "valid_for": "2026-11-21",
+      "status": "verified"
+    },
+    {
+      "id": "bus-official-pdf",
+      "claim": "西東京バス2026年4月1日改正の奥多摩エリアハイキング時刻表",
+      "url": "https://www.nisitokyobus.co.jp/wp/wp-content/uploads/2026/03/20260401_hiking_Okutama.pdf",
+      "publisher": "西東京バス",
+      "checked_at": "2026-11-19T14:46:00+09:00",
+      "valid_for": "2026-11-21",
+      "status": "verified"
+    },
+    {
+      "id": "jr-to-okutama",
+      "claim": "JR青梅線普通509 青梅05:19発→奥多摩05:59着；2026年11月土休日",
+      "url": "https://timetables.jreast.co.jp/2611/train/090/094631.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-11-19T14:46:00+09:00",
+      "valid_for": "2026-11-21",
+      "status": "verified"
+    },
+    {
+      "id": "jr-later",
+      "claim": "JR青梅線普通507 青梅05:46発→奥多摩06:28着；乗換7分",
+      "url": "https://timetables.jreast.co.jp/2611/train/040/042511.html",
+      "publisher": "JR東日本",
+      "checked_at": "2026-11-19T14:46:00+09:00",
+      "valid_for": "2026-11-21",
+      "status": "verified"
+    },
+    {
+      "id": "hiketime",
+      "claim": "山と溪谷：鴨沢08:00→七ツ石山11:40、下山七ツ石山14:50→鴨沢17:20の参考行程（雲取山往復コースの一部分）",
+      "url": "https://www.yamakei-online.com/yamanavi/route_detail.php?id=14868",
+      "publisher": "山と溪谷オンライン",
+      "checked_at": "2026-11-19T14:46:00+09:00",
+      "valid_for": "2026-11-21",
+      "status": "verified"
+    },
+    {
+      "id": "access",
+      "claim": "奥多摩観光協会：奥多摩駅2番のりば→鴨沢約34分、雲取山は一泊推奨",
+      "url": "https://www.okutama.gr.jp/site/climbing/",
+      "publisher": "奥多摩観光協会",
+      "checked_at": "2026-11-19T14:46:00+09:00",
+      "valid_for": "2026-11-21",
+      "status": "verified"
+    },
+    {
+      "id": "trail-info",
+      "claim": "奥多摩ビジターセンター2026-11-06登山道公告、雲取山周辺に通行止め支線あり",
+      "url": "https://okutamavc.ces-net.jp/info/52",
+      "publisher": "奥多摩ビジターセンター",
+      "checked_at": "2026-11-19T14:46:00+09:00",
+      "valid_for": "2026-11-21",
+      "status": "verified"
+    },
+    {
+      "id": "cold",
+      "claim": "奥多摩ビジターセンター2026-11-13現地情報：冬の防寒・雲取山周辺チェーンスパイク等を推奨、15時台には下山を",
+      "url": "https://www.yamakei-online.com/mt_info/past.php?id=1066&yy=2026",
+      "publisher": "山と溪谷・奥多摩ビジターセンター",
+      "checked_at": "2026-11-19T14:46:00+09:00",
+      "valid_for": "2026-11-21",
+      "status": "verified"
+    },
+    {
+      "id": "weather-town",
+      "claim": "奥多摩町2026-11-19発表：11/21晴時々曇、降水確率10%、気温13/1℃（町域予報）",
+      "url": "https://weather.yahoo.co.jp/weather/13/4410/13308.html",
+      "publisher": "Yahoo!天気",
+      "checked_at": "2026-11-19T14:46:00+09:00",
+      "valid_for": "2026-11-21",
+      "status": "verified"
+    },
+    {
+      "id": "sunset",
+      "claim": "奥多摩町11/21の日没16:33の参考情報",
+      "url": "https://www.sototenki.jp/spot/9603/14days",
+      "publisher": "アウトドア天気.jp",
+      "checked_at": "2026-11-19T14:46:00+09:00",
+      "valid_for": "2026-11-21",
+      "status": "verified"
+    }
+  ],
+  "changes": [
+    {
+      "revision": 2,
+      "at": "2026-11-19T06:39:54.117Z",
+      "field": "visibility_note",
+      "before": "仅含公开路线与时刻表，无参与者信息；当前作为私有草案，不自动发布到公开GitHub Pages",
+      "after": "依用户要求公开发布的日归登山草案；只含公共路线、交通、天气及安全资料，不包含参与者私人信息。",
+      "reason": "用户明确要求将本次云取山方向草案上传 GitHub Pages 并提供公开预览链接"
+    }
+  ],
+  "bus_connection_calculation": {
+    "primary": {
+      "bus_inbound": "06:35→07:09",
+      "trail_estimated_start": "07:20",
+      "summit_estimated_arrival": "11:00",
+      "turnaround_latest": "11:15",
+      "trail_estimated_end": "13:50",
+      "bus_outbound": "15:02→15:38",
+      "buffer_at_kamosawa_minutes": 72
+    },
+    "backup": {
+      "bus_outbound": "16:08→16:44",
+      "last_hiking_finish_target": "15:00",
+      "note": "备用班次不是允许在山里拖到天黑的理由。"
+    },
+    "early_return": {
+      "bus_outbound": "14:31→15:08",
+      "note": "提前下山并至少留足候车缓冲时可选。"
+    },
+    "late_start_alternative": {
+      "inbound": "07:25→07:59",
+      "trail_start": "08:10",
+      "trail_end_if_same_pace": "14:40",
+      "bus_outbound": "16:08→16:44",
+      "note": "15:02 仅22分钟机动不足；更高安全边际应缩短至七ツ石小屋折返。"
+    }
+  }
+}
