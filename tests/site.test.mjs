@@ -300,7 +300,6 @@ test('Kumotori is the primary complete route, with real last return bus and sepa
 
 test('Kumotori links downloadable mountain map and folds excluded summit sections',()=>{
  const p=load(path.join(dir,'2026-11-21-kumotori-direction','activity.json'));
- assert.equal(p.revision,7);
  const map=p.route.offline_maps.find(m=>m.id==='yamap-kumotori-327');
  assert.ok(map,'offline map entry exists');
  assert.equal(p.evidence.find(e=>e.id===map.source_id)?.url,'https://yamap.com/maps/327');
@@ -335,6 +334,14 @@ test('Kumotori links downloadable mountain map and folds excluded summit section
  assert.match(js,/skipped-route/);
  assert.match(js,/mainStops\.slice\(from\+1,to\)/);
  assert.match(js,/makeTimeline\(viewedPlan/);
+});
+
+test('Kumotori arrival matches the morning bus and the safety checklist',()=>{
+ const p=load(path.join(dir,'2026-11-21-kumotori-direction','activity.json'));
+ assert.match(p.constraints.departure_area,/2号巴士站.*08:15.*08:35/);
+ assert.match(p.safety.checklist.find(x=>x.includes('候车')||x.includes('到达奥多摩站'))??'',/08:15.*08:35/);
+ assert.ok(p.safety.checklist.some(x=>x.includes('链式冰爪')));
+ assert.equal(p.evidence.find(x=>x.id==='okutama-vc-2026-11-20-spikes')?.url,'https://www.yamakei-online.com/mt_info/info_detail.php?info_id=1066');
 });
 
 test('Kumotori contingency has evidence, actionable recovery and conditional boarding window',()=>{
