@@ -202,6 +202,22 @@ import { makeTimeline, clockText, parseClock } from "./timeline.mjs";
         });
       });
     }
+    const mapResources=p.route?.offline_maps||[];
+    if(mapResources.length){
+      const mapPanel=add(pane,el("section",null,"offline-map-panel"));
+      add(mapPanel,el("h3","离线登山地图 · 出发前下载"));
+      mapResources.forEach(map=>{
+        const resource=add(mapPanel,el("div",null,"offline-map-resource"));
+        const headline=add(resource,el("div",null,"offline-map-link"));
+        linkedTitle(headline,map.name||"登山地图",p,map.source_id);
+        if(map.coverage_note)paragraph(resource,map.coverage_note,"sub-text");
+        if(map.download_note)paragraph(resource,map.download_note,"offline-map-note");
+        if(map.guide_source_id){
+          const guide=add(resource,el("div",null,"offline-map-guide"));
+          linkedTitle(guide,"YAMAP 官方下载步骤",p,map.guide_source_id);
+        }
+      });
+    }
     const feasibilityNote=add(pane,el("div",null,"route-feasibility"));
     feasibilityNote.setAttribute("role","status");
     const help=add(pane,el("div",null,"notice"));
@@ -349,6 +365,19 @@ import { makeTimeline, clockText, parseClock } from "./timeline.mjs";
       };
       showGroup("登山前 · 交通","01","before",schedule.before);
       showGroup("步行登山 · 当天往返","02","trail",schedule.trail);
+      if(variant.id!=="primary"&&variant.skipped_primary_segment){
+        const omitted=variant.skipped_primary_segment;
+        const mainStops=(p.route?.sections||[]).flatMap(section=>section.stops||[]);
+        const from=mainStops.findIndex(stop=>stop.node_id===omitted.start_node_id);
+        const to=mainStops.findIndex(stop=>stop.node_id===omitted.end_node_id);
+        if(from>=0&&to>from){
+          const skipped=add(timeline,el("details",null,"skipped-route"));
+          add(skipped,el("summary","已折叠 · "+(omitted.label||"未走的登顶段")+"（不计入用时）"));
+          paragraph(skipped,"以下是完整登顶路线的对照节点，当前折返方案不经过这些地点；不参与时间轴、返程班次及应急衔接的计算。","sub-text");
+          const stops=add(skipped,el("ul",null,"skipped-route-stops"));
+          mainStops.slice(from+1,to).forEach(stop=>add(stops,el("li",stop.name)));
+        }
+      }
       showGroup("登山后 · 交通","03","after",schedule.after);
       toggle.hidden=schedule.trail.length<5;
       toggle.textContent=expanded?"收起次要节点":"展开全部 "+schedule.trail.length+" 个登山节点";

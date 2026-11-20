@@ -22,3 +22,6 @@ Run `npm test` for schema/data/engine checks and `npm run test:browser` for mobi
 - A bus that leaves another stop (e.g. 留浦 18:47 vs 鴨沢 18:04) is a separate fallback service. Never merge it into the original stop's `timetable_options`. Store it in `contingency.options` with its own stop and source evidence. The fallback calculation cannot certify a dark road safe: report uncertainty.
 - Taxi operator contacts and lodging listings prove only that a contact/listing exists, not that a car or room is available. Advance confirmation and check-in deadlines are required. Emergency 110/119 is reserved for actual mountain distress, not ordinary bus misses.
 - Delays, route variants and newly confirmed timetables should change the on-page fallback feasibility; source timetables and the original activity JSON remain immutable in browser UI.
+
+- 山岳计划可在 `route.offline_maps` 保存已核实的地图下载入口和教程；网站链接本身不保证离线导航，必须提前在地图 App 下载。
+- 折返场景允许 `skipped_primary_segment` 记录从主路线中省略的登顶节点（仅用 `details` 折叠对照，无时间戳）。`makeTimeline` 的路线数据始终只来自选中场景的 `sections`，省略段不参与剩余用时、返程巴士与应急可达性的计算。

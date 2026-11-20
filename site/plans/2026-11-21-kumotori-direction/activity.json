@@ -1,13 +1,13 @@
 {
   "id": "2026-11-21-kumotori-direction",
   "schema_version": 1,
-  "revision": 5,
+  "revision": 6,
   "stage": "goal_definition",
   "status": "needs_review",
   "title": "11月21日｜雲取山主目标（08:35出发）·七ツ石山／小屋折返备选",
   "trip_type": "day_trip",
   "example_only": false,
-  "updated_at": "2026-11-19T10:09:05.401Z",
+  "updated_at": "2026-11-20T13:19:00+09:00",
   "visibility_note": "依用户要求公开发布的日归登山草案；只含公共路线、交通、天气及安全资料，不包含参与者私人信息。",
   "destination": {
     "state": "fixed",
@@ -224,7 +224,7 @@
         "label": "七ツ石山折返",
         "goal": "七ツ石山（1,757m）",
         "status": "conditional_tight",
-        "duration_note": "以08:35去程、09:09到鴨沢、09:20开始步行估算：13:00到七ツ石山、15:50回鴨沢（山顶停留20分钟）；16:08返程仅18分钟缓冲，时间紧张。",
+        "duration_note": "以08:35去程、09:09到鴨沢、09:20开始步行估算：13:00到七ツ石山、15:50回鴨沢（山顶停留20分钟）；16:08返程仅18分钟缓冲，时间紧张。 本备用路线不经过雲取山山顶，登顶往返段已从时间及返程接驳计算中排除。",
         "sections": [
           {
             "name": "七ツ石山 · 上山",
@@ -326,14 +326,19 @@
           }
         ],
         "estimated_trail_end": "15:50",
-        "suggested_bus_departure": "16:08"
+        "suggested_bus_departure": "16:08",
+        "skipped_primary_segment": {
+          "start_node_id": "trail-nanatsuishi",
+          "end_node_id": "trail-nanatsuishi-down",
+          "label": "七ツ石山→雲取山→七ツ石山登顶往返段"
+        }
       },
       {
         "id": "hut",
         "label": "七ツ石小屋折返",
         "goal": "七ツ石小屋",
         "status": "conditional_tight",
-        "duration_note": "以08:35去程、09:09到鴨沢、09:20开始步行估算：12:25到七ツ石小屋、14:45回鴨沢（小屋停留15分钟）；15:02返程仅17分钟缓冲。",
+        "duration_note": "以08:35去程、09:09到鴨沢、09:20开始步行估算：12:25到七ツ石小屋、14:45回鴨沢（小屋停留15分钟）；15:02返程仅17分钟缓冲。 本备用路线不经过雲取山山顶，登顶往返段已从时间及返程接驳计算中排除。",
         "sections": [
           {
             "name": "七ツ石小屋 · 上山",
@@ -419,7 +424,12 @@
           }
         ],
         "estimated_trail_end": "14:45",
-        "suggested_bus_departure": "15:02"
+        "suggested_bus_departure": "15:02",
+        "skipped_primary_segment": {
+          "start_node_id": "trail-hut-up",
+          "end_node_id": "trail-hut-down",
+          "label": "七ツ石小屋→雲取山→七ツ石小屋登顶往返段"
+        }
       }
     ],
     "alternatives": [
@@ -441,7 +451,18 @@
     ],
     "source_ids": [
       "hiketime",
-      "trail-info"
+      "trail-info",
+      "yamap-kumotori-map"
+    ],
+    "offline_maps": [
+      {
+        "id": "yamap-kumotori-327",
+        "name": "雲取山・鷹ノ巣山・七ツ石山",
+        "source_id": "yamap-kumotori-map",
+        "guide_source_id": "yamap-download-guide",
+        "coverage_note": "覆盖雲取山、七ツ石山及周边登山道。打开地图后请确认鴨沢进山方向和备用折返点。",
+        "download_note": "出发前有网络时打开 YAMAP App，找到此地图并下载至手机；本网页链接本身不是离线地图文件，山里断网后不能代替已下载的 YAMAP 地图。"
+      }
     ]
   },
   "transport": {
@@ -973,6 +994,24 @@
       "checked_at": "2026-11-19T10:09:05.401Z",
       "valid_for": null,
       "status": "verified"
+    },
+    {
+      "id": "yamap-kumotori-map",
+      "claim": "YAMAP『雲取山・鷹ノ巣山・七ツ石山』登山地図（地図番号327）",
+      "url": "https://yamap.com/maps/327",
+      "publisher": "YAMAP",
+      "checked_at": "2026-11-20T13:19:00+09:00",
+      "valid_for": null,
+      "status": "verified"
+    },
+    {
+      "id": "yamap-download-guide",
+      "claim": "YAMAP公式の登山地図ダウンロード方法・オフライン利用条件",
+      "url": "https://help.yamap.com/hc/ja/articles/900000968363-%E5%9C%B0%E5%9B%B3%E3%82%92%E3%83%80%E3%82%A6%E3%83%B3%E3%83%AD%E3%83%BC%E3%83%89%E3%81%99%E3%82%8B%E3%81%AB%E3%81%AF",
+      "publisher": "YAMAPヘルプセンター",
+      "checked_at": "2026-11-20T13:19:00+09:00",
+      "valid_for": null,
+      "status": "verified"
     }
   ],
   "changes": [
@@ -1273,6 +1312,37 @@
         ]
       },
       "reason": "用户要求把错过末班后的替代巴士、出租车、住宿、紧急求援及适用限制完整写入网页与 Skill；仅把核查到的资料记录为证据，未预订的服务继续标记待确认。"
+    },
+    {
+      "revision": 6,
+      "at": "2026-11-20T13:19:00+09:00",
+      "field": "route.offline_maps_and_skipped_primary_segment",
+      "before": {
+        "offline_maps": null,
+        "skipped_primary_segment": null
+      },
+      "after": {
+        "offline_map": "https://yamap.com/maps/327",
+        "fallback_skips": [
+          {
+            "id": "nanatsuishi",
+            "skipped_primary_segment": {
+              "start_node_id": "trail-nanatsuishi",
+              "end_node_id": "trail-nanatsuishi-down",
+              "label": "七ツ石山→雲取山→七ツ石山登顶往返段"
+            }
+          },
+          {
+            "id": "hut",
+            "skipped_primary_segment": {
+              "start_node_id": "trail-hut-up",
+              "end_node_id": "trail-hut-down",
+              "label": "七ツ石小屋→雲取山→七ツ石小屋登顶往返段"
+            }
+          }
+        ]
+      },
+      "reason": "在计划中提供可提前下载的 YAMAP 离线地图入口；备用路线折叠未走的云取山登顶段，并明确该段不参与时间、公交接驳计算，保持主路线完整。"
     }
   ],
   "bus_connection_calculation": {

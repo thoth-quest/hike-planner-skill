@@ -202,3 +202,15 @@ details summary{color:var(--forest);font-size:13px;font-weight:730;cursor:pointe
 .contingency-more summary{font-weight:720;cursor:pointer;min-height:42px}
 .contingency-footnote{color:var(--muted);font-size:11px;line-height:1.6;border-top:1px solid var(--line-soft);padding-top:9px}
 @media(max-width:450px){.contingency-card{padding:15px}.contingency-heading h3{font-size:16px}}
+
+/* Optional offline map entry and excluded summit segment on fallback previews. */
+.offline-map-panel{border:1px solid #cfe1d3;background:#f4f8f3;border-radius:11px;padding:12px 14px;margin:0 0 13px}
+.offline-map-panel h3{font-size:13px;margin:0 0 7px;color:var(--forest-dark)}
+.offline-map-link a{font-size:14px;font-weight:760}
+.offline-map-resource p{margin:6px 0 0;font-size:12px;line-height:1.55;color:var(--muted)}
+.offline-map-resource .offline-map-note{color:#78552e}
+.offline-map-guide{margin-top:8px;font-size:12px}
+.skipped-route{border:1px dashed #b9c8be;background:#f8faf7;border-radius:10px;margin:14px 0 0;padding:7px 13px}
+.skipped-route summary{font-size:12px;color:var(--forest);font-weight:750;cursor:pointer;min-height:38px}
+.skipped-route p{margin:5px 0 8px;font-size:12px;line-height:1.55;color:var(--muted)}
+.skipped-route-stops{margin:5px 0 9px;padding-left:19px;color:var(--muted);font-size:12px;line-height:1.7}

@@ -298,6 +298,33 @@ test('Kumotori is the primary complete route, with real last return bus and sepa
  assert.match(js,/makeTimeline\(viewedPlan/);
 });
 
+test('Kumotori links downloadable mountain map and folds excluded summit sections',()=>{
+ const p=load(path.join(dir,'2026-11-21-kumotori-direction','activity.json'));
+ assert.equal(p.revision,6);
+ const map=p.route.offline_maps.find(m=>m.id==='yamap-kumotori-327');
+ assert.ok(map,'offline map entry exists');
+ assert.equal(p.evidence.find(e=>e.id===map.source_id)?.url,'https://yamap.com/maps/327');
+ assert.ok(p.evidence.find(e=>e.id===map.guide_source_id)?.url.includes('help.yamap.com'));
+ const primaryStops=p.route.sections.flatMap(s=>s.stops);
+ for(const variant of p.route.scenarios){
+   const skipped=variant.skipped_primary_segment;
+   assert.ok(skipped,'fallback declares the omitted summit loop');
+   const from=primaryStops.findIndex(n=>n.node_id===skipped.start_node_id);
+   const to=primaryStops.findIndex(n=>n.node_id===skipped.end_node_id);
+   assert.ok(from>=0&&to>from);
+   assert.ok(primaryStops.slice(from+1,to).some(n=>n.node_id==='trail-kumotori-summit'));
+   const viewed={...p,route:{...p.route,sections:variant.sections}};
+   const timeline=makeTimeline(viewed);
+   assert.ok(!timeline.trail.some(n=>n.id==='trail-kumotori-summit'));
+   assert.equal(timeline.trail.at(-1).arrival,variant.id==='nanatsuishi'?15*60+50:14*60+45);
+ }
+ const js=readFileSync(path.join(site,'assets/detail.js'),'utf8');
+ assert.match(js,/offline-map-panel/);
+ assert.match(js,/skipped-route/);
+ assert.match(js,/mainStops\.slice\(from\+1,to\)/);
+ assert.match(js,/makeTimeline\(viewedPlan/);
+});
+
 test('Kumotori contingency has evidence, actionable recovery and conditional boarding window',()=>{
  const p=load(path.join(dir,'2026-11-21-kumotori-direction','activity.json'));
  assert.equal(p.contingency.scope,'return_transport_failure');
