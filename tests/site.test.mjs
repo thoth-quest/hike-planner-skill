@@ -300,7 +300,7 @@ test('Kumotori is the primary complete route, with real last return bus and sepa
 
 test('Kumotori links downloadable mountain map and folds excluded summit sections',()=>{
  const p=load(path.join(dir,'2026-11-21-kumotori-direction','activity.json'));
- assert.equal(p.revision,6);
+ assert.equal(p.revision,7);
  const map=p.route.offline_maps.find(m=>m.id==='yamap-kumotori-327');
  assert.ok(map,'offline map entry exists');
  assert.equal(p.evidence.find(e=>e.id===map.source_id)?.url,'https://yamap.com/maps/327');
@@ -318,7 +318,19 @@ test('Kumotori links downloadable mountain map and folds excluded summit section
    assert.ok(!timeline.trail.some(n=>n.id==='trail-kumotori-summit'));
    assert.equal(timeline.trail.at(-1).arrival,variant.id==='nanatsuishi'?15*60+50:14*60+45);
  }
+ assert.deepEqual(p.route.route_links.map(x=>x.id),['primary','nanatsuishi','hut']);
+ const expectedLinks={
+   primary:'https://yamap.com/model-courses/56',
+   nanatsuishi:'https://yamap.com/model-courses/94722',
+   hut:'https://yamap.com/activities/52175116'
+ };
+ for(const item of p.route.route_links){
+   assert.equal(p.evidence.find(e=>e.id===item.source_id)?.url,expectedLinks[item.id]);
+   assert.ok(item.note?.length>30,'route link needs source scope/limitations');
+ }
  const js=readFileSync(path.join(site,'assets/detail.js'),'utf8');
+ assert.match(js,/route-reference-panel/);
+ assert.match(js,/routeRefRows/);
  assert.match(js,/offline-map-panel/);
  assert.match(js,/skipped-route/);
  assert.match(js,/mainStops\.slice\(from\+1,to\)/);

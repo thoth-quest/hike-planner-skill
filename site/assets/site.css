@@ -214,3 +214,12 @@ details summary{color:var(--forest);font-size:13px;font-weight:730;cursor:pointe
 .skipped-route summary{font-size:12px;color:var(--forest);font-weight:750;cursor:pointer;min-height:38px}
 .skipped-route p{margin:5px 0 8px;font-size:12px;line-height:1.55;color:var(--muted)}
 .skipped-route-stops{margin:5px 0 9px;padding-left:19px;color:var(--muted);font-size:12px;line-height:1.7}
+
+/* Actual trail route links, separate from offline regional map downloads. */
+.route-reference-panel{border:1px solid var(--line);border-radius:11px;padding:12px 14px;margin:0 0 13px}
+.route-reference-panel h3{font-size:13px;color:var(--forest-dark);margin:0 0 8px}
+.route-reference-item{border-top:1px solid var(--line-soft);padding:9px 0}
+.route-reference-item:first-of-type{border-top:0;padding-top:2px}
+.route-reference-item.current{border-left:3px solid var(--forest);margin-left:-9px;padding-left:9px;background:var(--forest-soft);border-radius:3px}
+.route-reference-link a{font-size:13px;font-weight:750}
+.route-reference-item p{font-size:12px;line-height:1.55;margin:5px 0 0;color:var(--muted)}

@@ -1,13 +1,13 @@
 {
   "id": "2026-11-21-kumotori-direction",
   "schema_version": 1,
-  "revision": 6,
+  "revision": 7,
   "stage": "goal_definition",
   "status": "needs_review",
   "title": "11月21日｜雲取山主目标（08:35出发）·七ツ石山／小屋折返备选",
   "trip_type": "day_trip",
   "example_only": false,
-  "updated_at": "2026-11-20T13:19:00+09:00",
+  "updated_at": "2026-11-20T13:39:00+09:00",
   "visibility_note": "依用户要求公开发布的日归登山草案；只含公共路线、交通、天气及安全资料，不包含参与者私人信息。",
   "destination": {
     "state": "fixed",
@@ -452,7 +452,10 @@
     "source_ids": [
       "hiketime",
       "trail-info",
-      "yamap-kumotori-map"
+      "yamap-kumotori-map",
+      "yamap-route-kumotori-56",
+      "yamap-route-seven-94722",
+      "yamap-route-hut-52175116"
     ],
     "offline_maps": [
       {
@@ -462,6 +465,29 @@
         "guide_source_id": "yamap-download-guide",
         "coverage_note": "覆盖雲取山、七ツ石山及周边登山道。打开地图后请确认鴨沢进山方向和备用折返点。",
         "download_note": "出发前有网络时打开 YAMAP App，找到此地图并下载至手机；本网页链接本身不是离线地图文件，山里断网后不能代替已下载的 YAMAP 地图。"
+      }
+    ],
+    "route_links": [
+      {
+        "id": "primary",
+        "label": "云取山登顶 · 鴨沢路线图",
+        "source_id": "yamap-route-kumotori-56",
+        "kind": "model_course",
+        "note": "YAMAP 主目标模型路线，起点设在小袖村营停车场；从鴨沢巴士站到小袖一段需另计。模型路线时间不是本次08:35巴士方案的时间。"
+      },
+      {
+        "id": "nanatsuishi",
+        "label": "七ツ石山折返 · 往返路线图",
+        "source_id": "yamap-route-seven-94722",
+        "kind": "model_course",
+        "note": "YAMAP 七ツ石山往返模型路线，起终点在小袖附近；鴨沢巴士站到小袖步行段未包含在该模型里。"
+      },
+      {
+        "id": "hut",
+        "label": "七ツ石小屋折返 · 参考实走轨迹",
+        "source_id": "yamap-route-hut-52175116",
+        "kind": "recorded_activity",
+        "note": "这是两天的YAMAP实走记录：第1天从鴨沢到七ツ石小屋，第2天从小屋下山；仅参考这两段轨迹，不应当作同日直接折返的完整路线图。"
       }
     ]
   },
@@ -1012,6 +1038,33 @@
       "checked_at": "2026-11-20T13:19:00+09:00",
       "valid_for": null,
       "status": "verified"
+    },
+    {
+      "id": "yamap-route-kumotori-56",
+      "claim": "YAMAP『雲取山（鴨沢コース）』往返模型路线图，包含七ツ石山、雲取山山顶；起终点是村营停车场",
+      "url": "https://yamap.com/model-courses/56",
+      "publisher": "YAMAP",
+      "checked_at": "2026-11-20T13:39:00+09:00",
+      "valid_for": null,
+      "status": "verified"
+    },
+    {
+      "id": "yamap-route-seven-94722",
+      "claim": "YAMAP『小袖登山口-堂所-七ツ石山 往復コース』模型路线图，从小袖进山",
+      "url": "https://yamap.com/model-courses/94722",
+      "publisher": "YAMAP",
+      "checked_at": "2026-11-20T13:39:00+09:00",
+      "valid_for": null,
+      "status": "verified"
+    },
+    {
+      "id": "yamap-route-hut-52175116",
+      "claim": "YAMAP『七ツ石山（テント）』的两日实走轨迹，首日从鴨沢至七ツ石小屋，次日从小屋下鴨沢；非同日往返专用路线",
+      "url": "https://yamap.com/activities/52175116",
+      "publisher": "YAMAP",
+      "checked_at": "2026-11-20T13:39:00+09:00",
+      "valid_for": null,
+      "status": "verified"
     }
   ],
   "changes": [
@@ -1343,6 +1396,27 @@
         ]
       },
       "reason": "在计划中提供可提前下载的 YAMAP 离线地图入口；备用路线折叠未走的云取山登顶段，并明确该段不参与时间、公交接驳计算，保持主路线完整。"
+    },
+    {
+      "revision": 7,
+      "at": "2026-11-20T13:39:00+09:00",
+      "field": "route.route_links",
+      "before": null,
+      "after": [
+        {
+          "id": "primary",
+          "url": "https://yamap.com/model-courses/56"
+        },
+        {
+          "id": "nanatsuishi",
+          "url": "https://yamap.com/model-courses/94722"
+        },
+        {
+          "id": "hut",
+          "url": "https://yamap.com/activities/52175116"
+        }
+      ],
+      "reason": "用户要求实际路线图链接与区域离线地图分开提供，分别加入完整登顶、七ツ石山折返与七ツ石小屋参考轨迹；标注与本次实际起点及用时不一致之处。"
     }
   ],
   "bus_connection_calculation": {

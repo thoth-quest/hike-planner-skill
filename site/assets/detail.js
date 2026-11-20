@@ -202,6 +202,21 @@ import { makeTimeline, clockText, parseClock } from "./timeline.mjs";
         });
       });
     }
+    // Route maps are distinct from downloadable offline regional map packs.
+    const referenceLinks=p.route?.route_links||[];
+    const routeRefRows=new Map();
+    if(referenceLinks.length){
+      const routePanel=add(pane,el("section",null,"route-reference-panel"));
+      add(routePanel,el("h3","具体路线图 · 打开 YAMAP 查看轨迹"));
+      referenceLinks.forEach(link=>{
+        const item=add(routePanel,el("div",null,"route-reference-item"));
+        item.dataset.scenario=link.id;
+        routeRefRows.set(link.id,item);
+        const header=add(item,el("div",null,"route-reference-link"));
+        linkedTitle(header,link.label||"路线图",p,link.source_id);
+        if(link.note)paragraph(item,link.note,"sub-text");
+      });
+    }
     const mapResources=p.route?.offline_maps||[];
     if(mapResources.length){
       const mapPanel=add(pane,el("section",null,"offline-map-panel"));
@@ -239,6 +254,7 @@ import { makeTimeline, clockText, parseClock } from "./timeline.mjs";
     function paint(){
       const version=++paintVersion;
       const variant=scenarioOptions.find(s=>s.id===selectedScenario)||scenarioOptions[0];
+      for(const [routeId,item] of routeRefRows)item.classList.toggle("current",routeId===selectedScenario);
       const viewedPlan=variant.id==="primary"?p:{...p,route:{...p.route,sections:variant.sections}};
       if(routeSelector){
         for(const btn of routeSelector.querySelectorAll("button")){
